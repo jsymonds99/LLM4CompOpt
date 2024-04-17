@@ -1,0 +1,11 @@
+GEMINI PROMPT 1:  -ipsccp  -inline -loop-unroll -simplifycfg -loop-unroll-and-jam -indvars -gvn -instcombine -aggressive-instcombine -sroa
+
+GEMINI PROMPT 2: -loop-unroll -loop-reduce -instcombine -aggressive-instcombine -gvn
+
+GEMINI PROMPT 3:  -strip -inline -instcombine -reassociate -loop-simplify -gvn -dse -sccp -indvars -loop-unroll -simplifycfg -dce
+
+GPT-4 PROMPT 1: -ipsccp -inline -loop-simplify -loop-unroll-and-jam -loop-reduce -simplifycfg -sroa -mem2reg -gvn -instcombine
+
+GPT-4 PROMPT 2: -loop-unroll -loop-simplify -gvn -instcombine -dce
+
+GPT-4 PROMPT 3: -always-inline -inline -loop-unroll -loop-simplify -loop-rotate -reassociate -instcombine -simplifycfg -sroa -mem2reg -gvn -deadargelim -dce

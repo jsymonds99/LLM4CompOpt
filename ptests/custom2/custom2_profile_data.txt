@@ -1,0 +1,96 @@
+Function: find_max
+	Inputs:
+		double %0
+		double %1
+		double %2
+	Loop: %10
+		 Preheader: find_max
+		 Exiting Edge: %33
+		 Depth: 1
+		 Size: 5
+			 Block: %10
+				 Conditional Branch to %13(p=0.9545) or %36(p=0.0455)
+			 Block: %13
+				 Conditional Branch to %30(p=0.6726) or %32(p=0.3274)
+			 Block: %30
+				 Unconditional Branch to %32
+			 Block: %32
+				 Unconditional Branch to %33
+			 Block: %33
+				 Unconditional Branch to %10
+
+
+Function: find_min
+	Inputs:
+		double %0
+		double %1
+		double %2
+	Loop: %10
+		 Preheader: find_min
+		 Exiting Edge: %33
+		 Depth: 1
+		 Size: 5
+			 Block: %10
+				 Conditional Branch to %13(p=0.9545) or %36(p=0.0455)
+			 Block: %13
+				 Conditional Branch to %30(p=0.2143) or %32(p=0.7857)
+			 Block: %30
+				 Unconditional Branch to %32
+			 Block: %32
+				 Unconditional Branch to %33
+			 Block: %33
+				 Unconditional Branch to %10
+
+
+Function: main
+	Loop: %6
+		 Preheader: main
+		 Exiting Edge: %64
+		 Depth: 1
+		 Size: 13
+			 Block: %6
+				 Conditional Branch to %10(p=0.9744) or %67(p=0.0256)
+			 Block: %10
+				 Conditional Branch to %14(p=0.5000) or %19(p=0.5000)
+			 Block: %19
+				 Unconditional Branch to %24
+			 Block: %14
+				 Unconditional Branch to %24
+			 Block: %24
+				 Unconditional Branch to %25
+			 Block: %25
+				 Conditional Branch to %29(p=0.1739) or %63(p=0.8261)
+			 Block: %63
+				 Unconditional Branch to %64
+			 Block: %64
+				 Unconditional Branch to %6
+			 Block: %29
+				 Conditional Branch to %33(p=0.5000) or %38(p=0.5000)
+			 Block: %38
+				 Unconditional Branch to %43
+			 Block: %33
+				 Unconditional Branch to %43
+			 Block: %43
+				 Unconditional Branch to %60
+			 Block: %60
+				 Unconditional Branch to %25
+	Loop: %25
+		 Preheader: %24
+		 Exiting Edge: %60
+		 Depth: 2
+			 Parent Loop: %6
+		 Size: 6
+			 Block: %25
+				 Conditional Branch to %29(p=0.1739) or %63(p=0.8261)
+			 Block: %29
+				 Conditional Branch to %33(p=0.5000) or %38(p=0.5000)
+			 Block: %38
+				 Unconditional Branch to %43
+			 Block: %33
+				 Unconditional Branch to %43
+			 Block: %43
+				 Unconditional Branch to %60
+			 Block: %60
+				 Unconditional Branch to %25
+
+
