@@ -87,7 +87,7 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target list_install_components
 list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"HW2Pass\""
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"llm4compoptpass\""
 .PHONY : list_install_components
 
 # Special rule for the target list_install_components
@@ -132,14 +132,14 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(CMAKE_COMMAND) -E cmake_progress_start /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build/CMakeFiles /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build/hw2pass//CMakeFiles/progress.marks
-	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 hw2pass/all
+	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(CMAKE_COMMAND) -E cmake_progress_start /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build/CMakeFiles /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build/llm4compoptpass//CMakeFiles/progress.marks
+	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 llm4compoptpass/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 hw2pass/clean
+	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 llm4compoptpass/clean
 .PHONY : clean
 
 # The main clean target
@@ -148,12 +148,12 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 hw2pass/preinstall
+	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 llm4compoptpass/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 hw2pass/preinstall
+	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 llm4compoptpass/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
@@ -162,70 +162,70 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-hw2pass/CMakeFiles/HW2Pass.dir/rule:
-	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 hw2pass/CMakeFiles/HW2Pass.dir/rule
-.PHONY : hw2pass/CMakeFiles/HW2Pass.dir/rule
+llm4compoptpass/CMakeFiles/llm4compoptpass.dir/rule:
+	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 llm4compoptpass/CMakeFiles/llm4compoptpass.dir/rule
+.PHONY : llm4compoptpass/CMakeFiles/llm4compoptpass.dir/rule
 
 # Convenience name for target.
-HW2Pass: hw2pass/CMakeFiles/HW2Pass.dir/rule
-.PHONY : HW2Pass
+llm4compoptpass: llm4compoptpass/CMakeFiles/llm4compoptpass.dir/rule
+.PHONY : llm4compoptpass
 
 # fast build rule for target.
-HW2Pass/fast:
-	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f hw2pass/CMakeFiles/HW2Pass.dir/build.make hw2pass/CMakeFiles/HW2Pass.dir/build
-.PHONY : HW2Pass/fast
+llm4compoptpass/fast:
+	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f llm4compoptpass/CMakeFiles/llm4compoptpass.dir/build.make llm4compoptpass/CMakeFiles/llm4compoptpass.dir/build
+.PHONY : llm4compoptpass/fast
 
 # Convenience name for target.
-hw2pass/CMakeFiles/install-HW2Pass.dir/rule:
-	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 hw2pass/CMakeFiles/install-HW2Pass.dir/rule
-.PHONY : hw2pass/CMakeFiles/install-HW2Pass.dir/rule
+llm4compoptpass/CMakeFiles/install-llm4compoptpass.dir/rule:
+	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 llm4compoptpass/CMakeFiles/install-llm4compoptpass.dir/rule
+.PHONY : llm4compoptpass/CMakeFiles/install-llm4compoptpass.dir/rule
 
 # Convenience name for target.
-install-HW2Pass: hw2pass/CMakeFiles/install-HW2Pass.dir/rule
-.PHONY : install-HW2Pass
+install-llm4compoptpass: llm4compoptpass/CMakeFiles/install-llm4compoptpass.dir/rule
+.PHONY : install-llm4compoptpass
 
 # fast build rule for target.
-install-HW2Pass/fast:
-	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f hw2pass/CMakeFiles/install-HW2Pass.dir/build.make hw2pass/CMakeFiles/install-HW2Pass.dir/build
-.PHONY : install-HW2Pass/fast
+install-llm4compoptpass/fast:
+	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f llm4compoptpass/CMakeFiles/install-llm4compoptpass.dir/build.make llm4compoptpass/CMakeFiles/install-llm4compoptpass.dir/build
+.PHONY : install-llm4compoptpass/fast
 
 # Convenience name for target.
-hw2pass/CMakeFiles/install-HW2Pass-stripped.dir/rule:
-	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 hw2pass/CMakeFiles/install-HW2Pass-stripped.dir/rule
-.PHONY : hw2pass/CMakeFiles/install-HW2Pass-stripped.dir/rule
+llm4compoptpass/CMakeFiles/install-llm4compoptpass-stripped.dir/rule:
+	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 llm4compoptpass/CMakeFiles/install-llm4compoptpass-stripped.dir/rule
+.PHONY : llm4compoptpass/CMakeFiles/install-llm4compoptpass-stripped.dir/rule
 
 # Convenience name for target.
-install-HW2Pass-stripped: hw2pass/CMakeFiles/install-HW2Pass-stripped.dir/rule
-.PHONY : install-HW2Pass-stripped
+install-llm4compoptpass-stripped: llm4compoptpass/CMakeFiles/install-llm4compoptpass-stripped.dir/rule
+.PHONY : install-llm4compoptpass-stripped
 
 # fast build rule for target.
-install-HW2Pass-stripped/fast:
-	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f hw2pass/CMakeFiles/install-HW2Pass-stripped.dir/build.make hw2pass/CMakeFiles/install-HW2Pass-stripped.dir/build
-.PHONY : install-HW2Pass-stripped/fast
+install-llm4compoptpass-stripped/fast:
+	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f llm4compoptpass/CMakeFiles/install-llm4compoptpass-stripped.dir/build.make llm4compoptpass/CMakeFiles/install-llm4compoptpass-stripped.dir/build
+.PHONY : install-llm4compoptpass-stripped/fast
 
-hw2pass.o: hw2pass.cpp.o
-.PHONY : hw2pass.o
+llm4compoptpass.o: llm4compoptpass.cpp.o
+.PHONY : llm4compoptpass.o
 
 # target to build an object file
-hw2pass.cpp.o:
-	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f hw2pass/CMakeFiles/HW2Pass.dir/build.make hw2pass/CMakeFiles/HW2Pass.dir/hw2pass.cpp.o
-.PHONY : hw2pass.cpp.o
+llm4compoptpass.cpp.o:
+	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f llm4compoptpass/CMakeFiles/llm4compoptpass.dir/build.make llm4compoptpass/CMakeFiles/llm4compoptpass.dir/llm4compoptpass.cpp.o
+.PHONY : llm4compoptpass.cpp.o
 
-hw2pass.i: hw2pass.cpp.i
-.PHONY : hw2pass.i
+llm4compoptpass.i: llm4compoptpass.cpp.i
+.PHONY : llm4compoptpass.i
 
 # target to preprocess a source file
-hw2pass.cpp.i:
-	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f hw2pass/CMakeFiles/HW2Pass.dir/build.make hw2pass/CMakeFiles/HW2Pass.dir/hw2pass.cpp.i
-.PHONY : hw2pass.cpp.i
+llm4compoptpass.cpp.i:
+	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f llm4compoptpass/CMakeFiles/llm4compoptpass.dir/build.make llm4compoptpass/CMakeFiles/llm4compoptpass.dir/llm4compoptpass.cpp.i
+.PHONY : llm4compoptpass.cpp.i
 
-hw2pass.s: hw2pass.cpp.s
-.PHONY : hw2pass.s
+llm4compoptpass.s: llm4compoptpass.cpp.s
+.PHONY : llm4compoptpass.s
 
 # target to generate assembly for a file
-hw2pass.cpp.s:
-	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f hw2pass/CMakeFiles/HW2Pass.dir/build.make hw2pass/CMakeFiles/HW2Pass.dir/hw2pass.cpp.s
-.PHONY : hw2pass.cpp.s
+llm4compoptpass.cpp.s:
+	cd /n/eecs583b/home/jsymonds/W24_EECS583_HW2/build && $(MAKE) $(MAKESILENT) -f llm4compoptpass/CMakeFiles/llm4compoptpass.dir/build.make llm4compoptpass/CMakeFiles/llm4compoptpass.dir/llm4compoptpass.cpp.s
+.PHONY : llm4compoptpass.cpp.s
 
 # Help Target
 help:
@@ -239,12 +239,12 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... install-HW2Pass"
-	@echo "... install-HW2Pass-stripped"
-	@echo "... HW2Pass"
-	@echo "... hw2pass.o"
-	@echo "... hw2pass.i"
-	@echo "... hw2pass.s"
+	@echo "... install-llm4compoptpass"
+	@echo "... install-llm4compoptpass-stripped"
+	@echo "... llm4compoptpass"
+	@echo "... llm4compoptpass.o"
+	@echo "... llm4compoptpass.i"
+	@echo "... llm4compoptpass.s"
 .PHONY : help
 
 

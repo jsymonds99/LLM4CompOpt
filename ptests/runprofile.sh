@@ -1,12 +1,12 @@
 #!/bin/bash
 # Run script for Homework 2 EECS 583 Winter 2024
 # Place this script in the benchmarks folder and run it using the name of the file (without the file type)
-# e.g. sh run.sh hw2correct1
+# e.g. sh run.sh llm4compoptcorrect1
 
 
 
 # ACTION NEEDED: If the path is different, please update it here.
-PATH2LIB="../../build/hw2pass/HW2Pass.so"        # Specify your build directory in the project
+PATH2LIB="../../build/llm4compoptpass/llm4compoptPass.so"        # Specify your build directory in the project
 
 # ACTION NEEDED: Choose the correct pass when running.
 PASS=fplicm-correctness                   # Choose either -fplicm-correctness ...

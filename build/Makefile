@@ -87,7 +87,7 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target list_install_components
 list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"HW2Pass\""
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"llm4compoptpass\""
 .PHONY : list_install_components
 
 # Special rule for the target list_install_components
@@ -214,43 +214,43 @@ RISCVTargetParserTableGen/fast:
 .PHONY : RISCVTargetParserTableGen/fast
 
 #=============================================================================
-# Target rules for targets named HW2Pass
+# Target rules for targets named llm4compoptpass
 
 # Build rule for target.
-HW2Pass: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 HW2Pass
-.PHONY : HW2Pass
+llm4compoptpass: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 llm4compoptpass
+.PHONY : llm4compoptpass
 
 # fast build rule for target.
-HW2Pass/fast:
-	$(MAKE) $(MAKESILENT) -f hw2pass/CMakeFiles/HW2Pass.dir/build.make hw2pass/CMakeFiles/HW2Pass.dir/build
-.PHONY : HW2Pass/fast
+llm4compoptpass/fast:
+	$(MAKE) $(MAKESILENT) -f llm4compoptpass/CMakeFiles/llm4compoptpass.dir/build.make llm4compoptpass/CMakeFiles/llm4compoptpass.dir/build
+.PHONY : llm4compoptpass/fast
 
 #=============================================================================
-# Target rules for targets named install-HW2Pass
+# Target rules for targets named install-llm4compoptpass
 
 # Build rule for target.
-install-HW2Pass: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 install-HW2Pass
-.PHONY : install-HW2Pass
+install-llm4compoptpass: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 install-llm4compoptpass
+.PHONY : install-llm4compoptpass
 
 # fast build rule for target.
-install-HW2Pass/fast:
-	$(MAKE) $(MAKESILENT) -f hw2pass/CMakeFiles/install-HW2Pass.dir/build.make hw2pass/CMakeFiles/install-HW2Pass.dir/build
-.PHONY : install-HW2Pass/fast
+install-llm4compoptpass/fast:
+	$(MAKE) $(MAKESILENT) -f llm4compoptpass/CMakeFiles/install-llm4compoptpass.dir/build.make llm4compoptpass/CMakeFiles/install-llm4compoptpass.dir/build
+.PHONY : install-llm4compoptpass/fast
 
 #=============================================================================
-# Target rules for targets named install-HW2Pass-stripped
+# Target rules for targets named install-llm4compoptpass-stripped
 
 # Build rule for target.
-install-HW2Pass-stripped: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 install-HW2Pass-stripped
-.PHONY : install-HW2Pass-stripped
+install-llm4compoptpass-stripped: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 install-llm4compoptpass-stripped
+.PHONY : install-llm4compoptpass-stripped
 
 # fast build rule for target.
-install-HW2Pass-stripped/fast:
-	$(MAKE) $(MAKESILENT) -f hw2pass/CMakeFiles/install-HW2Pass-stripped.dir/build.make hw2pass/CMakeFiles/install-HW2Pass-stripped.dir/build
-.PHONY : install-HW2Pass-stripped/fast
+install-llm4compoptpass-stripped/fast:
+	$(MAKE) $(MAKESILENT) -f llm4compoptpass/CMakeFiles/install-llm4compoptpass-stripped.dir/build.make llm4compoptpass/CMakeFiles/install-llm4compoptpass-stripped.dir/build
+.PHONY : install-llm4compoptpass-stripped/fast
 
 # Help Target
 help:
@@ -266,11 +266,11 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... RISCVTargetParserTableGen"
 	@echo "... acc_gen"
-	@echo "... install-HW2Pass"
-	@echo "... install-HW2Pass-stripped"
+	@echo "... install-llm4compoptpass"
+	@echo "... install-llm4compoptpass-stripped"
 	@echo "... intrinsics_gen"
 	@echo "... omp_gen"
-	@echo "... HW2Pass"
+	@echo "... llm4compoptpass"
 .PHONY : help
 
 

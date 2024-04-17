@@ -44,7 +44,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/n/eecs583b/home/jsymonds/W24_EECS583_HW2/build/hw2pass/cmake_install.cmake")
+  include("/n/eecs583b/home/jsymonds/W24_EECS583_HW2/build/llm4compoptpass/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)

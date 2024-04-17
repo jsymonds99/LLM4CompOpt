@@ -139,7 +139,7 @@ void printIR(const Function &F) {
 }
 
 namespace {
-  struct HW2CorrectnessPass : public PassInfoMixin<HW2CorrectnessPass> {
+  struct llm4compoptPass : public PassInfoMixin<llm4compoptPass> {
 
     PreservedAnalyses run(Function &F, FunctionAnalysisManager &FAM) {
       llvm::BlockFrequencyAnalysis::Result &bfi = FAM.getResult<BlockFrequencyAnalysis>(F);
@@ -163,32 +163,17 @@ namespace {
       return PreservedAnalyses::all();
     }
   };
-  struct HW2PerformancePass : public PassInfoMixin<HW2PerformancePass> {
-    PreservedAnalyses run(Function &F, FunctionAnalysisManager &FAM) {
-      llvm::BlockFrequencyAnalysis::Result &bfi = FAM.getResult<BlockFrequencyAnalysis>(F);
-      llvm::BranchProbabilityAnalysis::Result &bpi = FAM.getResult<BranchProbabilityAnalysis>(F);
-      llvm::LoopAnalysis::Result &li = FAM.getResult<LoopAnalysis>(F);
-      return PreservedAnalyses::all();
-    }
-  };
 }
 
 extern "C" ::llvm::PassPluginLibraryInfo LLVM_ATTRIBUTE_WEAK llvmGetPassPluginInfo() {
   return {
-    LLVM_PLUGIN_API_VERSION, "HW2Pass", "v0.1",
+    LLVM_PLUGIN_API_VERSION, "llm4compoptPass", "v0.1",
     [](PassBuilder &PB) {
       PB.registerPipelineParsingCallback(
         [](StringRef Name, FunctionPassManager &FPM,
         ArrayRef<PassBuilder::PipelineElement>) {
-          if(Name == "fplicm-correctness"){
-            FPM.addPass(HW2CorrectnessPass());
-            return true;
-          }
-          if(Name == "fplicm-performance"){
-            FPM.addPass(HW2PerformancePass());
-            return true;
-          }
-          return false;
+          FPM.addPass(llm4compoptPass());
+          return true;
         }
       );
     }

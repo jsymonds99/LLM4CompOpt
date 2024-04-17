@@ -11,7 +11,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.22.1/CMakeCCompiler.cmake"
   "CMakeFiles/3.22.1/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.22.1/CMakeSystem.cmake"
-  "../hw2pass/CMakeLists.txt"
+  "../llm4compoptpass/CMakeLists.txt"
   "/usr/local/lib/cmake/llvm/AddLLVM.cmake"
   "/usr/local/lib/cmake/llvm/DetermineGCCCompatible.cmake"
   "/usr/local/lib/cmake/llvm/FindTerminfo.cmake"
@@ -62,7 +62,7 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
-  "hw2pass/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "llm4compoptpass/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
@@ -71,7 +71,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/omp_gen.dir/DependInfo.cmake"
   "CMakeFiles/acc_gen.dir/DependInfo.cmake"
   "CMakeFiles/RISCVTargetParserTableGen.dir/DependInfo.cmake"
-  "hw2pass/CMakeFiles/HW2Pass.dir/DependInfo.cmake"
-  "hw2pass/CMakeFiles/install-HW2Pass.dir/DependInfo.cmake"
-  "hw2pass/CMakeFiles/install-HW2Pass-stripped.dir/DependInfo.cmake"
+  "llm4compoptpass/CMakeFiles/llm4compoptpass.dir/DependInfo.cmake"
+  "llm4compoptpass/CMakeFiles/install-llm4compoptpass.dir/DependInfo.cmake"
+  "llm4compoptpass/CMakeFiles/install-llm4compoptpass-stripped.dir/DependInfo.cmake"
   )

@@ -272,6 +272,12 @@ LLVM_DIR:PATH=/usr/local/lib/cmake/llvm
 //Statically link HW2Pass into tools (if available)
 LLVM_HW2PASS_LINK_INTO_TOOLS:BOOL=OFF
 
+//Statically link llm4compoptpass into tools (if available)
+LLVM_LLM4COMPOPTPASS_LINK_INTO_TOOLS:BOOL=OFF
+
+//Statically link llm4compopt into tools (if available)
+LLVM_LLM4COMPOPT_LINK_INTO_TOOLS:BOOL=OFF
+
 //Arguments to supply to pkg-config
 PKG_CONFIG_ARGN:STRING=
 
