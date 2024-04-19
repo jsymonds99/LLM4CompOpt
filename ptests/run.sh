@@ -23,3 +23,5 @@
 
 # fi
 # fi
+
+/bin/python3 /n/eecs583b/home/jsymonds/W24_EECS583_HW2/ptests/plotData.py

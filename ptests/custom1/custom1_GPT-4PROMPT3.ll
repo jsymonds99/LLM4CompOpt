@@ -11,117 +11,90 @@ target triple = "x86_64-unknown-linux-gnu"
 define dso_local i32 @recursive_factorial(i32 noundef %0) #0 {
   br label %tailrecurse
 
-tailrecurse:                                      ; preds = %4, %1
-  %accumulator.tr = phi i32 [ 1, %1 ], [ %6, %4 ]
-  %.tr = phi i32 [ %0, %1 ], [ %5, %4 ]
+tailrecurse:                                      ; preds = %3, %1
+  %accumulator.tr = phi i32 [ 1, %1 ], [ %5, %3 ]
+  %.tr = phi i32 [ %0, %1 ], [ %4, %3 ]
   %2 = icmp eq i32 %.tr, 0
-  br i1 %2, label %3, label %4
+  br i1 %2, label %6, label %3
 
 3:                                                ; preds = %tailrecurse
-  br label %7
-
-4:                                                ; preds = %tailrecurse
-  %5 = add nsw i32 %.tr, -1
-  %6 = mul nsw i32 %.tr, %accumulator.tr
+  %4 = add nsw i32 %.tr, -1
+  %5 = mul nsw i32 %accumulator.tr, %.tr
   br label %tailrecurse
 
-7:                                                ; preds = %3
-  %accumulator.ret.tr = mul nsw i32 1, %accumulator.tr
+6:                                                ; preds = %tailrecurse
+  %accumulator.ret.tr = mul nsw i32 %accumulator.tr, 1
   ret i32 %accumulator.ret.tr
 }
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local i32 @normal_factorial(i32 noundef %0) #0 {
-  %.not1 = icmp sgt i32 1, %0
-  br i1 %.not1, label %7, label %.lr.ph
-
-.lr.ph:                                           ; preds = %1
   br label %2
 
-2:                                                ; preds = %.lr.ph, %2
-  %3 = phi i32 [ 1, %.lr.ph ], [ %6, %2 ]
-  %4 = phi i32 [ 1, %.lr.ph ], [ %5, %2 ]
-  %5 = mul nsw i32 %4, %3
-  %6 = add nsw i32 %3, 1
-  %.not = icmp sgt i32 %6, %0
-  br i1 %.not, label %._crit_edge, label %2, !llvm.loop !6
+2:                                                ; preds = %3, %1
+  %.01 = phi i32 [ 1, %1 ], [ %4, %3 ]
+  %.0 = phi i32 [ 1, %1 ], [ %5, %3 ]
+  %.not = icmp sgt i32 %.0, %0
+  br i1 %.not, label %6, label %3
 
-._crit_edge:                                      ; preds = %2
-  %split = phi i32 [ %5, %2 ]
-  br label %7
+3:                                                ; preds = %2
+  %4 = mul nsw i32 %.01, %.0
+  %5 = add nuw nsw i32 %.0, 1
+  br label %2, !llvm.loop !6
 
-7:                                                ; preds = %._crit_edge, %1
-  %.lcssa = phi i32 [ %split, %._crit_edge ], [ 1, %1 ]
-  ret i32 %.lcssa
+6:                                                ; preds = %2
+  ret i32 %.01
 }
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local i32 @doing_something(i32 noundef %0, i32 noundef %1) #0 {
-  %3 = icmp slt i32 0, %0
-  br i1 %3, label %.lr.ph4, label %22
+  br label %3
 
-.lr.ph4:                                          ; preds = %2
-  br label %4
+3:                                                ; preds = %16, %2
+  %.02 = phi i32 [ 0, %2 ], [ %.1, %16 ]
+  %.01 = phi i32 [ 0, %2 ], [ %17, %16 ]
+  %4 = icmp slt i32 %.01, %0
+  br i1 %4, label %5, label %18
 
-4:                                                ; preds = %.lr.ph4, %19
-  %5 = phi i32 [ 0, %.lr.ph4 ], [ %20, %19 ]
-  %6 = phi i32 [ 0, %.lr.ph4 ], [ %.lcssa, %19 ]
-  %7 = add nsw i32 %6, %5
-  %8 = icmp slt i32 0, %1
-  br i1 %8, label %.lr.ph, label %19
+5:                                                ; preds = %3
+  %6 = add nsw i32 %.02, %.01
+  br label %7
 
-.lr.ph:                                           ; preds = %4
-  br label %9
+7:                                                ; preds = %9, %5
+  %.1 = phi i32 [ %6, %5 ], [ %14, %9 ]
+  %.0 = phi i32 [ 0, %5 ], [ %15, %9 ]
+  %8 = icmp slt i32 %.0, %1
+  br i1 %8, label %9, label %16
 
-9:                                                ; preds = %.lr.ph, %9
-  %10 = phi i32 [ 0, %.lr.ph ], [ %17, %9 ]
-  %11 = phi i32 [ %7, %.lr.ph ], [ %16, %9 ]
-  %12 = sub nsw i32 %11, %10
-  %13 = tail call i32 @recursive_factorial(i32 noundef %5)
-  %14 = tail call i32 @normal_factorial(i32 noundef %10)
-  %15 = sub nsw i32 %13, %14
-  %16 = add nsw i32 %12, %15
-  %17 = add nsw i32 %10, 1
-  %18 = icmp slt i32 %17, %1
-  br i1 %18, label %9, label %._crit_edge, !llvm.loop !8
+9:                                                ; preds = %7
+  %10 = tail call i32 @recursive_factorial(i32 noundef %.01)
+  %11 = tail call i32 @normal_factorial(i32 noundef %.0)
+  %12 = sub nsw i32 %.1, %.0
+  %13 = sub nsw i32 %10, %11
+  %14 = add nsw i32 %12, %13
+  %15 = add nuw nsw i32 %.0, 1
+  br label %7, !llvm.loop !8
 
-._crit_edge:                                      ; preds = %9
-  %split = phi i32 [ %16, %9 ]
-  br label %19
+16:                                               ; preds = %7
+  %17 = add nuw nsw i32 %.01, 1
+  br label %3, !llvm.loop !9
 
-19:                                               ; preds = %._crit_edge, %4
-  %.lcssa = phi i32 [ %split, %._crit_edge ], [ %7, %4 ]
-  %20 = add nsw i32 %5, 1
-  %21 = icmp slt i32 %20, %0
-  br i1 %21, label %4, label %._crit_edge5, !llvm.loop !9
-
-._crit_edge5:                                     ; preds = %19
-  %split6 = phi i32 [ %.lcssa, %19 ]
-  br label %22
-
-22:                                               ; preds = %._crit_edge5, %2
-  %.lcssa2 = phi i32 [ %split6, %._crit_edge5 ], [ 0, %2 ]
-  ret i32 %.lcssa2
+18:                                               ; preds = %3
+  ret i32 %.02
 }
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local i32 @main(i32 noundef %0, ptr noundef %1) #0 {
-  br label %3
-
-3:                                                ; preds = %2, %3
-  %4 = phi i32 [ 0, %2 ], [ %12, %3 ]
-  %5 = sext i32 %4 to i64
-  %6 = getelementptr inbounds [5 x i32], ptr @__const.main.as, i64 0, i64 %5
-  %7 = load i32, ptr %6, align 4
-  %8 = getelementptr inbounds [5 x i32], ptr @__const.main.bs, i64 0, i64 %5
-  %9 = load i32, ptr %8, align 4
-  %10 = tail call i32 @doing_something(i32 noundef %7, i32 noundef %9)
-  %11 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef %7, i32 noundef %9, i32 noundef %10) #3
-  %12 = add nsw i32 %4, 1
-  %13 = icmp slt i32 %12, 5
-  br i1 %13, label %3, label %14, !llvm.loop !10
-
-14:                                               ; preds = %3
+  %3 = tail call i32 @doing_something(i32 noundef 1, i32 noundef 2)
+  %4 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef 1, i32 noundef 2, i32 noundef %3) #3
+  %5 = tail call i32 @doing_something(i32 noundef 6, i32 noundef 3)
+  %6 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef 6, i32 noundef 3, i32 noundef %5) #3
+  %7 = tail call i32 @doing_something(i32 noundef 2, i32 noundef 4)
+  %8 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef 2, i32 noundef 4, i32 noundef %7) #3
+  %9 = tail call i32 @doing_something(i32 noundef 9, i32 noundef 5)
+  %10 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef 9, i32 noundef 5, i32 noundef %9) #3
+  %11 = tail call i32 @doing_something(i32 noundef 10, i32 noundef 6)
+  %12 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef 10, i32 noundef 6, i32 noundef %11) #3
   ret i32 0
 }
 
@@ -148,4 +121,3 @@ attributes #3 = { nounwind }
 !7 = !{!"llvm.loop.mustprogress"}
 !8 = distinct !{!8, !7}
 !9 = distinct !{!9, !7}
-!10 = distinct !{!10, !7}

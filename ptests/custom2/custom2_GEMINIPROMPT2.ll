@@ -8,47 +8,33 @@ target triple = "x86_64-unknown-linux-gnu"
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local double @find_max(double noundef %0, double noundef %1, double noundef %2) #0 {
-  %4 = alloca double, align 8
-  %5 = alloca double, align 8
-  %6 = alloca double, align 8
-  %7 = alloca double, align 8
-  %8 = alloca i32, align 4
-  %9 = alloca double, align 8
-  store double %0, ptr %4, align 8
-  store double %1, ptr %5, align 8
-  store double %2, ptr %6, align 8
-  store double -1.000000e+09, ptr %7, align 8
-  store i32 -10, ptr %8, align 4
-  br label %10
+  br label %4
 
-10:                                               ; preds = %22, %3
-  %11 = phi double [ %23, %22 ], [ -1.000000e+09, %3 ]
-  %12 = phi i32 [ %24, %22 ], [ -10, %3 ]
-  %13 = icmp sle i32 %12, 10
-  br i1 %13, label %14, label %25
+4:                                                ; preds = %14, %3
+  %.01 = phi double [ -1.000000e+09, %3 ], [ %.1, %14 ]
+  %.0 = phi i32 [ -10, %3 ], [ %15, %14 ]
+  %5 = icmp slt i32 %.0, 11
+  br i1 %5, label %6, label %16
 
-14:                                               ; preds = %10
-  %15 = sitofp i32 %12 to double
-  %16 = fmul double %0, %15
-  %17 = fmul double %1, %15
-  %18 = call double @llvm.fmuladd.f64(double %16, double %15, double %17)
-  %19 = fadd double %18, %2
-  store double %19, ptr %9, align 8
-  %20 = fcmp ogt double %19, %11
-  br i1 %20, label %21, label %22
+6:                                                ; preds = %4
+  %7 = sitofp i32 %.0 to double
+  %8 = fmul double %7, %0
+  %9 = fmul double %7, %1
+  %10 = call double @llvm.fmuladd.f64(double %8, double %7, double %9)
+  %11 = fadd double %10, %2
+  %12 = fcmp ogt double %11, %.01
+  br i1 %12, label %13, label %14
 
-21:                                               ; preds = %14
-  store double %19, ptr %7, align 8
-  br label %22
+13:                                               ; preds = %6
+  br label %14
 
-22:                                               ; preds = %21, %14
-  %23 = phi double [ %19, %21 ], [ %11, %14 ]
-  %24 = add nsw i32 %12, 1
-  store i32 %24, ptr %8, align 4
-  br label %10, !llvm.loop !6
+14:                                               ; preds = %13, %6
+  %.1 = phi double [ %11, %13 ], [ %.01, %6 ]
+  %15 = add nsw i32 %.0, 1
+  br label %4, !llvm.loop !6
 
-25:                                               ; preds = %10
-  ret double %11
+16:                                               ; preds = %4
+  ret double %.01
 }
 
 ; Function Attrs: nocallback nofree nosync nounwind speculatable willreturn memory(none)
@@ -56,140 +42,106 @@ declare double @llvm.fmuladd.f64(double, double, double) #1
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local double @find_min(double noundef %0, double noundef %1, double noundef %2) #0 {
-  %4 = alloca double, align 8
-  %5 = alloca double, align 8
-  %6 = alloca double, align 8
-  %7 = alloca double, align 8
-  %8 = alloca i32, align 4
-  %9 = alloca double, align 8
-  store double %0, ptr %4, align 8
-  store double %1, ptr %5, align 8
-  store double %2, ptr %6, align 8
-  store double 1.000000e+09, ptr %7, align 8
-  store i32 -10, ptr %8, align 4
-  br label %10
+  br label %4
 
-10:                                               ; preds = %22, %3
-  %11 = phi double [ %23, %22 ], [ 1.000000e+09, %3 ]
-  %12 = phi i32 [ %24, %22 ], [ -10, %3 ]
-  %13 = icmp sle i32 %12, 10
-  br i1 %13, label %14, label %25
+4:                                                ; preds = %14, %3
+  %.01 = phi double [ 1.000000e+09, %3 ], [ %.1, %14 ]
+  %.0 = phi i32 [ -10, %3 ], [ %15, %14 ]
+  %5 = icmp slt i32 %.0, 11
+  br i1 %5, label %6, label %16
 
-14:                                               ; preds = %10
-  %15 = sitofp i32 %12 to double
-  %16 = fmul double %0, %15
-  %17 = fmul double %1, %15
-  %18 = call double @llvm.fmuladd.f64(double %16, double %15, double %17)
-  %19 = fadd double %18, %2
-  store double %19, ptr %9, align 8
-  %20 = fcmp olt double %19, %11
-  br i1 %20, label %21, label %22
+6:                                                ; preds = %4
+  %7 = sitofp i32 %.0 to double
+  %8 = fmul double %7, %0
+  %9 = fmul double %7, %1
+  %10 = call double @llvm.fmuladd.f64(double %8, double %7, double %9)
+  %11 = fadd double %10, %2
+  %12 = fcmp olt double %11, %.01
+  br i1 %12, label %13, label %14
 
-21:                                               ; preds = %14
-  store double %19, ptr %7, align 8
-  br label %22
+13:                                               ; preds = %6
+  br label %14
 
-22:                                               ; preds = %21, %14
-  %23 = phi double [ %19, %21 ], [ %11, %14 ]
-  %24 = add nsw i32 %12, 1
-  store i32 %24, ptr %8, align 4
-  br label %10, !llvm.loop !8
+14:                                               ; preds = %13, %6
+  %.1 = phi double [ %11, %13 ], [ %.01, %6 ]
+  %15 = add nsw i32 %.0, 1
+  br label %4, !llvm.loop !8
 
-25:                                               ; preds = %10
-  ret double %11
+16:                                               ; preds = %4
+  ret double %.01
 }
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local i32 @main() #0 {
-  %1 = alloca i32, align 4
-  %2 = alloca i32, align 4
-  %3 = alloca i32, align 4
-  %4 = alloca i32, align 4
-  %5 = alloca i32, align 4
-  store i32 0, ptr %1, align 4
-  store i32 15, ptr %2, align 4
-  store i32 10, ptr %3, align 4
-  store i32 0, ptr %4, align 4
-  br label %6
+  br label %1
 
-6:                                                ; preds = %48, %0
-  %7 = phi i32 [ %24, %48 ], [ 10, %0 ]
-  %8 = phi i32 [ %26, %48 ], [ 15, %0 ]
-  %9 = phi i32 [ %49, %48 ], [ 0, %0 ]
-  %10 = icmp slt i32 %9, %8
-  br i1 %10, label %11, label %50
+1:                                                ; preds = %33, %0
+  %.06 = phi i32 [ 0, %0 ], [ %34, %33 ]
+  %.02 = phi i32 [ 10, %0 ], [ %.24, %33 ]
+  %.01 = phi i32 [ 15, %0 ], [ %.2, %33 ]
+  %2 = icmp slt i32 %.06, %.01
+  br i1 %2, label %3, label %35
 
-11:                                               ; preds = %6
-  %12 = srem i32 %9, 2
-  %13 = icmp eq i32 %12, 0
-  br i1 %13, label %14, label %17
+3:                                                ; preds = %1
+  %4 = and i32 %.06, 1
+  %5 = icmp eq i32 %4, 0
+  br i1 %5, label %6, label %9
 
-14:                                               ; preds = %11
-  %15 = add nsw i32 %8, 2
-  store i32 %15, ptr %2, align 4
-  %16 = mul nsw i32 %7, 3
-  store i32 %16, ptr %3, align 4
-  br label %20
+6:                                                ; preds = %3
+  %7 = add nsw i32 %.01, 2
+  %8 = mul nsw i32 %.02, 3
+  br label %12
 
-17:                                               ; preds = %11
-  %18 = sub nsw i32 %8, 1
-  store i32 %18, ptr %2, align 4
-  %19 = sdiv i32 %7, 5
-  store i32 %19, ptr %3, align 4
-  br label %20
+9:                                                ; preds = %3
+  %10 = add nsw i32 %.01, -1
+  %11 = sdiv i32 %.02, 5
+  br label %12
 
-20:                                               ; preds = %17, %14
-  %21 = phi i32 [ %19, %17 ], [ %16, %14 ]
-  %22 = phi i32 [ %18, %17 ], [ %15, %14 ]
-  store i32 0, ptr %5, align 4
-  br label %23
+12:                                               ; preds = %9, %6
+  %.13 = phi i32 [ %8, %6 ], [ %11, %9 ]
+  %.1 = phi i32 [ %7, %6 ], [ %10, %9 ]
+  br label %13
 
-23:                                               ; preds = %37, %20
-  %24 = phi i32 [ %38, %37 ], [ %21, %20 ]
-  %25 = phi i32 [ %47, %37 ], [ 0, %20 ]
-  %26 = phi i32 [ %39, %37 ], [ %22, %20 ]
-  %27 = icmp slt i32 %25, %24
-  br i1 %27, label %28, label %48
+13:                                               ; preds = %24, %12
+  %.24 = phi i32 [ %.13, %12 ], [ %.35, %24 ]
+  %.2 = phi i32 [ %.1, %12 ], [ %.3, %24 ]
+  %.0 = phi i32 [ 0, %12 ], [ %32, %24 ]
+  %14 = icmp slt i32 %.0, %.24
+  br i1 %14, label %15, label %33
 
-28:                                               ; preds = %23
-  %29 = srem i32 %25, 2
-  %30 = icmp eq i32 %29, 0
-  br i1 %30, label %31, label %34
+15:                                               ; preds = %13
+  %16 = and i32 %.0, 1
+  %17 = icmp eq i32 %16, 0
+  br i1 %17, label %18, label %21
 
-31:                                               ; preds = %28
-  %32 = add nsw i32 %26, 2
-  store i32 %32, ptr %2, align 4
-  %33 = mul nsw i32 %24, 3
-  store i32 %33, ptr %3, align 4
-  br label %37
+18:                                               ; preds = %15
+  %19 = add nsw i32 %.2, 2
+  %20 = mul nsw i32 %.24, 3
+  br label %24
 
-34:                                               ; preds = %28
-  %35 = sub nsw i32 %26, 1
-  store i32 %35, ptr %2, align 4
-  %36 = sdiv i32 %24, 5
-  store i32 %36, ptr %3, align 4
-  br label %37
+21:                                               ; preds = %15
+  %22 = add nsw i32 %.2, -1
+  %23 = sdiv i32 %.24, 5
+  br label %24
 
-37:                                               ; preds = %34, %31
-  %38 = phi i32 [ %36, %34 ], [ %33, %31 ]
-  %39 = phi i32 [ %35, %34 ], [ %32, %31 ]
-  %40 = sitofp i32 %25 to double
-  %41 = sitofp i32 %39 to double
-  %42 = sitofp i32 %38 to double
-  %43 = call double @find_max(double noundef %40, double noundef %41, double noundef %42)
-  %44 = call i32 (ptr, ...) @printf(ptr noundef @.str, double noundef %43)
-  %45 = call double @find_min(double noundef %40, double noundef %41, double noundef %42)
-  %46 = call i32 (ptr, ...) @printf(ptr noundef @.str.1, double noundef %45)
-  %47 = add nsw i32 %25, 1
-  store i32 %47, ptr %5, align 4
-  br label %23, !llvm.loop !9
+24:                                               ; preds = %21, %18
+  %.35 = phi i32 [ %20, %18 ], [ %23, %21 ]
+  %.3 = phi i32 [ %19, %18 ], [ %22, %21 ]
+  %25 = sitofp i32 %.0 to double
+  %26 = sitofp i32 %.3 to double
+  %27 = sitofp i32 %.35 to double
+  %28 = call double @find_max(double noundef %25, double noundef %26, double noundef %27)
+  %29 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, double noundef %28) #3
+  %30 = call double @find_min(double noundef %25, double noundef %26, double noundef %27)
+  %31 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str.1, double noundef %30) #3
+  %32 = add nuw nsw i32 %.0, 1
+  br label %13, !llvm.loop !9
 
-48:                                               ; preds = %23
-  %49 = add nsw i32 %9, 1
-  store i32 %49, ptr %4, align 4
-  br label %6, !llvm.loop !10
+33:                                               ; preds = %13
+  %34 = add nuw nsw i32 %.06, 1
+  br label %1, !llvm.loop !10
 
-50:                                               ; preds = %6
+35:                                               ; preds = %1
   ret i32 0
 }
 
@@ -198,6 +150,7 @@ declare i32 @printf(ptr noundef, ...) #2
 attributes #0 = { noinline nounwind uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
 attributes #1 = { nocallback nofree nosync nounwind speculatable willreturn memory(none) }
 attributes #2 = { "frame-pointer"="all" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
+attributes #3 = { nounwind }
 
 !llvm.module.flags = !{!0, !1, !2, !3, !4}
 !llvm.ident = !{!5}

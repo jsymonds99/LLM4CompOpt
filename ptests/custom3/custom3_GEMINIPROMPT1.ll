@@ -14,34 +14,34 @@ target triple = "x86_64-unknown-linux-gnu"
 define dso_local void @printMatrix(ptr noundef %0) #0 {
   br label %2
 
-2:                                                ; preds = %16, %1
-  %3 = phi i32 [ %17, %16 ], [ 0, %1 ]
-  %4 = icmp ult i32 %3, 5
-  br i1 %4, label %5, label %18
+2:                                                ; preds = %14, %1
+  %.01 = phi i32 [ 0, %1 ], [ %15, %14 ]
+  %3 = icmp ult i32 %.01, 5
+  br i1 %3, label %4, label %16
 
-5:                                                ; preds = %2
-  br label %6
+4:                                                ; preds = %2
+  br label %5
 
-6:                                                ; preds = %9, %5
-  %7 = phi i32 [ %15, %9 ], [ 0, %5 ]
-  %8 = icmp ult i32 %7, 5
-  br i1 %8, label %9, label %16
+5:                                                ; preds = %7, %4
+  %.0 = phi i32 [ 0, %4 ], [ %13, %7 ]
+  %6 = icmp ult i32 %.0, 5
+  br i1 %6, label %7, label %14
 
-9:                                                ; preds = %6
-  %10 = zext i32 %3 to i64
-  %11 = zext i32 %7 to i64
-  %12 = getelementptr inbounds [5 x i32], ptr %0, i64 %10, i64 %11
-  %13 = load i32, ptr %12, align 4
-  %14 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef %13) #4
-  %15 = add nuw nsw i32 %7, 1
-  br label %6, !llvm.loop !6
+7:                                                ; preds = %5
+  %8 = zext i32 %.01 to i64
+  %9 = zext i32 %.0 to i64
+  %10 = getelementptr inbounds [5 x i32], ptr %0, i64 %8, i64 %9
+  %11 = load i32, ptr %10, align 4
+  %12 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef %11) #4
+  %13 = add nuw nsw i32 %.0, 1
+  br label %5, !llvm.loop !6
 
-16:                                               ; preds = %6
-  %putchar1 = call i32 @putchar(i32 10)
-  %17 = add nuw nsw i32 %3, 1
+14:                                               ; preds = %5
+  %putchar2 = call i32 @putchar(i32 10)
+  %15 = add nuw nsw i32 %.01, 1
   br label %2, !llvm.loop !8
 
-18:                                               ; preds = %2
+16:                                               ; preds = %2
   %putchar = call i32 @putchar(i32 10)
   ret void
 }
@@ -52,155 +52,106 @@ declare i32 @printf(ptr noundef, ...) #1
 define dso_local void @manipulateMatrix(ptr noundef %0) #0 {
   br label %2
 
-2:                                                ; preds = %99, %1
-  %3 = phi i32 [ %100, %99 ], [ 0, %1 ]
-  %4 = icmp slt i32 %3, 5
-  br i1 %4, label %5, label %101
+2:                                                ; preds = %48, %1
+  %.01 = phi i32 [ 0, %1 ], [ %49, %48 ]
+  %3 = icmp ult i32 %.01, 5
+  br i1 %3, label %4, label %50
 
-5:                                                ; preds = %2
-  br label %6
+4:                                                ; preds = %2
+  br label %5
 
-6:                                                ; preds = %97, %5
-  %7 = phi i32 [ %17, %97 ], [ %3, %5 ]
-  %8 = phi i32 [ %19, %97 ], [ %3, %5 ]
-  %9 = phi i32 [ %21, %97 ], [ %3, %5 ]
-  %10 = phi i32 [ %23, %97 ], [ %3, %5 ]
-  %11 = phi i32 [ %24, %97 ], [ %3, %5 ]
-  %12 = phi i32 [ %98, %97 ], [ 0, %5 ]
-  %13 = icmp slt i32 %12, 5
-  br i1 %13, label %14, label %99
+5:                                                ; preds = %46, %4
+  %.02 = phi i32 [ 0, %4 ], [ %47, %46 ]
+  %6 = icmp ult i32 %.02, 5
+  br i1 %6, label %7, label %48
 
-14:                                               ; preds = %6
-  br label %15
+7:                                                ; preds = %5
+  br label %8
 
-15:                                               ; preds = %95, %14
-  %storemerge = phi i32 [ 0, %14 ], [ %96, %95 ]
-  %16 = phi i32 [ %12, %14 ], [ %33, %95 ]
-  %17 = phi i32 [ %7, %14 ], [ %34, %95 ]
-  %18 = phi i32 [ %12, %14 ], [ %35, %95 ]
-  %19 = phi i32 [ %8, %14 ], [ %36, %95 ]
-  %20 = phi i32 [ %12, %14 ], [ %37, %95 ]
-  %21 = phi i32 [ %9, %14 ], [ %38, %95 ]
-  %22 = phi i32 [ %12, %14 ], [ %39, %95 ]
-  %23 = phi i32 [ %10, %14 ], [ %40, %95 ]
-  %24 = phi i32 [ %11, %14 ], [ %40, %95 ]
-  %25 = icmp slt i32 %storemerge, 5
-  br i1 %25, label %26, label %97
+8:                                                ; preds = %44, %7
+  %.03 = phi i32 [ 0, %7 ], [ %45, %44 ]
+  %9 = icmp ult i32 %.03, 5
+  br i1 %9, label %10, label %46
 
-26:                                               ; preds = %15
-  %27 = sext i32 %23 to i64
-  %28 = sext i32 %22 to i64
-  %29 = getelementptr inbounds [5 x i32], ptr %0, i64 %27, i64 %28
-  %30 = load i32, ptr %29, align 4
-  %31 = add nsw i32 %30, %storemerge
-  store i32 %31, ptr %29, align 4
-  br label %32
+10:                                               ; preds = %8
+  %11 = zext i32 %.01 to i64
+  %12 = zext i32 %.02 to i64
+  %13 = getelementptr inbounds [5 x i32], ptr %0, i64 %11, i64 %12
+  %14 = load i32, ptr %13, align 4
+  %15 = add nsw i32 %14, %.03
+  store i32 %15, ptr %13, align 4
+  br label %16
 
-32:                                               ; preds = %93, %26
-  %storemerge1 = phi i32 [ 0, %26 ], [ %94, %93 ]
-  %33 = phi i32 [ %16, %26 ], [ %50, %93 ]
-  %34 = phi i32 [ %17, %26 ], [ %51, %93 ]
-  %35 = phi i32 [ %18, %26 ], [ %52, %93 ]
-  %36 = phi i32 [ %19, %26 ], [ %53, %93 ]
-  %37 = phi i32 [ %20, %26 ], [ %54, %93 ]
-  %38 = phi i32 [ %21, %26 ], [ %55, %93 ]
-  %39 = phi i32 [ %22, %26 ], [ %54, %93 ]
-  %40 = phi i32 [ %23, %26 ], [ %55, %93 ]
-  %41 = icmp slt i32 %storemerge1, 5
-  br i1 %41, label %42, label %95
+16:                                               ; preds = %43, %10
+  %17 = phi i32 [ %15, %10 ], [ %23, %43 ]
+  %.04 = phi i32 [ 0, %10 ], [ %20, %43 ]
+  %18 = icmp ult i32 %.04, 5
+  br i1 %18, label %19, label %44
 
-42:                                               ; preds = %32
-  %43 = add nsw i32 %storemerge1, 1
-  %44 = sext i32 %38 to i64
-  %45 = sext i32 %37 to i64
-  %46 = getelementptr inbounds [5 x i32], ptr %0, i64 %44, i64 %45
-  %47 = load i32, ptr %46, align 4
-  %48 = mul nsw i32 %47, %43
-  store i32 %48, ptr %46, align 4
-  br label %49
+19:                                               ; preds = %16
+  %20 = add nuw nsw i32 %.04, 1
+  %21 = mul nsw i32 %17, %20
+  store i32 %21, ptr %13, align 4
+  br label %22
 
-49:                                               ; preds = %91, %42
-  %storemerge2 = phi i32 [ 0, %42 ], [ %92, %91 ]
-  %50 = phi i32 [ %33, %42 ], [ %66, %91 ]
-  %51 = phi i32 [ %34, %42 ], [ %67, %91 ]
-  %52 = phi i32 [ %35, %42 ], [ %68, %91 ]
-  %53 = phi i32 [ %36, %42 ], [ %69, %91 ]
-  %54 = phi i32 [ %37, %42 ], [ %68, %91 ]
-  %55 = phi i32 [ %38, %42 ], [ %69, %91 ]
-  %56 = icmp slt i32 %storemerge2, 5
-  br i1 %56, label %57, label %93
+22:                                               ; preds = %41, %19
+  %23 = phi i32 [ %21, %19 ], [ %30, %41 ]
+  %.05 = phi i32 [ 0, %19 ], [ %42, %41 ]
+  %24 = icmp ult i32 %.05, 5
+  br i1 %24, label %25, label %43
 
-57:                                               ; preds = %49
-  %58 = add nsw i32 %55, %54
-  %59 = mul nsw i32 %storemerge2, %58
-  %60 = sext i32 %53 to i64
-  %61 = sext i32 %52 to i64
-  %62 = getelementptr inbounds [5 x i32], ptr %0, i64 %60, i64 %61
-  %63 = load i32, ptr %62, align 4
-  %64 = sub nsw i32 %63, %59
-  store i32 %64, ptr %62, align 4
-  br label %65
+25:                                               ; preds = %22
+  %26 = add nuw nsw i32 %.01, %.02
+  %27 = mul nsw i32 %.05, %26
+  %28 = sub nsw i32 %23, %27
+  store i32 %28, ptr %13, align 4
+  br label %29
 
-65:                                               ; preds = %86, %57
-  %storemerge3 = phi i32 [ 0, %57 ], [ %90, %86 ]
-  %66 = phi i32 [ %50, %57 ], [ %88, %86 ]
-  %67 = phi i32 [ %51, %57 ], [ %89, %86 ]
-  %68 = phi i32 [ %52, %57 ], [ %88, %86 ]
-  %69 = phi i32 [ %53, %57 ], [ %89, %86 ]
-  %70 = icmp slt i32 %storemerge3, 5
-  br i1 %70, label %71, label %91
+29:                                               ; preds = %39, %25
+  %30 = phi i32 [ %28, %25 ], [ %storemerge, %39 ]
+  %.0 = phi i32 [ 0, %25 ], [ %40, %39 ]
+  %31 = icmp ult i32 %.0, 5
+  br i1 %31, label %32, label %41
 
-71:                                               ; preds = %65
-  %72 = and i32 %storemerge3, 1
-  %73 = icmp eq i32 %72, 0
-  br i1 %73, label %74, label %80
+32:                                               ; preds = %29
+  %33 = and i32 %.0, 1
+  %34 = icmp eq i32 %33, 0
+  br i1 %34, label %35, label %37
 
-74:                                               ; preds = %71
-  %75 = sext i32 %3 to i64
-  %76 = sext i32 %12 to i64
-  %77 = getelementptr inbounds [5 x i32], ptr %0, i64 %75, i64 %76
-  %78 = load i32, ptr %77, align 4
-  %79 = add nsw i32 %78, %storemerge3
-  store i32 %79, ptr %77, align 4
-  br label %86
+35:                                               ; preds = %32
+  %36 = add nsw i32 %30, %.0
+  br label %39
 
-80:                                               ; preds = %71
-  %81 = sext i32 %67 to i64
-  %82 = sext i32 %66 to i64
-  %83 = getelementptr inbounds [5 x i32], ptr %0, i64 %81, i64 %82
-  %84 = load i32, ptr %83, align 4
-  %85 = sub nsw i32 %84, %storemerge3
-  store i32 %85, ptr %83, align 4
-  br label %86
+37:                                               ; preds = %32
+  %38 = sub nsw i32 %30, %.0
+  br label %39
 
-86:                                               ; preds = %74, %80
-  %87 = phi i32 [ %storemerge3, %74 ], [ %storemerge3, %80 ]
-  %88 = phi i32 [ %12, %74 ], [ %66, %80 ]
-  %89 = phi i32 [ %3, %74 ], [ %67, %80 ]
-  %90 = add nsw i32 %87, 1
-  br label %65, !llvm.loop !9
+39:                                               ; preds = %35, %37
+  %storemerge = phi i32 [ %38, %37 ], [ %36, %35 ]
+  store i32 %storemerge, ptr %13, align 4
+  %40 = add nuw nsw i32 %.0, 1
+  br label %29, !llvm.loop !9
 
-91:                                               ; preds = %65
-  %92 = add nsw i32 %storemerge2, 1
-  br label %49, !llvm.loop !10
+41:                                               ; preds = %29
+  %42 = add nuw nsw i32 %.05, 1
+  br label %22, !llvm.loop !10
 
-93:                                               ; preds = %49
-  %94 = add nsw i32 %storemerge1, 1
-  br label %32, !llvm.loop !11
+43:                                               ; preds = %22
+  br label %16, !llvm.loop !11
 
-95:                                               ; preds = %32
-  %96 = add nsw i32 %storemerge, 1
-  br label %15, !llvm.loop !12
+44:                                               ; preds = %16
+  %45 = add nuw nsw i32 %.03, 1
+  br label %8, !llvm.loop !12
 
-97:                                               ; preds = %15
-  %98 = add nsw i32 %22, 1
-  br label %6, !llvm.loop !13
+46:                                               ; preds = %8
+  %47 = add nuw nsw i32 %.02, 1
+  br label %5, !llvm.loop !13
 
-99:                                               ; preds = %6
-  %100 = add nsw i32 %11, 1
+48:                                               ; preds = %5
+  %49 = add nuw nsw i32 %.01, 1
   br label %2, !llvm.loop !14
 
-101:                                              ; preds = %2
+50:                                               ; preds = %2
   ret void
 }
 
@@ -209,38 +160,38 @@ define dso_local i32 @main() #0 {
   %1 = alloca [5 x [5 x i32]], align 16
   br label %2
 
-2:                                                ; preds = %16, %0
-  %3 = phi i32 [ %17, %16 ], [ 0, %0 ]
-  %4 = icmp ult i32 %3, 5
-  br i1 %4, label %5, label %18
+2:                                                ; preds = %14, %0
+  %.01 = phi i32 [ 0, %0 ], [ %15, %14 ]
+  %3 = icmp ult i32 %.01, 5
+  br i1 %3, label %4, label %16
 
-5:                                                ; preds = %2
-  br label %6
+4:                                                ; preds = %2
+  br label %5
 
-6:                                                ; preds = %9, %5
-  %7 = phi i32 [ %15, %9 ], [ 0, %5 ]
-  %8 = icmp ult i32 %7, 5
-  br i1 %8, label %9, label %16
+5:                                                ; preds = %7, %4
+  %.0 = phi i32 [ 0, %4 ], [ %13, %7 ]
+  %6 = icmp ult i32 %.0, 5
+  br i1 %6, label %7, label %14
 
-9:                                                ; preds = %6
-  %10 = call i32 @rand() #4
-  %11 = srem i32 %10, 10
-  %12 = zext i32 %3 to i64
-  %13 = zext i32 %7 to i64
-  %14 = getelementptr inbounds [5 x [5 x i32]], ptr %1, i64 0, i64 %12, i64 %13
-  store i32 %11, ptr %14, align 4
-  %15 = add nuw nsw i32 %7, 1
-  br label %6, !llvm.loop !15
+7:                                                ; preds = %5
+  %8 = call i32 @rand() #4
+  %9 = srem i32 %8, 10
+  %10 = zext i32 %.01 to i64
+  %11 = zext i32 %.0 to i64
+  %12 = getelementptr inbounds [5 x [5 x i32]], ptr %1, i64 0, i64 %10, i64 %11
+  store i32 %9, ptr %12, align 4
+  %13 = add nuw nsw i32 %.0, 1
+  br label %5, !llvm.loop !15
 
-16:                                               ; preds = %6
-  %17 = add nuw nsw i32 %3, 1
+14:                                               ; preds = %5
+  %15 = add nuw nsw i32 %.01, 1
   br label %2, !llvm.loop !16
 
-18:                                               ; preds = %2
+16:                                               ; preds = %2
   %puts = call i32 @puts(ptr nonnull dereferenceable(1) @str)
   call void @printMatrix(ptr noundef nonnull %1)
   call void @manipulateMatrix(ptr noundef nonnull %1)
-  %puts1 = call i32 @puts(ptr nonnull dereferenceable(1) @str.1)
+  %puts2 = call i32 @puts(ptr nonnull dereferenceable(1) @str.1)
   call void @printMatrix(ptr noundef nonnull %1)
   ret i32 0
 }

@@ -6,7 +6,7 @@ target triple = "x86_64-unknown-linux-gnu"
 @.str = private unnamed_addr constant [6 x i8] c"%lld\0A\00", align 1
 
 ; Function Attrs: noinline nounwind uwtable
-define dso_local i32 @main() local_unnamed_addr #0 {
+define dso_local i32 @main() #0 {
   %1 = alloca [1000 x i64], align 16
   %2 = alloca [1000 x i64], align 16
   %3 = alloca [1000 x i64], align 16
@@ -14,192 +14,155 @@ define dso_local i32 @main() local_unnamed_addr #0 {
   br label %5
 
 5:                                                ; preds = %7, %0
-  %storemerge = phi i32 [ 0, %0 ], [ %21, %7 ]
-  %6 = icmp slt i32 %storemerge, 1000
-  br i1 %6, label %7, label %22
+  %.01 = phi i32 [ 0, %0 ], [ %17, %7 ]
+  %6 = icmp ult i32 %.01, 1000
+  br i1 %6, label %7, label %18
 
 7:                                                ; preds = %5
-  %8 = sext i32 %storemerge to i64
-  %9 = sext i32 %storemerge to i64
-  %10 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %9
-  store i64 %8, ptr %10, align 8
-  %11 = shl nsw i32 %storemerge, 1
-  %12 = sext i32 %11 to i64
-  %13 = sext i32 %storemerge to i64
-  %14 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %13
-  store i64 %12, ptr %14, align 8
-  %15 = mul nsw i32 %storemerge, 3
-  %16 = sext i32 %15 to i64
-  %17 = sext i32 %storemerge to i64
-  %18 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %17
-  store i64 %16, ptr %18, align 8
-  %19 = sext i32 %storemerge to i64
-  %20 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %19
-  store i64 0, ptr %20, align 8
-  %21 = add nsw i32 %storemerge, 1
+  %8 = zext i32 %.01 to i64
+  %9 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %8
+  store i64 %8, ptr %9, align 8
+  %10 = shl nuw nsw i32 %.01, 1
+  %11 = zext i32 %10 to i64
+  %12 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %8
+  store i64 %11, ptr %12, align 8
+  %13 = mul nsw i32 %.01, 3
+  %14 = zext i32 %13 to i64
+  %15 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %8
+  store i64 %14, ptr %15, align 8
+  %16 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %8
+  store i64 0, ptr %16, align 8
+  %17 = add nuw nsw i32 %.01, 1
   br label %5, !llvm.loop !6
 
-22:                                               ; preds = %5
-  tail call void @srand(i32 noundef 4) #3
-  br label %23
+18:                                               ; preds = %5
+  call void @srand(i32 noundef 4) #3
+  br label %19
 
-23:                                               ; preds = %109, %22
-  %.07 = phi i32 [ 0, %22 ], [ %.3, %109 ]
-  %.05 = phi i32 [ 15, %22 ], [ %.16, %109 ]
-  %.0 = phi i32 [ 5, %22 ], [ %.1, %109 ]
-  %storemerge1 = phi i32 [ 0, %22 ], [ %110, %109 ]
-  %24 = icmp slt i32 %storemerge1, 1000000000
-  br i1 %24, label %25, label %.preheader
+19:                                               ; preds = %91, %18
+  %.07 = phi i32 [ 15, %18 ], [ %.29, %91 ]
+  %.04 = phi i32 [ 5, %18 ], [ %.26, %91 ]
+  %.12 = phi i32 [ 0, %18 ], [ %92, %91 ]
+  %.0 = phi i32 [ 0, %18 ], [ %.3, %91 ]
+  %20 = icmp ult i32 %.12, 1000000000
+  br i1 %20, label %21, label %93
 
-.preheader:                                       ; preds = %23
-  br label %111
+21:                                               ; preds = %19
+  %22 = sext i32 %.04 to i64
+  %23 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %22
+  %24 = load i64, ptr %23, align 8
+  %25 = mul i64 %24, 87
+  %26 = sdiv i64 %25, 4
+  %27 = add nsw i64 %26, 23
+  %28 = sext i32 %.07 to i64
+  %29 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %28
+  %30 = load i64, ptr %29, align 8
+  %31 = mul i64 %30, 231
+  %32 = sdiv i64 %31, 3
+  %33 = add nsw i64 %32, 59
+  %34 = add nsw i64 %33, %27
+  %35 = srem i64 %34, 1000
+  %36 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %35
+  %37 = load i64, ptr %36, align 8
+  %38 = add i64 %30, %24
+  %39 = add i64 %38, %37
+  %40 = mul nsw i64 %27, 11
+  %41 = mul nsw i64 %33, 13
+  %42 = mul nsw i64 %39, 17
+  %43 = zext i32 %.12 to i64
+  %44 = add i64 %40, %43
+  %45 = add i64 %44, %41
+  %46 = add i64 %45, %42
+  %47 = urem i32 %.12, 1000
+  %48 = zext i32 %47 to i64
+  %49 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %48
+  store i64 %46, ptr %49, align 8
+  %50 = icmp ult i32 %.12, 100
+  br i1 %50, label %51, label %91
 
-25:                                               ; preds = %23
-  %26 = sext i32 %.0 to i64
-  %27 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %26
-  %28 = load i64, ptr %27, align 8
-  %29 = mul i64 %28, 87
-  %30 = sdiv i64 %29, 4
-  %31 = add nsw i64 %30, 23
-  %32 = sext i32 %.05 to i64
-  %33 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %32
-  %34 = load i64, ptr %33, align 8
-  %35 = mul i64 %34, 231
-  %36 = sdiv i64 %35, 3
-  %37 = add nsw i64 %36, 59
-  %38 = add nsw i64 %37, %31
-  %39 = srem i64 %38, 1000
-  %40 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %39
-  %41 = load i64, ptr %40, align 8
-  %42 = sext i32 %.0 to i64
-  %43 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %42
-  %44 = load i64, ptr %43, align 8
-  %45 = add nsw i64 %44, %41
-  %46 = sext i32 %.05 to i64
-  %47 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %46
-  %48 = load i64, ptr %47, align 8
-  %49 = add nsw i64 %45, %48
-  %50 = mul nsw i64 %31, 11
-  %51 = mul nsw i64 %37, 13
-  %52 = mul nsw i64 %49, 17
-  %53 = sext i32 %storemerge1 to i64
-  %54 = add i64 %50, %53
-  %55 = add i64 %54, %51
-  %56 = add i64 %55, %52
-  %57 = srem i32 %storemerge1, 1000
-  %58 = sext i32 %57 to i64
-  %59 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %58
-  store i64 %56, ptr %59, align 8
-  %60 = icmp slt i32 %storemerge1, 100
-  br i1 %60, label %.preheader4, label %._crit_edge
+51:                                               ; preds = %21, %53
+  %.010 = phi i32 [ %85, %53 ], [ 0, %21 ]
+  %.1 = phi i32 [ %spec.select, %53 ], [ %.0, %21 ]
+  %52 = icmp ult i32 %.010, 1000000
+  br i1 %52, label %53, label %86
 
-._crit_edge:                                      ; preds = %25
-  br label %109
-
-.preheader4:                                      ; preds = %25
-  br label %61
-
-61:                                               ; preds = %.preheader4, %101
-  %.18 = phi i32 [ %.07, %.preheader4 ], [ %.2, %101 ]
-  %storemerge3 = phi i32 [ %102, %101 ], [ 0, %.preheader4 ]
-  %62 = icmp slt i32 %storemerge3, 1000000
-  br i1 %62, label %63, label %103
-
-63:                                               ; preds = %61
-  %64 = sext i32 %.18 to i64
-  %65 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %64
-  %66 = load i64, ptr %65, align 8
-  %67 = mul nsw i64 %66, 6
-  %68 = sext i32 %.18 to i64
+53:                                               ; preds = %51
+  %54 = sext i32 %.1 to i64
+  %55 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %54
+  %56 = load i64, ptr %55, align 8
+  %57 = mul nsw i64 %56, 6
+  %58 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %54
+  %59 = load i64, ptr %58, align 8
+  %60 = sdiv i64 %59, 2
+  %61 = add nsw i64 %60, %57
+  %62 = srem i64 %61, 1000
+  %63 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %62
+  %64 = load i64, ptr %63, align 8
+  %65 = shl nsw i64 %64, 1
+  %66 = shl nsw i64 %56, 2
+  %67 = add nsw i64 %65, %66
+  %68 = srem i64 %67, 1000
   %69 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %68
-  %70 = load i64, ptr %69, align 8
-  %71 = sdiv i64 %70, 2
-  %72 = add nsw i64 %71, %67
-  %73 = srem i64 %72, 1000
-  %74 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %73
-  %75 = load i64, ptr %74, align 8
-  %76 = shl nsw i64 %75, 1
-  %77 = sext i32 %.18 to i64
-  %78 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %77
-  %79 = load i64, ptr %78, align 8
-  %80 = shl nsw i64 %79, 2
-  %81 = add nsw i64 %80, %76
-  %82 = srem i64 %81, 1000
-  %83 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %82
-  %84 = load i64, ptr %83, align 16
-  %85 = mul nsw i64 %84, 6
-  %86 = sext i32 %.18 to i64
-  %87 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %86
-  %88 = load i64, ptr %87, align 8
-  %89 = mul nsw i64 %88, 3
-  %90 = add nsw i64 %89, %85
-  %91 = mul nsw i64 %90, 2
-  %92 = sext i32 %storemerge3 to i64
-  %93 = add i64 %72, %92
-  %94 = add i64 %93, %81
-  %95 = add i64 %94, %91
-  %96 = srem i32 %storemerge3, 100
-  %97 = sext i32 %96 to i64
-  %98 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %97
-  store i64 %95, ptr %98, align 8
-  %99 = icmp slt i32 %storemerge3, 10
-  br i1 %99, label %100, label %._crit_edge9
+  %70 = load i64, ptr %69, align 16
+  %71 = mul nsw i64 %70, 6
+  %72 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %54
+  %73 = load i64, ptr %72, align 8
+  %74 = mul nsw i64 %73, 3
+  %75 = add nsw i64 %74, %71
+  %76 = mul nsw i64 %75, 2
+  %77 = zext i32 %.010 to i64
+  %78 = add i64 %61, %77
+  %79 = add i64 %78, %67
+  %80 = add i64 %79, %76
+  %81 = urem i32 %.010, 100
+  %82 = zext i32 %81 to i64
+  %83 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %82
+  store i64 %80, ptr %83, align 8
+  %84 = icmp ult i32 %.010, 10
+  %spec.select = select i1 %84, i32 59, i32 %.1
+  %85 = add nuw nsw i32 %.010, 1
+  br label %51, !llvm.loop !8
 
-._crit_edge9:                                     ; preds = %63
-  br label %101
+86:                                               ; preds = %51
+  %87 = icmp eq i32 %.12, 0
+  br i1 %87, label %88, label %91
 
-100:                                              ; preds = %63
-  br label %101
+88:                                               ; preds = %86
+  %89 = call i32 @rand() #3
+  %90 = srem i32 %89, 1000
+  br label %91
 
-101:                                              ; preds = %._crit_edge9, %100
-  %.2 = phi i32 [ 59, %100 ], [ %.18, %._crit_edge9 ]
-  %102 = add nsw i32 %storemerge3, 1
-  br label %61, !llvm.loop !8
+91:                                               ; preds = %88, %86, %21
+  %.29 = phi i32 [ %.07, %21 ], [ %.07, %88 ], [ 37, %86 ]
+  %.26 = phi i32 [ %.04, %21 ], [ %90, %88 ], [ %.04, %86 ]
+  %.3 = phi i32 [ %.0, %21 ], [ %.1, %86 ], [ %.1, %88 ]
+  %92 = add nuw nsw i32 %.12, 1
+  br label %19, !llvm.loop !9
 
-103:                                              ; preds = %61
-  %.18.lcssa = phi i32 [ %.18, %61 ]
-  %104 = icmp eq i32 %storemerge1, 0
-  br i1 %104, label %105, label %108
+93:                                               ; preds = %19, %95
+  %.23 = phi i32 [ %100, %95 ], [ 0, %19 ]
+  %94 = icmp ult i32 %.23, 1000
+  br i1 %94, label %95, label %101
 
-105:                                              ; preds = %103
-  %106 = tail call i32 @rand() #3
-  %107 = srem i32 %106, 1000
-  br label %109
+95:                                               ; preds = %93
+  %96 = zext i32 %.23 to i64
+  %97 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %96
+  %98 = load i64, ptr %97, align 8
+  %99 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i64 noundef %98) #3
+  %100 = add nuw nsw i32 %.23, 1
+  br label %93, !llvm.loop !10
 
-108:                                              ; preds = %103
-  br label %109
-
-109:                                              ; preds = %._crit_edge, %108, %105
-  %.3 = phi i32 [ %.18.lcssa, %105 ], [ %.18.lcssa, %108 ], [ %.07, %._crit_edge ]
-  %.16 = phi i32 [ %.05, %105 ], [ 37, %108 ], [ %.05, %._crit_edge ]
-  %.1 = phi i32 [ %107, %105 ], [ %.0, %108 ], [ %.0, %._crit_edge ]
-  %110 = add nsw i32 %storemerge1, 1
-  br label %23, !llvm.loop !9
-
-111:                                              ; preds = %.preheader, %113
-  %storemerge2 = phi i32 [ %118, %113 ], [ 0, %.preheader ]
-  %112 = icmp slt i32 %storemerge2, 1000
-  br i1 %112, label %113, label %119
-
-113:                                              ; preds = %111
-  %114 = sext i32 %storemerge2 to i64
-  %115 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %114
-  %116 = load i64, ptr %115, align 8
-  %117 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i64 noundef %116) #3
-  %118 = add nsw i32 %storemerge2, 1
-  br label %111, !llvm.loop !10
-
-119:                                              ; preds = %111
+101:                                              ; preds = %93
   ret i32 0
 }
 
 ; Function Attrs: nounwind
-declare void @srand(i32 noundef) local_unnamed_addr #1
+declare void @srand(i32 noundef) #1
 
 ; Function Attrs: nounwind
-declare i32 @rand() local_unnamed_addr #1
+declare i32 @rand() #1
 
-declare i32 @printf(ptr noundef, ...) local_unnamed_addr #2
+declare i32 @printf(ptr noundef, ...) #2
 
 attributes #0 = { noinline nounwind uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
 attributes #1 = { nounwind "frame-pointer"="all" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }

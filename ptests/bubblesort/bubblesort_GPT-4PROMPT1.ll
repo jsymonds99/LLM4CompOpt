@@ -55,126 +55,145 @@ define dso_local i32 @Rand() #0 {
   %3 = add nsw i64 %2, 13849
   %4 = and i64 %3, 65535
   store i64 %4, ptr @seed, align 8
-  %5 = trunc i64 %4 to i32
-  ret i32 %5
+  %5 = load i64, ptr @seed, align 8
+  %6 = trunc i64 %5 to i32
+  ret i32 %6
 }
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local void @bInitarr() #0 {
+.lr.ph:
   call void @Initrand()
   store i32 0, ptr @biggest, align 4
   store i32 0, ptr @littlest, align 4
-  br label %1
+  br label %0
 
-1:                                                ; preds = %21, %0
-  %.0 = phi i32 [ 1, %0 ], [ %22, %21 ]
-  %2 = icmp sle i32 %.0, 500
-  br i1 %2, label %3, label %23
-
-3:                                                ; preds = %1
-  %4 = call i32 @Rand()
-  %5 = sext i32 %4 to i64
-  %6 = sdiv i64 %5, 100000
-  %7 = mul nsw i64 %6, 100000
-  %8 = sub nsw i64 %5, %7
-  %9 = sub nsw i64 %8, 50000
-  %10 = trunc i64 %9 to i32
-  %11 = sext i32 %.0 to i64
-  %12 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %11
-  store i32 %10, ptr %12, align 4
+0:                                                ; preds = %.lr.ph, %29
+  %.0 = phi i32 [ 1, %.lr.ph ], [ %30, %29 ]
+  %1 = call i32 @Rand()
+  %2 = sext i32 %1 to i64
+  %3 = sdiv i64 %2, 100000
+  %4 = mul nsw i64 %3, 100000
+  %5 = sub nsw i64 %2, %4
+  %6 = sub nsw i64 %5, 50000
+  %7 = trunc i64 %6 to i32
+  %8 = sext i32 %.0 to i64
+  %9 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %8
+  store i32 %7, ptr %9, align 4
+  %10 = sext i32 %.0 to i64
+  %11 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %10
+  %12 = load i32, ptr %11, align 4
   %13 = load i32, ptr @biggest, align 4
-  %14 = icmp sgt i32 %10, %13
-  br i1 %14, label %15, label %16
+  %14 = icmp sgt i32 %12, %13
+  br i1 %14, label %15, label %19
 
-15:                                               ; preds = %3
-  store i32 %10, ptr @biggest, align 4
-  br label %21
+15:                                               ; preds = %0
+  %16 = sext i32 %.0 to i64
+  %17 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %16
+  %18 = load i32, ptr %17, align 4
+  store i32 %18, ptr @biggest, align 4
+  br label %29
 
-16:                                               ; preds = %3
-  %17 = load i32, ptr @littlest, align 4
-  %18 = icmp slt i32 %10, %17
-  br i1 %18, label %19, label %20
+19:                                               ; preds = %0
+  %20 = sext i32 %.0 to i64
+  %21 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %20
+  %22 = load i32, ptr %21, align 4
+  %23 = load i32, ptr @littlest, align 4
+  %24 = icmp slt i32 %22, %23
+  br i1 %24, label %25, label %29
 
-19:                                               ; preds = %16
-  store i32 %10, ptr @littlest, align 4
-  br label %20
+25:                                               ; preds = %19
+  %26 = sext i32 %.0 to i64
+  %27 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %26
+  %28 = load i32, ptr %27, align 4
+  store i32 %28, ptr @littlest, align 4
+  br label %29
 
-20:                                               ; preds = %19, %16
-  br label %21
+29:                                               ; preds = %15, %25, %19
+  %30 = add nsw i32 %.0, 1
+  %31 = icmp sle i32 %30, 500
+  br i1 %31, label %0, label %._crit_edge, !llvm.loop !6
 
-21:                                               ; preds = %20, %15
-  %22 = add nsw i32 %.0, 1
-  br label %1, !llvm.loop !6
-
-23:                                               ; preds = %1
+._crit_edge:                                      ; preds = %29
   ret void
 }
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local void @Bubble(i32 noundef %0) #0 {
+.lr.ph2:
   call void @bInitarr()
   store i32 500, ptr @top, align 4
-  br label %2
+  br label %1
 
-2:                                                ; preds = %19, %1
-  %3 = phi i32 [ %20, %19 ], [ 500, %1 ]
-  %4 = icmp sgt i32 %3, 1
-  br i1 %4, label %5, label %21
+1:                                                ; preds = %.lr.ph2, %._crit_edge
+  %2 = load i32, ptr @top, align 4
+  %3 = icmp slt i32 1, %2
+  br i1 %3, label %.lr.ph, label %._crit_edge
 
-5:                                                ; preds = %2
-  br label %6
+.lr.ph:                                           ; preds = %1, %25
+  %.0 = phi i32 [ %26, %25 ], [ 1, %1 ]
+  %4 = sext i32 %.0 to i64
+  %5 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %4
+  %6 = load i32, ptr %5, align 4
+  %7 = add nsw i32 %.0, 1
+  %8 = sext i32 %7 to i64
+  %9 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %8
+  %10 = load i32, ptr %9, align 4
+  %11 = icmp sgt i32 %6, %10
+  br i1 %11, label %12, label %25
 
-6:                                                ; preds = %18, %5
-  %.0 = phi i32 [ 1, %5 ], [ %12, %18 ]
-  %7 = icmp slt i32 %.0, %3
-  br i1 %7, label %8, label %19
-
-8:                                                ; preds = %6
-  %9 = sext i32 %.0 to i64
-  %10 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %9
-  %11 = load i32, ptr %10, align 4
-  %12 = add nsw i32 %.0, 1
-  %13 = sext i32 %12 to i64
+12:                                               ; preds = %.lr.ph
+  %13 = sext i32 %.0 to i64
   %14 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %13
   %15 = load i32, ptr %14, align 4
-  %16 = icmp sgt i32 %11, %15
-  br i1 %16, label %17, label %18
+  %16 = add nsw i32 %.0, 1
+  %17 = sext i32 %16 to i64
+  %18 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %17
+  %19 = load i32, ptr %18, align 4
+  %20 = sext i32 %.0 to i64
+  %21 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %20
+  store i32 %19, ptr %21, align 4
+  %22 = add nsw i32 %.0, 1
+  %23 = sext i32 %22 to i64
+  %24 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %23
+  store i32 %15, ptr %24, align 4
+  br label %25
 
-17:                                               ; preds = %8
-  store i32 %15, ptr %10, align 4
-  store i32 %11, ptr %14, align 4
-  br label %18
+25:                                               ; preds = %12, %.lr.ph
+  %26 = add nsw i32 %.0, 1
+  %27 = load i32, ptr @top, align 4
+  %28 = icmp slt i32 %26, %27
+  br i1 %28, label %.lr.ph, label %._crit_edge, !llvm.loop !8
 
-18:                                               ; preds = %17, %8
-  br label %6, !llvm.loop !8
+._crit_edge:                                      ; preds = %25, %1
+  %29 = load i32, ptr @top, align 4
+  %30 = sub nsw i32 %29, 1
+  store i32 %30, ptr @top, align 4
+  %31 = icmp sgt i32 %30, 1
+  br i1 %31, label %1, label %._crit_edge3, !llvm.loop !9
 
-19:                                               ; preds = %6
-  %20 = sub nsw i32 %3, 1
-  store i32 %20, ptr @top, align 4
-  br label %2, !llvm.loop !9
+._crit_edge3:                                     ; preds = %._crit_edge
+  %32 = load i32, ptr getelementptr inbounds ([5001 x i32], ptr @sortlist, i64 0, i64 1), align 4
+  %33 = load i32, ptr @littlest, align 4
+  %34 = icmp ne i32 %32, %33
+  br i1 %34, label %39, label %35
 
-21:                                               ; preds = %2
-  %22 = load i32, ptr getelementptr inbounds ([5001 x i32], ptr @sortlist, i64 0, i64 1), align 4
-  %23 = load i32, ptr @littlest, align 4
-  %24 = icmp ne i32 %22, %23
-  br i1 %24, label %29, label %25
+35:                                               ; preds = %._crit_edge3
+  %36 = load i32, ptr getelementptr inbounds ([5001 x i32], ptr @sortlist, i64 0, i64 500), align 16
+  %37 = load i32, ptr @biggest, align 4
+  %38 = icmp ne i32 %36, %37
+  br i1 %38, label %39, label %41
 
-25:                                               ; preds = %21
-  %26 = load i32, ptr getelementptr inbounds ([5001 x i32], ptr @sortlist, i64 0, i64 500), align 16
-  %27 = load i32, ptr @biggest, align 4
-  %28 = icmp ne i32 %26, %27
-  br i1 %28, label %29, label %31
+39:                                               ; preds = %35, %._crit_edge3
+  %40 = call i32 (ptr, ...) @printf(ptr noundef @.str)
+  br label %41
 
-29:                                               ; preds = %25, %21
-  %30 = call i32 (ptr, ...) @printf(ptr noundef @.str)
-  br label %31
-
-31:                                               ; preds = %29, %25
-  %32 = add nsw i32 %0, 1
-  %33 = sext i32 %32 to i64
-  %34 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %33
-  %35 = load i32, ptr %34, align 4
-  %36 = call i32 (ptr, ...) @printf(ptr noundef @.str.1, i32 noundef %35)
+41:                                               ; preds = %39, %35
+  %42 = add nsw i32 %0, 1
+  %43 = sext i32 %42 to i64
+  %44 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %43
+  %45 = load i32, ptr %44, align 4
+  %46 = call i32 (ptr, ...) @printf(ptr noundef @.str.1, i32 noundef %45)
   ret void
 }
 
@@ -182,19 +201,17 @@ declare i32 @printf(ptr noundef, ...) #1
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local i32 @main() #0 {
-  br label %1
+.lr.ph:
+  br label %0
 
-1:                                                ; preds = %3, %0
-  %.0 = phi i32 [ 0, %0 ], [ %4, %3 ]
-  %2 = icmp slt i32 %.0, 100
-  br i1 %2, label %3, label %5
-
-3:                                                ; preds = %1
+0:                                                ; preds = %0, %.lr.ph
+  %.0 = phi i32 [ 0, %.lr.ph ], [ %1, %0 ]
   call void @Bubble(i32 noundef %.0)
-  %4 = add nsw i32 %.0, 1
-  br label %1, !llvm.loop !10
+  %1 = add nsw i32 %.0, 1
+  %2 = icmp slt i32 %1, 100
+  br i1 %2, label %0, label %._crit_edge, !llvm.loop !10
 
-5:                                                ; preds = %1
+._crit_edge:                                      ; preds = %0
   ret i32 0
 }
 

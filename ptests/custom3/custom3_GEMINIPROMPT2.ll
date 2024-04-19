@@ -3,59 +3,38 @@ source_filename = "custom3.c"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-unknown-linux-gnu"
 
-@.str = private unnamed_addr constant [4 x i8] c"%d\09\00", align 1
-@.str.1 = private unnamed_addr constant [2 x i8] c"\0A\00", align 1
-@.str.2 = private unnamed_addr constant [18 x i8] c"Original Matrix:\0A\00", align 1
-@.str.3 = private unnamed_addr constant [21 x i8] c"Manipulated Matrix:\0A\00", align 1
+@0 = private unnamed_addr constant [4 x i8] c"%d\09\00", align 1
 @str = private unnamed_addr constant [17 x i8] c"Original Matrix:\00", align 1
 @str.1 = private unnamed_addr constant [20 x i8] c"Manipulated Matrix:\00", align 1
 
 ; Function Attrs: noinline nounwind uwtable
-define dso_local void @printMatrix(ptr noundef %0) #0 {
+define internal void @printMatrix(ptr noundef %0) #0 {
   %2 = alloca ptr, align 8
   %3 = alloca i32, align 4
   %4 = alloca i32, align 4
+  %"reg2mem alloca point" = bitcast i32 0 to i32
   store ptr %0, ptr %2, align 8
-  br label %5
+  store i32 0, ptr %3, align 4
+  br label %codeRepl
 
-5:                                                ; preds = %19, %1
-  %6 = phi i32 [ 0, %1 ], [ %20, %19 ]
+codeRepl:                                         ; preds = %codeRepl, %1
+  call void @printMatrix.extracted(ptr %4, ptr %2, ptr %3)
+  %putchar2 = tail call i32 @putchar(i32 10)
+  %5 = load i32, ptr %3, align 4
+  %6 = add nsw i32 %5, 1
   store i32 %6, ptr %3, align 4
   %7 = icmp slt i32 %6, 5
-  br i1 %7, label %8, label %21
+  br i1 %7, label %codeRepl, label %8, !llvm.loop !6
 
-8:                                                ; preds = %5
-  br label %9
-
-9:                                                ; preds = %12, %8
-  %10 = phi i32 [ 0, %8 ], [ %18, %12 ]
-  store i32 %10, ptr %4, align 4
-  %11 = icmp slt i32 %10, 5
-  br i1 %11, label %12, label %19
-
-12:                                               ; preds = %9
-  %13 = sext i32 %6 to i64
-  %14 = sext i32 %10 to i64
-  %15 = getelementptr inbounds [5 x i32], ptr %0, i64 %13, i64 %14
-  %16 = load i32, ptr %15, align 4
-  %17 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef %16) #4
-  %18 = add nsw i32 %10, 1
-  br label %9, !llvm.loop !6
-
-19:                                               ; preds = %9
-  %putchar2 = call i32 @putchar(i32 10)
-  %20 = add nsw i32 %6, 1
-  br label %5, !llvm.loop !8
-
-21:                                               ; preds = %5
-  %putchar = call i32 @putchar(i32 10)
+8:                                                ; preds = %codeRepl
+  %putchar = tail call i32 @putchar(i32 10)
   ret void
 }
 
 declare i32 @printf(ptr noundef, ...) #1
 
 ; Function Attrs: noinline nounwind uwtable
-define dso_local void @manipulateMatrix(ptr noundef %0) #0 {
+define internal void @manipulateMatrix(ptr noundef %0) #0 {
   %2 = alloca ptr, align 8
   %3 = alloca i32, align 4
   %4 = alloca i32, align 4
@@ -63,231 +42,42 @@ define dso_local void @manipulateMatrix(ptr noundef %0) #0 {
   %6 = alloca i32, align 4
   %7 = alloca i32, align 4
   %8 = alloca i32, align 4
+  %"reg2mem alloca point" = bitcast i32 0 to i32
   store ptr %0, ptr %2, align 8
-  br label %9
+  store i32 0, ptr %3, align 4
+  br label %codeRepl
 
-9:                                                ; preds = %135, %1
-  %10 = phi ptr [ %0, %1 ], [ %19, %135 ]
-  %11 = phi ptr [ %0, %1 ], [ %20, %135 ]
-  %12 = phi ptr [ %0, %1 ], [ %23, %135 ]
-  %13 = phi ptr [ %0, %1 ], [ %25, %135 ]
-  %14 = phi i32 [ 0, %1 ], [ %136, %135 ]
-  store i32 %14, ptr %3, align 4
-  %15 = icmp slt i32 %14, 5
-  br i1 %15, label %16, label %137
+codeRepl:                                         ; preds = %codeRepl, %1
+  call void @manipulateMatrix.extracted(ptr %4, ptr %5, ptr %2, ptr %3, ptr %6, ptr %7, ptr %8)
+  %9 = load i32, ptr %3, align 4
+  %10 = add nsw i32 %9, 1
+  store i32 %10, ptr %3, align 4
+  %11 = icmp slt i32 %10, 5
+  br i1 %11, label %codeRepl, label %12, !llvm.loop !8
 
-16:                                               ; preds = %9
-  br label %17
-
-17:                                               ; preds = %133, %16
-  %18 = phi i32 [ %14, %16 ], [ %32, %133 ]
-  %19 = phi ptr [ %10, %16 ], [ %33, %133 ]
-  %20 = phi ptr [ %11, %16 ], [ %34, %133 ]
-  %21 = phi i32 [ %14, %16 ], [ %36, %133 ]
-  %22 = phi i32 [ %14, %16 ], [ %38, %133 ]
-  %23 = phi ptr [ %12, %16 ], [ %39, %133 ]
-  %24 = phi i32 [ %14, %16 ], [ %41, %133 ]
-  %25 = phi ptr [ %13, %16 ], [ %42, %133 ]
-  %26 = phi i32 [ %14, %16 ], [ %43, %133 ]
-  %27 = phi i32 [ 0, %16 ], [ %134, %133 ]
-  store i32 %27, ptr %4, align 4
-  %28 = icmp slt i32 %27, 5
-  br i1 %28, label %29, label %135
-
-29:                                               ; preds = %17
-  br label %30
-
-30:                                               ; preds = %130, %29
-  %31 = phi i32 [ %27, %29 ], [ %53, %130 ]
-  %32 = phi i32 [ %18, %29 ], [ %54, %130 ]
-  %33 = phi ptr [ %19, %29 ], [ %55, %130 ]
-  %34 = phi ptr [ %20, %29 ], [ %56, %130 ]
-  %35 = phi i32 [ %27, %29 ], [ %57, %130 ]
-  %36 = phi i32 [ %21, %29 ], [ %58, %130 ]
-  %37 = phi i32 [ %27, %29 ], [ %59, %130 ]
-  %38 = phi i32 [ %22, %29 ], [ %60, %130 ]
-  %39 = phi ptr [ %23, %29 ], [ %61, %130 ]
-  %40 = phi i32 [ %27, %29 ], [ %62, %130 ]
-  %41 = phi i32 [ %24, %29 ], [ %63, %130 ]
-  %42 = phi ptr [ %25, %29 ], [ %64, %130 ]
-  %43 = phi i32 [ %26, %29 ], [ %63, %130 ]
-  %44 = phi i32 [ 0, %29 ], [ %132, %130 ]
-  store i32 %44, ptr %5, align 4
-  %45 = icmp slt i32 %44, 5
-  br i1 %45, label %46, label %133
-
-46:                                               ; preds = %30
-  %47 = sext i32 %41 to i64
-  %48 = sext i32 %40 to i64
-  %49 = getelementptr inbounds [5 x i32], ptr %42, i64 %47, i64 %48
-  %50 = load i32, ptr %49, align 4
-  %51 = add nsw i32 %50, %44
-  store i32 %51, ptr %49, align 4
-  br label %52
-
-52:                                               ; preds = %127, %46
-  %53 = phi i32 [ %31, %46 ], [ %75, %127 ]
-  %54 = phi i32 [ %32, %46 ], [ %76, %127 ]
-  %55 = phi ptr [ %33, %46 ], [ %77, %127 ]
-  %56 = phi ptr [ %34, %46 ], [ %78, %127 ]
-  %57 = phi i32 [ %35, %46 ], [ %79, %127 ]
-  %58 = phi i32 [ %36, %46 ], [ %80, %127 ]
-  %59 = phi i32 [ %37, %46 ], [ %81, %127 ]
-  %60 = phi i32 [ %38, %46 ], [ %82, %127 ]
-  %61 = phi ptr [ %39, %46 ], [ %83, %127 ]
-  %62 = phi i32 [ %40, %46 ], [ %81, %127 ]
-  %63 = phi i32 [ %41, %46 ], [ %82, %127 ]
-  %64 = phi ptr [ %42, %46 ], [ %83, %127 ]
-  %65 = phi i32 [ 0, %46 ], [ %129, %127 ]
-  store i32 %65, ptr %6, align 4
-  %66 = icmp slt i32 %65, 5
-  br i1 %66, label %67, label %130
-
-67:                                               ; preds = %52
-  %68 = add nsw i32 %65, 1
-  %69 = sext i32 %60 to i64
-  %70 = sext i32 %59 to i64
-  %71 = getelementptr inbounds [5 x i32], ptr %61, i64 %69, i64 %70
-  %72 = load i32, ptr %71, align 4
-  %73 = mul nsw i32 %72, %68
-  store i32 %73, ptr %71, align 4
-  br label %74
-
-74:                                               ; preds = %124, %67
-  %75 = phi i32 [ %53, %67 ], [ %95, %124 ]
-  %76 = phi i32 [ %54, %67 ], [ %96, %124 ]
-  %77 = phi ptr [ %55, %67 ], [ %97, %124 ]
-  %78 = phi ptr [ %56, %67 ], [ %98, %124 ]
-  %79 = phi i32 [ %57, %67 ], [ %99, %124 ]
-  %80 = phi i32 [ %58, %67 ], [ %100, %124 ]
-  %81 = phi i32 [ %59, %67 ], [ %99, %124 ]
-  %82 = phi i32 [ %60, %67 ], [ %100, %124 ]
-  %83 = phi ptr [ %61, %67 ], [ %98, %124 ]
-  %84 = phi i32 [ 0, %67 ], [ %126, %124 ]
-  store i32 %84, ptr %7, align 4
-  %85 = icmp slt i32 %84, 5
-  br i1 %85, label %86, label %127
-
-86:                                               ; preds = %74
-  %87 = add nsw i32 %80, %79
-  %88 = mul nsw i32 %84, %87
-  %89 = sext i32 %80 to i64
-  %90 = sext i32 %79 to i64
-  %91 = getelementptr inbounds [5 x i32], ptr %78, i64 %89, i64 %90
-  %92 = load i32, ptr %91, align 4
-  %93 = sub nsw i32 %92, %88
-  store i32 %93, ptr %91, align 4
-  br label %94
-
-94:                                               ; preds = %118, %86
-  %95 = phi i32 [ %75, %86 ], [ %120, %118 ]
-  %96 = phi i32 [ %76, %86 ], [ %121, %118 ]
-  %97 = phi ptr [ %77, %86 ], [ %122, %118 ]
-  %98 = phi ptr [ %78, %86 ], [ %122, %118 ]
-  %99 = phi i32 [ %79, %86 ], [ %120, %118 ]
-  %100 = phi i32 [ %80, %86 ], [ %121, %118 ]
-  %101 = phi i32 [ 0, %86 ], [ %123, %118 ]
-  store i32 %101, ptr %8, align 4
-  %102 = icmp slt i32 %101, 5
-  br i1 %102, label %103, label %124
-
-103:                                              ; preds = %94
-  %104 = and i32 %101, 1
-  %105 = icmp eq i32 %104, 0
-  br i1 %105, label %106, label %112
-
-106:                                              ; preds = %103
-  %107 = sext i32 %14 to i64
-  %108 = sext i32 %27 to i64
-  %109 = getelementptr inbounds [5 x i32], ptr %0, i64 %107, i64 %108
-  %110 = load i32, ptr %109, align 4
-  %111 = add nsw i32 %110, %101
-  store i32 %111, ptr %109, align 4
-  br label %118
-
-112:                                              ; preds = %103
-  %113 = sext i32 %96 to i64
-  %114 = sext i32 %95 to i64
-  %115 = getelementptr inbounds [5 x i32], ptr %97, i64 %113, i64 %114
-  %116 = load i32, ptr %115, align 4
-  %117 = sub nsw i32 %116, %101
-  store i32 %117, ptr %115, align 4
-  %.pre = load i32, ptr %8, align 4
-  br label %118
-
-118:                                              ; preds = %112, %106
-  %119 = phi i32 [ %.pre, %112 ], [ %101, %106 ]
-  %120 = phi i32 [ %95, %112 ], [ %27, %106 ]
-  %121 = phi i32 [ %96, %112 ], [ %14, %106 ]
-  %122 = phi ptr [ %97, %112 ], [ %0, %106 ]
-  %123 = add nsw i32 %119, 1
-  br label %94, !llvm.loop !9
-
-124:                                              ; preds = %94
-  %125 = load i32, ptr %7, align 4
-  %126 = add nsw i32 %125, 1
-  br label %74, !llvm.loop !10
-
-127:                                              ; preds = %74
-  %128 = load i32, ptr %6, align 4
-  %129 = add nsw i32 %128, 1
-  br label %52, !llvm.loop !11
-
-130:                                              ; preds = %52
-  %131 = load i32, ptr %5, align 4
-  %132 = add nsw i32 %131, 1
-  br label %30, !llvm.loop !12
-
-133:                                              ; preds = %30
-  %134 = add nsw i32 %40, 1
-  br label %17, !llvm.loop !13
-
-135:                                              ; preds = %17
-  %136 = add nsw i32 %26, 1
-  br label %9, !llvm.loop !14
-
-137:                                              ; preds = %9
+12:                                               ; preds = %codeRepl
   ret void
 }
 
 ; Function Attrs: noinline nounwind uwtable
-define dso_local i32 @main() #0 {
+define internal i32 @main() #0 {
   %1 = alloca [5 x [5 x i32]], align 16
   %2 = alloca i32, align 4
   %3 = alloca i32, align 4
-  br label %4
+  %"reg2mem alloca point" = bitcast i32 0 to i32
+  store i32 0, ptr %2, align 4
+  br label %codeRepl
 
-4:                                                ; preds = %18, %0
-  %5 = phi i32 [ 0, %0 ], [ %19, %18 ]
+codeRepl:                                         ; preds = %codeRepl, %0
+  call void @main.extracted(ptr %3, ptr %2, ptr %1)
+  %4 = load i32, ptr %2, align 4
+  %5 = add nsw i32 %4, 1
   store i32 %5, ptr %2, align 4
   %6 = icmp slt i32 %5, 5
-  br i1 %6, label %7, label %20
+  br i1 %6, label %codeRepl, label %7, !llvm.loop !9
 
-7:                                                ; preds = %4
-  br label %8
-
-8:                                                ; preds = %11, %7
-  %9 = phi i32 [ 0, %7 ], [ %17, %11 ]
-  store i32 %9, ptr %3, align 4
-  %10 = icmp slt i32 %9, 5
-  br i1 %10, label %11, label %18
-
-11:                                               ; preds = %8
-  %12 = call i32 @rand() #4
-  %13 = srem i32 %12, 10
-  %14 = sext i32 %5 to i64
-  %15 = sext i32 %9 to i64
-  %16 = getelementptr inbounds [5 x [5 x i32]], ptr %1, i64 0, i64 %14, i64 %15
-  store i32 %13, ptr %16, align 4
-  %17 = add nsw i32 %9, 1
-  br label %8, !llvm.loop !15
-
-18:                                               ; preds = %8
-  %19 = add nsw i32 %5, 1
-  br label %4, !llvm.loop !16
-
-20:                                               ; preds = %4
-  %puts = call i32 @puts(ptr nonnull dereferenceable(1) @str)
+7:                                                ; preds = %codeRepl
+  %puts = tail call i32 @puts(ptr nonnull dereferenceable(1) @str)
   call void @printMatrix(ptr noundef nonnull %1)
   call void @manipulateMatrix(ptr noundef nonnull %1)
   %puts1 = call i32 @puts(ptr nonnull dereferenceable(1) @str.1)
@@ -303,6 +93,183 @@ declare noundef i32 @putchar(i32 noundef) #3
 
 ; Function Attrs: nofree nounwind
 declare noundef i32 @puts(ptr nocapture noundef readonly) #3
+
+; Function Attrs: noinline nounwind uwtable
+define internal void @printMatrix.extracted(ptr %0, ptr %1, ptr %2) #0 {
+newFuncRoot:
+  %"reg2mem alloca point" = bitcast i32 0 to i32
+  store i32 0, ptr %0, align 4
+  br label %._crit_edge
+
+._crit_edge:                                      ; preds = %._crit_edge, %newFuncRoot
+  %.reg2mem3.0 = phi i32 [ 0, %newFuncRoot ], [ %11, %._crit_edge ]
+  %3 = load ptr, ptr %1, align 8
+  %4 = load i32, ptr %2, align 4
+  %5 = sext i32 %4 to i64
+  %6 = sext i32 %.reg2mem3.0 to i64
+  %7 = getelementptr inbounds [5 x i32], ptr %3, i64 %5, i64 %6
+  %8 = load i32, ptr %7, align 4
+  %9 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @0, i32 noundef %8) #4
+  %10 = load i32, ptr %0, align 4
+  %11 = add nsw i32 %10, 1
+  store i32 %11, ptr %0, align 4
+  %12 = icmp slt i32 %11, 5
+  br i1 %12, label %._crit_edge, label %.exitStub, !llvm.loop !10
+
+.exitStub:                                        ; preds = %._crit_edge
+  ret void
+}
+
+; Function Attrs: noinline nounwind uwtable
+define internal void @manipulateMatrix.extracted(ptr %0, ptr %1, ptr %2, ptr %3, ptr %4, ptr %5, ptr %6) #0 {
+newFuncRoot:
+  %"reg2mem alloca point" = bitcast i32 0 to i32
+  store i32 0, ptr %0, align 4
+  br label %._crit_edge
+
+._crit_edge:                                      ; preds = %7, %newFuncRoot
+  store i32 0, ptr %1, align 4
+  br label %._crit_edge1
+
+7:                                                ; preds = %19
+  %8 = load i32, ptr %0, align 4
+  %9 = add nsw i32 %8, 1
+  store i32 %9, ptr %0, align 4
+  %10 = icmp slt i32 %9, 5
+  br i1 %10, label %._crit_edge, label %.exitStub, !llvm.loop !11
+
+._crit_edge1:                                     ; preds = %19, %._crit_edge
+  %.reg2mem29.0 = phi i32 [ 0, %._crit_edge ], [ %21, %19 ]
+  %11 = load ptr, ptr %2, align 8
+  %12 = load i32, ptr %3, align 4
+  %13 = sext i32 %12 to i64
+  %14 = load i32, ptr %0, align 4
+  %15 = sext i32 %14 to i64
+  %16 = getelementptr inbounds [5 x i32], ptr %11, i64 %13, i64 %15
+  %17 = load i32, ptr %16, align 4
+  %18 = add nsw i32 %17, %.reg2mem29.0
+  store i32 %18, ptr %16, align 4
+  store i32 0, ptr %4, align 4
+  br label %._crit_edge2
+
+19:                                               ; preds = %32
+  %20 = load i32, ptr %1, align 4
+  %21 = add nsw i32 %20, 1
+  store i32 %21, ptr %1, align 4
+  %22 = icmp slt i32 %21, 5
+  br i1 %22, label %._crit_edge1, label %7, !llvm.loop !12
+
+._crit_edge2:                                     ; preds = %32, %._crit_edge1
+  %.reg2mem27.0 = phi i32 [ 0, %._crit_edge1 ], [ %34, %32 ]
+  %23 = add nsw i32 %.reg2mem27.0, 1
+  %24 = load ptr, ptr %2, align 8
+  %25 = load i32, ptr %3, align 4
+  %26 = sext i32 %25 to i64
+  %27 = load i32, ptr %0, align 4
+  %28 = sext i32 %27 to i64
+  %29 = getelementptr inbounds [5 x i32], ptr %24, i64 %26, i64 %28
+  %30 = load i32, ptr %29, align 4
+  %31 = mul nsw i32 %30, %23
+  store i32 %31, ptr %29, align 4
+  store i32 0, ptr %5, align 4
+  br label %._crit_edge3
+
+32:                                               ; preds = %46
+  %33 = load i32, ptr %4, align 4
+  %34 = add nsw i32 %33, 1
+  store i32 %34, ptr %4, align 4
+  %35 = icmp slt i32 %34, 5
+  br i1 %35, label %._crit_edge2, label %19, !llvm.loop !13
+
+._crit_edge3:                                     ; preds = %46, %._crit_edge2
+  %.reg2mem25.0 = phi i32 [ 0, %._crit_edge2 ], [ %48, %46 ]
+  %36 = load i32, ptr %3, align 4
+  %37 = load i32, ptr %0, align 4
+  %38 = add nsw i32 %37, %36
+  %39 = mul nsw i32 %38, %.reg2mem25.0
+  %40 = load ptr, ptr %2, align 8
+  %41 = sext i32 %36 to i64
+  %42 = sext i32 %37 to i64
+  %43 = getelementptr inbounds [5 x i32], ptr %40, i64 %41, i64 %42
+  %44 = load i32, ptr %43, align 4
+  %45 = sub nsw i32 %44, %39
+  store i32 %45, ptr %43, align 4
+  store i32 0, ptr %6, align 4
+  br label %._crit_edge4
+
+46:                                               ; preds = %70
+  %47 = load i32, ptr %5, align 4
+  %48 = add nsw i32 %47, 1
+  store i32 %48, ptr %5, align 4
+  %49 = icmp slt i32 %48, 5
+  br i1 %49, label %._crit_edge3, label %32, !llvm.loop !14
+
+._crit_edge4:                                     ; preds = %70, %._crit_edge3
+  %.reg2mem23.0 = phi i32 [ 0, %._crit_edge3 ], [ %72, %70 ]
+  %50 = and i32 %.reg2mem23.0, 1
+  %51 = icmp eq i32 %50, 0
+  br i1 %51, label %61, label %52
+
+52:                                               ; preds = %._crit_edge4
+  %53 = load ptr, ptr %2, align 8
+  %54 = load i32, ptr %3, align 4
+  %55 = sext i32 %54 to i64
+  %56 = load i32, ptr %0, align 4
+  %57 = sext i32 %56 to i64
+  %58 = getelementptr inbounds [5 x i32], ptr %53, i64 %55, i64 %57
+  %59 = load i32, ptr %58, align 4
+  %60 = sub nsw i32 %59, %.reg2mem23.0
+  store i32 %60, ptr %58, align 4
+  br label %70
+
+61:                                               ; preds = %._crit_edge4
+  %62 = load ptr, ptr %2, align 8
+  %63 = load i32, ptr %3, align 4
+  %64 = sext i32 %63 to i64
+  %65 = load i32, ptr %0, align 4
+  %66 = sext i32 %65 to i64
+  %67 = getelementptr inbounds [5 x i32], ptr %62, i64 %64, i64 %66
+  %68 = load i32, ptr %67, align 4
+  %69 = add nsw i32 %68, %.reg2mem23.0
+  store i32 %69, ptr %67, align 4
+  br label %70
+
+70:                                               ; preds = %52, %61
+  %71 = load i32, ptr %6, align 4
+  %72 = add nsw i32 %71, 1
+  store i32 %72, ptr %6, align 4
+  %73 = icmp slt i32 %72, 5
+  br i1 %73, label %._crit_edge4, label %46, !llvm.loop !15
+
+.exitStub:                                        ; preds = %7
+  ret void
+}
+
+; Function Attrs: noinline nounwind uwtable
+define internal void @main.extracted(ptr %0, ptr %1, ptr %2) #0 {
+newFuncRoot:
+  %"reg2mem alloca point" = bitcast i32 0 to i32
+  store i32 0, ptr %0, align 4
+  br label %._crit_edge
+
+._crit_edge:                                      ; preds = %._crit_edge, %newFuncRoot
+  %3 = tail call i32 @rand() #4
+  %4 = srem i32 %3, 10
+  %5 = load i32, ptr %1, align 4
+  %6 = sext i32 %5 to i64
+  %7 = load i32, ptr %0, align 4
+  %8 = sext i32 %7 to i64
+  %9 = getelementptr inbounds [5 x [5 x i32]], ptr %2, i64 0, i64 %6, i64 %8
+  store i32 %4, ptr %9, align 4
+  %10 = load i32, ptr %0, align 4
+  %11 = add nsw i32 %10, 1
+  store i32 %11, ptr %0, align 4
+  %12 = icmp slt i32 %11, 5
+  br i1 %12, label %._crit_edge, label %.exitStub, !llvm.loop !16
+
+.exitStub:                                        ; preds = %._crit_edge
+  ret void
+}
 
 attributes #0 = { noinline nounwind uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
 attributes #1 = { "frame-pointer"="all" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }

@@ -41,7 +41,6 @@ target triple = "x86_64-unknown-linux-gnu"
 @e = dso_local global [130 x %struct.complex] zeroinitializer, align 16
 @zr = dso_local global float 0.000000e+00, align 4
 @zi = dso_local global float 0.000000e+00, align 4
-@str = private unnamed_addr constant [18 x i8] c" Error in Queens.\00", align 1
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local void @Initrand() #0 {
@@ -65,73 +64,92 @@ define dso_local void @Try(i32 noundef %0, ptr noundef %1, ptr noundef %2, ptr n
   store i32 0, ptr %1, align 4
   br label %7
 
-7:                                                ; preds = %36, %6
-  %8 = phi i32 [ 0, %6 ], [ %.pre, %36 ]
-  %.0 = phi i32 [ 0, %6 ], [ %12, %36 ]
-  %9 = icmp eq i32 %8, 0
-  %10 = icmp ne i32 %.0, 8
-  %or.cond = and i1 %9, %10
-  br i1 %or.cond, label %11, label %.thread
+7:                                                ; preds = %49, %6
+  %8 = phi ptr [ %50, %49 ], [ %1, %6 ]
+  %9 = phi ptr [ %51, %49 ], [ %1, %6 ]
+  %10 = phi i32 [ %18, %49 ], [ 0, %6 ]
+  %11 = phi i32 [ %.pre, %49 ], [ 0, %6 ]
+  %12 = icmp ne i32 %11, 0
+  br i1 %12, label %15, label %13
 
-11:                                               ; preds = %7
-  %12 = add nuw nsw i32 %.0, 1
-  store i32 0, ptr %1, align 4
-  %13 = zext i32 %12 to i64
-  %14 = getelementptr inbounds i32, ptr %3, i64 %13
-  %15 = load i32, ptr %14, align 4
-  %.not = icmp eq i32 %15, 0
-  br i1 %.not, label %36, label %16
+13:                                               ; preds = %7
+  %14 = icmp ne i32 %10, 8
+  br label %15
 
-16:                                               ; preds = %11
-  %17 = add nsw i32 %12, %0
-  %18 = sext i32 %17 to i64
-  %19 = getelementptr inbounds i32, ptr %2, i64 %18
-  %20 = load i32, ptr %19, align 4
-  %.not2 = icmp eq i32 %20, 0
-  br i1 %.not2, label %36, label %21
+15:                                               ; preds = %13, %7
+  %16 = phi i1 [ false, %7 ], [ %14, %13 ]
+  br i1 %16, label %17, label %52
 
-21:                                               ; preds = %16
-  %22 = sub nsw i32 %0, %12
-  %23 = add nsw i32 %22, 7
-  %24 = sext i32 %23 to i64
-  %25 = getelementptr inbounds i32, ptr %4, i64 %24
-  %26 = load i32, ptr %25, align 4
-  %.not3 = icmp eq i32 %26, 0
-  br i1 %.not3, label %36, label %27
+17:                                               ; preds = %15
+  %18 = add nsw i32 %10, 1
+  store i32 0, ptr %9, align 4
+  %19 = sext i32 %18 to i64
+  %20 = getelementptr inbounds i32, ptr %3, i64 %19
+  %21 = load i32, ptr %20, align 4
+  %22 = icmp ne i32 %21, 0
+  br i1 %22, label %23, label %49
 
-27:                                               ; preds = %21
-  %28 = sext i32 %0 to i64
-  %29 = getelementptr inbounds i32, ptr %5, i64 %28
-  store i32 %12, ptr %29, align 4
-  store i32 0, ptr %14, align 4
-  store i32 0, ptr %19, align 4
-  store i32 0, ptr %25, align 4
-  %30 = icmp slt i32 %0, 8
-  br i1 %30, label %31, label %35
+23:                                               ; preds = %17
+  %24 = add nsw i32 %0, %18
+  %25 = sext i32 %24 to i64
+  %26 = getelementptr inbounds i32, ptr %2, i64 %25
+  %27 = load i32, ptr %26, align 4
+  %28 = icmp ne i32 %27, 0
+  br i1 %28, label %29, label %49
 
-31:                                               ; preds = %27
-  %32 = add nsw i32 %0, 1
-  tail call void @Try(i32 noundef %32, ptr noundef nonnull %1, ptr noundef %2, ptr noundef %3, ptr noundef %4, ptr noundef %5)
-  %33 = load i32, ptr %1, align 4
-  %.not4 = icmp eq i32 %33, 0
-  br i1 %.not4, label %34, label %36
+29:                                               ; preds = %23
+  %30 = sub nsw i32 %0, %18
+  %31 = add nsw i32 %30, 7
+  %32 = sext i32 %31 to i64
+  %33 = getelementptr inbounds i32, ptr %4, i64 %32
+  %34 = load i32, ptr %33, align 4
+  %35 = icmp ne i32 %34, 0
+  br i1 %35, label %36, label %49
 
-34:                                               ; preds = %31
-  store i32 1, ptr %14, align 4
-  store i32 1, ptr %19, align 4
-  store i32 1, ptr %25, align 4
-  %.pre.pre = load i32, ptr %1, align 4
-  br label %36
+36:                                               ; preds = %29
+  %37 = sext i32 %0 to i64
+  %38 = getelementptr inbounds i32, ptr %5, i64 %37
+  store i32 %18, ptr %38, align 4
+  store i32 0, ptr %20, align 4
+  store i32 0, ptr %26, align 4
+  store i32 0, ptr %33, align 4
+  %39 = icmp slt i32 %0, 8
+  br i1 %39, label %40, label %46
 
-35:                                               ; preds = %27
-  store i32 1, ptr %1, align 4
-  br label %36
+40:                                               ; preds = %36
+  %41 = add nsw i32 %0, 1
+  tail call void @Try(i32 noundef %41, ptr noundef %8, ptr noundef %2, ptr noundef %3, ptr noundef %4, ptr noundef %5)
+  %42 = load i32, ptr %1, align 4
+  %43 = icmp ne i32 %42, 0
+  br i1 %43, label %45, label %44
 
-36:                                               ; preds = %35, %34, %31, %21, %16, %11
-  %.pre = phi i32 [ 1, %35 ], [ %.pre.pre, %34 ], [ %33, %31 ], [ 0, %21 ], [ 0, %16 ], [ 0, %11 ]
+44:                                               ; preds = %40
+  store i32 1, ptr %20, align 4
+  store i32 1, ptr %26, align 4
+  store i32 1, ptr %33, align 4
+  %.pre.pre.pre.pre = load i32, ptr %1, align 4
+  br label %45
+
+45:                                               ; preds = %44, %40
+  %.pre.pre.pre = phi i32 [ %.pre.pre.pre.pre, %44 ], [ %42, %40 ]
+  br label %47
+
+46:                                               ; preds = %36
+  store i32 1, ptr %8, align 4
+  br label %47
+
+47:                                               ; preds = %46, %45
+  %.pre.pre = phi i32 [ 1, %46 ], [ %.pre.pre.pre, %45 ]
+  %48 = phi ptr [ %8, %46 ], [ %1, %45 ]
+  br label %49
+
+49:                                               ; preds = %47, %29, %23, %17
+  %.pre = phi i32 [ %.pre.pre, %47 ], [ 0, %29 ], [ 0, %23 ], [ 0, %17 ]
+  %50 = phi ptr [ %48, %47 ], [ %8, %29 ], [ %8, %23 ], [ %8, %17 ]
+  %51 = phi ptr [ %48, %47 ], [ %9, %29 ], [ %9, %23 ], [ %9, %17 ]
   br label %7, !llvm.loop !6
 
-.thread:                                          ; preds = %7
+52:                                               ; preds = %15
   ret void
 }
 
@@ -142,69 +160,60 @@ define dso_local void @Doit() #0 {
   %3 = alloca [17 x i32], align 16
   %4 = alloca [15 x i32], align 16
   %5 = alloca [9 x i32], align 16
-  br i1 true, label %.lr.ph, label %.._crit_edge_crit_edge
+  br label %6
 
-.._crit_edge_crit_edge:                           ; preds = %0
-  br label %._crit_edge
+6:                                                ; preds = %0, %25
+  %7 = phi i32 [ -7, %0 ], [ %26, %25 ]
+  %8 = icmp sge i32 %7, 1
+  br i1 %8, label %9, label %14
 
-.lr.ph:                                           ; preds = %0, %22
-  %.0 = phi i32 [ -7, %0 ], [ %23, %22 ]
-  %6 = icmp sgt i32 %.0, 0
-  br i1 %6, label %7, label %thread-pre-split
+9:                                                ; preds = %6
+  %10 = icmp sle i32 %7, 8
+  br i1 %10, label %11, label %14
 
-7:                                                ; preds = %.lr.ph
-  %8 = icmp slt i32 %.0, 9
-  br i1 %8, label %9, label %.thread
+11:                                               ; preds = %9
+  %12 = sext i32 %7 to i64
+  %13 = getelementptr inbounds [9 x i32], ptr %2, i64 0, i64 %12
+  store i32 1, ptr %13, align 4
+  br label %14
 
-9:                                                ; preds = %7
-  %10 = sext i32 %.0 to i64
-  %11 = getelementptr inbounds [9 x i32], ptr %2, i64 0, i64 %10
-  store i32 1, ptr %11, align 4
-  br label %12
+14:                                               ; preds = %11, %9, %6
+  %15 = icmp sge i32 %7, 2
+  br i1 %15, label %16, label %19
 
-thread-pre-split:                                 ; preds = %.lr.ph
-  br label %12
+16:                                               ; preds = %14
+  %17 = sext i32 %7 to i64
+  %18 = getelementptr inbounds [17 x i32], ptr %3, i64 0, i64 %17
+  store i32 1, ptr %18, align 4
+  br label %19
 
-12:                                               ; preds = %thread-pre-split, %9
-  %13 = icmp sgt i32 %.0, 1
-  br i1 %13, label %.thread, label %thread-pre-split1
+19:                                               ; preds = %16, %14
+  %20 = icmp sle i32 %7, 7
+  br i1 %20, label %21, label %25
 
-.thread:                                          ; preds = %7, %12
-  %14 = sext i32 %.0 to i64
-  %15 = getelementptr inbounds [17 x i32], ptr %3, i64 0, i64 %14
-  store i32 1, ptr %15, align 4
-  br label %16
+21:                                               ; preds = %19
+  %22 = add nsw i32 %7, 7
+  %23 = sext i32 %22 to i64
+  %24 = getelementptr inbounds [15 x i32], ptr %4, i64 0, i64 %23
+  store i32 1, ptr %24, align 4
+  br label %25
 
-thread-pre-split1:                                ; preds = %12
-  br label %16
+25:                                               ; preds = %21, %19
+  %26 = add nsw i32 %7, 1
+  %27 = icmp sle i32 %26, 16
+  br i1 %27, label %6, label %28, !llvm.loop !8
 
-16:                                               ; preds = %thread-pre-split1, %.thread
-  %17 = icmp slt i32 %.0, 8
-  br i1 %17, label %18, label %22
+28:                                               ; preds = %25
+  call void @Try(i32 noundef 1, ptr noundef %1, ptr noundef %3, ptr noundef %2, ptr noundef %4, ptr noundef %5)
+  %29 = load i32, ptr %1, align 4
+  %30 = icmp ne i32 %29, 0
+  br i1 %30, label %33, label %31
 
-18:                                               ; preds = %16
-  %19 = add nsw i32 %.0, 7
-  %20 = sext i32 %19 to i64
-  %21 = getelementptr inbounds [15 x i32], ptr %4, i64 0, i64 %20
-  store i32 1, ptr %21, align 4
-  br label %22
+31:                                               ; preds = %28
+  %32 = call i32 (ptr, ...) @printf(ptr noundef @.str)
+  br label %33
 
-22:                                               ; preds = %18, %16
-  %23 = add nsw i32 %.0, 1
-  %24 = icmp slt i32 %.0, 16
-  br i1 %24, label %.lr.ph, label %._crit_edge, !llvm.loop !8
-
-._crit_edge:                                      ; preds = %.._crit_edge_crit_edge, %22
-  call void @Try(i32 noundef 1, ptr noundef nonnull %1, ptr noundef nonnull %3, ptr noundef nonnull %2, ptr noundef nonnull %4, ptr noundef nonnull %5)
-  %25 = load i32, ptr %1, align 4
-  %.not = icmp eq i32 %25, 0
-  br i1 %.not, label %26, label %27
-
-26:                                               ; preds = %._crit_edge
-  %puts = call i32 @puts(ptr nonnull dereferenceable(1) @str)
-  br label %27
-
-27:                                               ; preds = %26, %._crit_edge
+33:                                               ; preds = %31, %28
   ret void
 }
 
@@ -212,49 +221,38 @@ declare i32 @printf(ptr noundef, ...) #1
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local void @Queens(i32 noundef %0) #0 {
-  br i1 true, label %.lr.ph, label %.._crit_edge_crit_edge
+  br label %2
 
-.._crit_edge_crit_edge:                           ; preds = %1
-  br label %._crit_edge
-
-.lr.ph:                                           ; preds = %1, %.lr.ph
-  %.0 = phi i32 [ 1, %1 ], [ %2, %.lr.ph ]
+2:                                                ; preds = %1, %2
+  %3 = phi i32 [ 1, %1 ], [ %4, %2 ]
   tail call void @Doit()
-  %2 = add nuw nsw i32 %.0, 1
-  %3 = icmp ult i32 %.0, 50
-  br i1 %3, label %.lr.ph, label %._crit_edge, !llvm.loop !9
+  %4 = add nsw i32 %3, 1
+  %5 = icmp sle i32 %4, 50
+  br i1 %5, label %2, label %6, !llvm.loop !9
 
-._crit_edge:                                      ; preds = %.._crit_edge_crit_edge, %.lr.ph
-  %4 = add nsw i32 %0, 1
-  %5 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str.1, i32 noundef %4) #3
+6:                                                ; preds = %2
+  %7 = add nsw i32 %0, 1
+  %8 = tail call i32 (ptr, ...) @printf(ptr noundef @.str.1, i32 noundef %7)
   ret void
 }
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local i32 @main() #0 {
-  br i1 true, label %.lr.ph, label %.._crit_edge_crit_edge
+  br label %1
 
-.._crit_edge_crit_edge:                           ; preds = %0
-  br label %._crit_edge
+1:                                                ; preds = %0, %1
+  %2 = phi i32 [ 0, %0 ], [ %3, %1 ]
+  tail call void @Queens(i32 noundef %2)
+  %3 = add nsw i32 %2, 1
+  %4 = icmp slt i32 %3, 100
+  br i1 %4, label %1, label %5, !llvm.loop !10
 
-.lr.ph:                                           ; preds = %0, %.lr.ph
-  %.0 = phi i32 [ 0, %0 ], [ %1, %.lr.ph ]
-  tail call void @Queens(i32 noundef %.0)
-  %1 = add nuw nsw i32 %.0, 1
-  %2 = icmp ult i32 %.0, 99
-  br i1 %2, label %.lr.ph, label %._crit_edge, !llvm.loop !10
-
-._crit_edge:                                      ; preds = %.._crit_edge_crit_edge, %.lr.ph
+5:                                                ; preds = %1
   ret i32 0
 }
 
-; Function Attrs: nofree nounwind
-declare noundef i32 @puts(ptr nocapture noundef readonly) #2
-
 attributes #0 = { noinline nounwind uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
 attributes #1 = { "frame-pointer"="all" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
-attributes #2 = { nofree nounwind }
-attributes #3 = { nounwind }
 
 !llvm.module.flags = !{!0, !1, !2, !3, !4}
 !llvm.ident = !{!5}

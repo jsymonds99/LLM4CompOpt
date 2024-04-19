@@ -1,16 +1,24 @@
 Unoptimized instruction count: 
 198
 GEMINIPROMPT1 instruction count: 
-117
+97
 GEMINIPROMPT2 instruction count: 
-153
+89
 GEMINIPROMPT3 instruction count: 
-145
+129
 GPT-4PROMPT1 instruction count: 
-144
-GPT-4PROMPT2 instruction count: 
 105
+GPT-4PROMPT2 instruction count: 
+104
 GPT-4PROMPT3 instruction count: 
-110
+95
+GEMINIPROMPT1(ablation) instruction count: 
+117
+GEMINIPROMPT2(ablation) instruction count: 
+106
+GPT-4PROMPT1(ablation) instruction count: 
+99
+GPT-4PROMPT2(ablation) instruction count: 
+102
 -Oz instruction count: 
 94

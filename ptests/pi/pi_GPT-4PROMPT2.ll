@@ -9,146 +9,87 @@ target triple = "x86_64-unknown-linux-gnu"
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local void @myadd(ptr noundef %0, ptr noundef %1) #0 {
-  %3 = alloca ptr, align 8
-  %4 = alloca ptr, align 8
-  store ptr %0, ptr %3, align 8
-  store ptr %1, ptr %4, align 8
-  %5 = load ptr, ptr %3, align 8
-  %6 = load float, ptr %5, align 4
-  %7 = load ptr, ptr %4, align 8
-  %8 = load float, ptr %7, align 4
-  %9 = fadd float %6, %8
-  %10 = load ptr, ptr %3, align 8
-  store float %9, ptr %10, align 4
+  %3 = load float, ptr %0, align 4
+  %4 = load float, ptr %1, align 4
+  %5 = fadd float %3, %4
+  store float %5, ptr %0, align 4
   ret void
 }
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local i32 @main(i32 noundef %0, ptr noundef %1) #0 {
-  %3 = alloca i32, align 4
-  %4 = alloca i32, align 4
-  %5 = alloca ptr, align 8
-  %6 = alloca float, align 4
-  %7 = alloca float, align 4
-  %8 = alloca float, align 4
-  %9 = alloca float, align 4
-  %10 = alloca float, align 4
-  %11 = alloca float, align 4
-  %12 = alloca float, align 4
-  %13 = alloca float, align 4
-  %14 = alloca float, align 4
-  %15 = alloca i64, align 8
-  %16 = alloca i64, align 8
-  %17 = alloca i64, align 8
-  %18 = alloca i64, align 8
-  %19 = alloca i64, align 8
-  store i32 0, ptr %3, align 4
-  store i32 %0, ptr %4, align 4
-  store ptr %1, ptr %5, align 8
-  %20 = call i32 (ptr, ...) @printf(ptr noundef @.str)
-  store float 0.000000e+00, ptr %6, align 4
-  store i64 1, ptr %15, align 8
-  store i64 1907, ptr %16, align 8
-  store float 5.813000e+03, ptr %7, align 4
-  store float 1.307000e+03, ptr %8, align 4
-  store float 5.471000e+03, ptr %9, align 4
-  store i64 40000000, ptr %17, align 8
-  store i64 1, ptr %18, align 8
-  br label %21
+  %3 = alloca float, align 4
+  %4 = alloca float, align 4
+  %5 = call i32 (ptr, ...) @printf(ptr noundef @.str)
+  store float 0.000000e+00, ptr %3, align 4
+  br label %6
 
-21:                                               ; preds = %65, %2
-  %22 = load i64, ptr %18, align 8
-  %23 = load i64, ptr %17, align 8
-  %24 = icmp sle i64 %22, %23
-  br i1 %24, label %25, label %68
+6:                                                ; preds = %32, %2
+  %.05 = phi float [ undef, %2 ], [ %16, %32 ]
+  %.04 = phi float [ undef, %2 ], [ %23, %32 ]
+  %.03 = phi float [ 5.813000e+03, %2 ], [ %22, %32 ]
+  %.02 = phi i64 [ 1, %2 ], [ %.1, %32 ]
+  %.01 = phi i64 [ 1907, %2 ], [ %12, %32 ]
+  %.0 = phi i64 [ 1, %2 ], [ %33, %32 ]
+  %7 = icmp sle i64 %.0, 40000000
+  br i1 %7, label %8, label %34
 
-25:                                               ; preds = %21
-  %26 = load i64, ptr %16, align 8
-  %27 = mul nsw i64 27611, %26
-  store i64 %27, ptr %19, align 8
-  %28 = load i64, ptr %19, align 8
-  %29 = load i64, ptr %19, align 8
-  %30 = sdiv i64 %29, 74383
-  %31 = mul nsw i64 74383, %30
-  %32 = sub nsw i64 %28, %31
-  store i64 %32, ptr %16, align 8
-  %33 = load i64, ptr %16, align 8
-  %34 = sitofp i64 %33 to float
-  %35 = fpext float %34 to double
-  %36 = fdiv double %35, 7.438300e+04
-  %37 = fptrunc double %36 to float
-  store float %37, ptr %10, align 4
-  %38 = load float, ptr %8, align 4
-  %39 = load float, ptr %7, align 4
-  %40 = fmul float %38, %39
-  store float %40, ptr %14, align 4
-  %41 = load float, ptr %14, align 4
-  %42 = load float, ptr %9, align 4
-  %43 = load float, ptr %14, align 4
-  %44 = load float, ptr %9, align 4
-  %45 = fdiv float %43, %44
-  %46 = fptosi float %45 to i64
-  %47 = sitofp i64 %46 to float
-  %48 = fneg float %42
-  %49 = call float @llvm.fmuladd.f32(float %48, float %47, float %41)
-  store float %49, ptr %7, align 4
-  %50 = load float, ptr %7, align 4
-  %51 = load float, ptr %9, align 4
-  %52 = fdiv float %50, %51
-  store float %52, ptr %11, align 4
-  %53 = load float, ptr %10, align 4
-  %54 = load float, ptr %10, align 4
-  %55 = load float, ptr %11, align 4
-  %56 = load float, ptr %11, align 4
-  %57 = fmul float %55, %56
-  %58 = call float @llvm.fmuladd.f32(float %53, float %54, float %57)
-  store float %58, ptr %12, align 4
-  call void @myadd(ptr noundef %6, ptr noundef %12)
-  %59 = load float, ptr %12, align 4
-  %60 = fpext float %59 to double
-  %61 = fcmp ole double %60, 1.000000e+00
-  br i1 %61, label %62, label %65
+8:                                                ; preds = %6
+  %9 = mul nsw i64 27611, %.01
+  %10 = sdiv i64 %9, 74383
+  %11 = mul nsw i64 74383, %10
+  %12 = sub nsw i64 %9, %11
+  %13 = sitofp i64 %12 to float
+  %14 = fpext float %13 to double
+  %15 = fdiv double %14, 7.438300e+04
+  %16 = fptrunc double %15 to float
+  %17 = fmul float 1.307000e+03, %.03
+  %18 = fdiv float %17, 5.471000e+03
+  %19 = fptosi float %18 to i64
+  %20 = sitofp i64 %19 to float
+  %21 = fneg float 5.471000e+03
+  %22 = call float @llvm.fmuladd.f32(float %21, float %20, float %17)
+  %23 = fdiv float %22, 5.471000e+03
+  %24 = fmul float %23, %23
+  %25 = call float @llvm.fmuladd.f32(float %16, float %16, float %24)
+  store float %25, ptr %4, align 4
+  call void @myadd(ptr noundef %3, ptr noundef %4)
+  %26 = load float, ptr %4, align 4
+  %27 = fpext float %26 to double
+  %28 = fcmp ole double %27, 1.000000e+00
+  br i1 %28, label %29, label %31
 
-62:                                               ; preds = %25
-  %63 = load i64, ptr %15, align 8
-  %64 = add nsw i64 %63, 1
-  store i64 %64, ptr %15, align 8
-  br label %65
+29:                                               ; preds = %8
+  %30 = add nsw i64 %.02, 1
+  br label %31
 
-65:                                               ; preds = %25, %62
-  %66 = load i64, ptr %18, align 8
-  %67 = add nsw i64 %66, 1
-  store i64 %67, ptr %18, align 8
-  br label %21, !llvm.loop !6
+31:                                               ; preds = %29, %8
+  %.1 = phi i64 [ %30, %29 ], [ %.02, %8 ]
+  br label %32
 
-68:                                               ; preds = %21
-  %69 = load float, ptr %10, align 4
-  %70 = fpext float %69 to double
-  %71 = load float, ptr %11, align 4
-  %72 = fpext float %71 to double
-  %73 = load i64, ptr %15, align 8
-  %74 = trunc i64 %73 to i32
-  %75 = load i64, ptr %18, align 8
-  %76 = trunc i64 %75 to i32
-  %77 = call i32 (ptr, ...) @printf(ptr noundef @.str.1, double noundef %70, double noundef %72, i32 noundef %74, i32 noundef %76)
-  %78 = load i64, ptr %15, align 8
-  %79 = sitofp i64 %78 to float
-  %80 = fpext float %79 to double
-  %81 = fmul double 4.000000e+00, %80
-  %82 = load i64, ptr %17, align 8
-  %83 = sitofp i64 %82 to float
-  %84 = fpext float %83 to double
-  %85 = fdiv double %81, %84
-  %86 = fptrunc double %85 to float
-  store float %86, ptr %13, align 4
-  %87 = load float, ptr %13, align 4
-  %88 = fpext float %87 to double
-  %89 = load float, ptr %6, align 4
-  %90 = fpext float %89 to double
-  %91 = fmul double %90, 0.000000e+00
-  %92 = load i64, ptr %17, align 8
-  %93 = trunc i64 %92 to i32
-  %94 = call i32 (ptr, ...) @printf(ptr noundef @.str.2, double noundef %88, double noundef %91, i32 noundef %93)
+32:                                               ; preds = %31
+  %33 = add nsw i64 %.0, 1
+  br label %6, !llvm.loop !6
+
+34:                                               ; preds = %6
+  %35 = fpext float %.05 to double
+  %36 = fpext float %.04 to double
+  %37 = trunc i64 %.02 to i32
+  %38 = trunc i64 %.0 to i32
+  %39 = call i32 (ptr, ...) @printf(ptr noundef @.str.1, double noundef %35, double noundef %36, i32 noundef %37, i32 noundef %38)
+  %40 = sitofp i64 %.02 to float
+  %41 = fpext float %40 to double
+  %42 = fmul double 4.000000e+00, %41
+  %43 = sitofp i64 40000000 to float
+  %44 = fpext float %43 to double
+  %45 = fdiv double %42, %44
+  %46 = fptrunc double %45 to float
+  %47 = fpext float %46 to double
+  %48 = load float, ptr %3, align 4
+  %49 = fpext float %48 to double
+  %50 = fmul double %49, 0.000000e+00
+  %51 = trunc i64 40000000 to i32
+  %52 = call i32 (ptr, ...) @printf(ptr noundef @.str.2, double noundef %47, double noundef %50, i32 noundef %51)
   ret i32 0
 }
 

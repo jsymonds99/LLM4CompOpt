@@ -7,42 +7,41 @@ target triple = "x86_64-unknown-linux-gnu"
 @.str.1 = private unnamed_addr constant [2 x i8] c"\0A\00", align 1
 @.str.2 = private unnamed_addr constant [18 x i8] c"Original Matrix:\0A\00", align 1
 @.str.3 = private unnamed_addr constant [21 x i8] c"Manipulated Matrix:\0A\00", align 1
-@str = private unnamed_addr constant [17 x i8] c"Original Matrix:\00", align 1
-@str.1 = private unnamed_addr constant [20 x i8] c"Manipulated Matrix:\00", align 1
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local void @printMatrix(ptr noundef %0) #0 {
   br label %2
 
-2:                                                ; preds = %14, %1
-  %.06 = phi i32 [ 0, %1 ], [ %15, %14 ]
-  %3 = icmp ult i32 %.06, 5
-  br i1 %3, label %4, label %16
+2:                                                ; preds = %15, %1
+  %.01 = phi i32 [ 0, %1 ], [ %17, %15 ]
+  %3 = icmp slt i32 %.01, 5
+  br i1 %3, label %4, label %18
 
 4:                                                ; preds = %2
   br label %5
 
 5:                                                ; preds = %7, %4
-  %.0 = phi i32 [ 0, %4 ], [ %13, %7 ]
-  %6 = icmp ult i32 %.0, 5
-  br i1 %6, label %7, label %14
+  %.0 = phi i32 [ 0, %4 ], [ %14, %7 ]
+  %6 = icmp slt i32 %.0, 5
+  br i1 %6, label %7, label %15
 
 7:                                                ; preds = %5
-  %8 = zext i32 %.06 to i64
-  %9 = zext i32 %.0 to i64
-  %10 = getelementptr inbounds [5 x i32], ptr %0, i64 %8, i64 %9
-  %11 = load i32, ptr %10, align 4
-  %12 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef %11) #4
-  %13 = add nuw nsw i32 %.0, 1
+  %8 = sext i32 %.01 to i64
+  %9 = getelementptr inbounds [5 x i32], ptr %0, i64 %8
+  %10 = sext i32 %.0 to i64
+  %11 = getelementptr inbounds [5 x i32], ptr %9, i64 0, i64 %10
+  %12 = load i32, ptr %11, align 4
+  %13 = call i32 (ptr, ...) @printf(ptr noundef @.str, i32 noundef %12)
+  %14 = add nsw i32 %.0, 1
   br label %5, !llvm.loop !6
 
-14:                                               ; preds = %5
-  %putchar7 = call i32 @putchar(i32 10)
-  %15 = add nuw nsw i32 %.06, 1
+15:                                               ; preds = %5
+  %16 = call i32 (ptr, ...) @printf(ptr noundef @.str.1)
+  %17 = add nsw i32 %.01, 1
   br label %2, !llvm.loop !8
 
-16:                                               ; preds = %2
-  %putchar = call i32 @putchar(i32 10)
+18:                                               ; preds = %2
+  %19 = call i32 (ptr, ...) @printf(ptr noundef @.str.1)
   ret void
 }
 
@@ -52,106 +51,108 @@ declare i32 @printf(ptr noundef, ...) #1
 define dso_local void @manipulateMatrix(ptr noundef %0) #0 {
   br label %2
 
-2:                                                ; preds = %48, %1
-  %.038 = phi i32 [ 0, %1 ], [ %49, %48 ]
-  %3 = icmp ult i32 %.038, 5
-  br i1 %3, label %4, label %50
+2:                                                ; preds = %50, %1
+  %.01 = phi i32 [ 0, %1 ], [ %51, %50 ]
+  %3 = icmp slt i32 %.01, 5
+  br i1 %3, label %4, label %52
 
 4:                                                ; preds = %2
   br label %5
 
-5:                                                ; preds = %46, %4
-  %.037 = phi i32 [ 0, %4 ], [ %47, %46 ]
-  %6 = icmp ult i32 %.037, 5
-  br i1 %6, label %7, label %48
+5:                                                ; preds = %48, %4
+  %.02 = phi i32 [ 0, %4 ], [ %49, %48 ]
+  %6 = icmp slt i32 %.02, 5
+  br i1 %6, label %7, label %50
 
 7:                                                ; preds = %5
   br label %8
 
-8:                                                ; preds = %44, %7
-  %.036 = phi i32 [ 0, %7 ], [ %45, %44 ]
-  %9 = icmp ult i32 %.036, 5
-  br i1 %9, label %10, label %46
+8:                                                ; preds = %46, %7
+  %.03 = phi i32 [ 0, %7 ], [ %47, %46 ]
+  %9 = icmp slt i32 %.03, 5
+  br i1 %9, label %10, label %48
 
 10:                                               ; preds = %8
-  %11 = zext i32 %.038 to i64
-  %12 = zext i32 %.037 to i64
-  %13 = getelementptr inbounds [5 x i32], ptr %0, i64 %11, i64 %12
-  %14 = load i32, ptr %13, align 4
-  %15 = add nsw i32 %14, %.036
-  store i32 %15, ptr %13, align 4
-  br label %16
+  %11 = sext i32 %.01 to i64
+  %12 = getelementptr inbounds [5 x i32], ptr %0, i64 %11
+  %13 = sext i32 %.02 to i64
+  %14 = getelementptr inbounds [5 x i32], ptr %12, i64 0, i64 %13
+  %15 = load i32, ptr %14, align 4
+  %16 = add nsw i32 %15, %.03
+  store i32 %16, ptr %14, align 4
+  br label %17
 
-16:                                               ; preds = %43, %10
-  %17 = phi i32 [ %15, %10 ], [ %23, %43 ]
-  %.035 = phi i32 [ 0, %10 ], [ %20, %43 ]
-  %18 = icmp ult i32 %.035, 5
-  br i1 %18, label %19, label %44
+17:                                               ; preds = %45, %10
+  %18 = phi i32 [ %16, %10 ], [ %24, %45 ]
+  %.04 = phi i32 [ 0, %10 ], [ %21, %45 ]
+  %19 = icmp slt i32 %.04, 5
+  br i1 %19, label %20, label %46
 
-19:                                               ; preds = %16
-  %20 = add nuw nsw i32 %.035, 1
-  %21 = mul nsw i32 %17, %20
-  store i32 %21, ptr %13, align 4
-  br label %22
+20:                                               ; preds = %17
+  %21 = add nsw i32 %.04, 1
+  %22 = mul nsw i32 %18, %21
+  store i32 %22, ptr %14, align 4
+  br label %23
 
-22:                                               ; preds = %41, %19
-  %23 = phi i32 [ %21, %19 ], [ %30, %41 ]
-  %.034 = phi i32 [ 0, %19 ], [ %42, %41 ]
-  %24 = icmp ult i32 %.034, 5
-  br i1 %24, label %25, label %43
+23:                                               ; preds = %43, %20
+  %24 = phi i32 [ %22, %20 ], [ %31, %43 ]
+  %.05 = phi i32 [ 0, %20 ], [ %44, %43 ]
+  %25 = icmp slt i32 %.05, 5
+  br i1 %25, label %26, label %45
 
-25:                                               ; preds = %22
-  %26 = add nuw nsw i32 %.038, %.037
-  %27 = mul nsw i32 %.034, %26
-  %28 = sub nsw i32 %23, %27
-  store i32 %28, ptr %13, align 4
-  br label %29
+26:                                               ; preds = %23
+  %27 = add nsw i32 %.01, %.02
+  %28 = mul nsw i32 %.05, %27
+  %29 = sub nsw i32 %24, %28
+  store i32 %29, ptr %14, align 4
+  br label %30
 
-29:                                               ; preds = %39, %25
-  %30 = phi i32 [ %28, %25 ], [ %storemerge, %39 ]
-  %.0 = phi i32 [ 0, %25 ], [ %40, %39 ]
-  %31 = icmp ult i32 %.0, 5
-  br i1 %31, label %32, label %41
+30:                                               ; preds = %40, %26
+  %31 = phi i32 [ %29, %26 ], [ %41, %40 ]
+  %.0 = phi i32 [ 0, %26 ], [ %42, %40 ]
+  %32 = icmp slt i32 %.0, 5
+  br i1 %32, label %33, label %43
 
-32:                                               ; preds = %29
-  %33 = and i32 %.0, 1
-  %34 = icmp eq i32 %33, 0
-  br i1 %34, label %35, label %37
+33:                                               ; preds = %30
+  %34 = srem i32 %.0, 2
+  %35 = icmp eq i32 %34, 0
+  br i1 %35, label %36, label %38
 
-35:                                               ; preds = %32
-  %36 = add nsw i32 %30, %.0
-  br label %39
+36:                                               ; preds = %33
+  %37 = add nsw i32 %31, %.0
+  store i32 %37, ptr %14, align 4
+  br label %40
 
-37:                                               ; preds = %32
-  %38 = sub nsw i32 %30, %.0
-  br label %39
+38:                                               ; preds = %33
+  %39 = sub nsw i32 %31, %.0
+  store i32 %39, ptr %14, align 4
+  br label %40
 
-39:                                               ; preds = %35, %37
-  %storemerge = phi i32 [ %38, %37 ], [ %36, %35 ]
-  store i32 %storemerge, ptr %13, align 4
-  %40 = add nuw nsw i32 %.0, 1
-  br label %29, !llvm.loop !9
+40:                                               ; preds = %38, %36
+  %41 = phi i32 [ %39, %38 ], [ %37, %36 ]
+  %42 = add nsw i32 %.0, 1
+  br label %30, !llvm.loop !9
 
-41:                                               ; preds = %29
-  %42 = add nuw nsw i32 %.034, 1
-  br label %22, !llvm.loop !10
+43:                                               ; preds = %30
+  %44 = add nsw i32 %.05, 1
+  br label %23, !llvm.loop !10
 
-43:                                               ; preds = %22
-  br label %16, !llvm.loop !11
+45:                                               ; preds = %23
+  br label %17, !llvm.loop !11
 
-44:                                               ; preds = %16
-  %45 = add nuw nsw i32 %.036, 1
+46:                                               ; preds = %17
+  %47 = add nsw i32 %.03, 1
   br label %8, !llvm.loop !12
 
-46:                                               ; preds = %8
-  %47 = add nuw nsw i32 %.037, 1
+48:                                               ; preds = %8
+  %49 = add nsw i32 %.02, 1
   br label %5, !llvm.loop !13
 
-48:                                               ; preds = %5
-  %49 = add nuw nsw i32 %.038, 1
+50:                                               ; preds = %5
+  %51 = add nsw i32 %.01, 1
   br label %2, !llvm.loop !14
 
-50:                                               ; preds = %2
+52:                                               ; preds = %2
   ret void
 }
 
@@ -160,56 +161,50 @@ define dso_local i32 @main() #0 {
   %1 = alloca [5 x [5 x i32]], align 16
   br label %2
 
-2:                                                ; preds = %14, %0
-  %.06 = phi i32 [ 0, %0 ], [ %15, %14 ]
-  %3 = icmp ult i32 %.06, 5
-  br i1 %3, label %4, label %16
+2:                                                ; preds = %15, %0
+  %.01 = phi i32 [ 0, %0 ], [ %16, %15 ]
+  %3 = icmp slt i32 %.01, 5
+  br i1 %3, label %4, label %17
 
 4:                                                ; preds = %2
   br label %5
 
 5:                                                ; preds = %7, %4
-  %.0 = phi i32 [ 0, %4 ], [ %13, %7 ]
-  %6 = icmp ult i32 %.0, 5
-  br i1 %6, label %7, label %14
+  %.0 = phi i32 [ 0, %4 ], [ %14, %7 ]
+  %6 = icmp slt i32 %.0, 5
+  br i1 %6, label %7, label %15
 
 7:                                                ; preds = %5
-  %8 = call i32 @rand() #4
+  %8 = call i32 @rand() #3
   %9 = srem i32 %8, 10
-  %10 = zext i32 %.06 to i64
-  %11 = zext i32 %.0 to i64
-  %12 = getelementptr inbounds [5 x [5 x i32]], ptr %1, i64 0, i64 %10, i64 %11
-  store i32 %9, ptr %12, align 4
-  %13 = add nuw nsw i32 %.0, 1
+  %10 = sext i32 %.01 to i64
+  %11 = getelementptr inbounds [5 x [5 x i32]], ptr %1, i64 0, i64 %10
+  %12 = sext i32 %.0 to i64
+  %13 = getelementptr inbounds [5 x i32], ptr %11, i64 0, i64 %12
+  store i32 %9, ptr %13, align 4
+  %14 = add nsw i32 %.0, 1
   br label %5, !llvm.loop !15
 
-14:                                               ; preds = %5
-  %15 = add nuw nsw i32 %.06, 1
+15:                                               ; preds = %5
+  %16 = add nsw i32 %.01, 1
   br label %2, !llvm.loop !16
 
-16:                                               ; preds = %2
-  %puts = call i32 @puts(ptr nonnull dereferenceable(1) @str)
-  call void @printMatrix(ptr noundef nonnull %1)
-  call void @manipulateMatrix(ptr noundef nonnull %1)
-  %puts7 = call i32 @puts(ptr nonnull dereferenceable(1) @str.1)
-  call void @printMatrix(ptr noundef nonnull %1)
+17:                                               ; preds = %2
+  %18 = call i32 (ptr, ...) @printf(ptr noundef @.str.2)
+  call void @printMatrix(ptr noundef %1)
+  call void @manipulateMatrix(ptr noundef %1)
+  %19 = call i32 (ptr, ...) @printf(ptr noundef @.str.3)
+  call void @printMatrix(ptr noundef %1)
   ret i32 0
 }
 
 ; Function Attrs: nounwind
 declare i32 @rand() #2
 
-; Function Attrs: nofree nounwind
-declare noundef i32 @putchar(i32 noundef) #3
-
-; Function Attrs: nofree nounwind
-declare noundef i32 @puts(ptr nocapture noundef readonly) #3
-
 attributes #0 = { noinline nounwind uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
 attributes #1 = { "frame-pointer"="all" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
 attributes #2 = { nounwind "frame-pointer"="all" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
-attributes #3 = { nofree nounwind }
-attributes #4 = { nounwind }
+attributes #3 = { nounwind }
 
 !llvm.module.flags = !{!0, !1, !2, !3, !4}
 !llvm.ident = !{!5}

@@ -6,91 +6,81 @@ target triple = "x86_64-unknown-linux-gnu"
 @.str = private unnamed_addr constant [8 x i8] c"max %f\0A\00", align 1
 @.str.1 = private unnamed_addr constant [8 x i8] c"min %f\0A\00", align 1
 
-; Function Attrs: nofree noinline nosync nounwind memory(none) uwtable
+; Function Attrs: noinline nounwind uwtable
 define dso_local double @find_max(double noundef %0, double noundef %1, double noundef %2) #0 {
   br label %4
 
-4:                                                ; preds = %17, %3
-  %.0 = phi double [ -1.000000e+09, %3 ], [ %.1, %17 ]
-  %storemerge = phi i32 [ -10, %3 ], [ %18, %17 ]
+4:                                                ; preds = %14, %3
+  %.0 = phi double [ -1.000000e+09, %3 ], [ %.1, %14 ]
+  %storemerge = phi i32 [ -10, %3 ], [ %15, %14 ]
   %5 = icmp slt i32 %storemerge, 11
-  br i1 %5, label %6, label %19
+  br i1 %5, label %6, label %16
 
 6:                                                ; preds = %4
   %7 = sitofp i32 %storemerge to double
   %8 = fmul double %0, %7
-  %9 = sitofp i32 %storemerge to double
-  %10 = sitofp i32 %storemerge to double
-  %11 = fmul double %1, %10
-  %12 = call double @llvm.fmuladd.f64(double %8, double %9, double %11)
-  %13 = fadd double %2, %12
-  %14 = fcmp ogt double %13, %.0
-  br i1 %14, label %15, label %16
+  %9 = fmul double %1, %7
+  %10 = call double @llvm.fmuladd.f64(double %8, double %7, double %9)
+  %11 = fadd double %2, %10
+  %12 = fcmp ogt double %11, %.0
+  br i1 %12, label %13, label %14
 
-15:                                               ; preds = %6
-  br label %16
+13:                                               ; preds = %6
+  br label %14
 
-16:                                               ; preds = %15, %6
-  %.1 = phi double [ %13, %15 ], [ %.0, %6 ]
-  br label %17
-
-17:                                               ; preds = %16
-  %18 = add nsw i32 %storemerge, 1
+14:                                               ; preds = %6, %13
+  %.1 = phi double [ %11, %13 ], [ %.0, %6 ]
+  %15 = add nsw i32 %storemerge, 1
   br label %4, !llvm.loop !6
 
-19:                                               ; preds = %4
+16:                                               ; preds = %4
   ret double %.0
 }
 
 ; Function Attrs: nocallback nofree nosync nounwind speculatable willreturn memory(none)
 declare double @llvm.fmuladd.f64(double, double, double) #1
 
-; Function Attrs: nofree noinline nosync nounwind memory(none) uwtable
+; Function Attrs: noinline nounwind uwtable
 define dso_local double @find_min(double noundef %0, double noundef %1, double noundef %2) #0 {
   br label %4
 
-4:                                                ; preds = %17, %3
-  %.0 = phi double [ 1.000000e+09, %3 ], [ %.1, %17 ]
-  %storemerge = phi i32 [ -10, %3 ], [ %18, %17 ]
+4:                                                ; preds = %14, %3
+  %.0 = phi double [ 1.000000e+09, %3 ], [ %.1, %14 ]
+  %storemerge = phi i32 [ -10, %3 ], [ %15, %14 ]
   %5 = icmp slt i32 %storemerge, 11
-  br i1 %5, label %6, label %19
+  br i1 %5, label %6, label %16
 
 6:                                                ; preds = %4
   %7 = sitofp i32 %storemerge to double
   %8 = fmul double %0, %7
-  %9 = sitofp i32 %storemerge to double
-  %10 = sitofp i32 %storemerge to double
-  %11 = fmul double %1, %10
-  %12 = call double @llvm.fmuladd.f64(double %8, double %9, double %11)
-  %13 = fadd double %2, %12
-  %14 = fcmp olt double %13, %.0
-  br i1 %14, label %15, label %16
+  %9 = fmul double %1, %7
+  %10 = call double @llvm.fmuladd.f64(double %8, double %7, double %9)
+  %11 = fadd double %2, %10
+  %12 = fcmp olt double %11, %.0
+  br i1 %12, label %13, label %14
 
-15:                                               ; preds = %6
-  br label %16
+13:                                               ; preds = %6
+  br label %14
 
-16:                                               ; preds = %15, %6
-  %.1 = phi double [ %13, %15 ], [ %.0, %6 ]
-  br label %17
-
-17:                                               ; preds = %16
-  %18 = add nsw i32 %storemerge, 1
+14:                                               ; preds = %6, %13
+  %.1 = phi double [ %11, %13 ], [ %.0, %6 ]
+  %15 = add nsw i32 %storemerge, 1
   br label %4, !llvm.loop !8
 
-19:                                               ; preds = %4
+16:                                               ; preds = %4
   ret double %.0
 }
 
 ; Function Attrs: noinline nounwind uwtable
-define dso_local i32 @main() #2 {
+define dso_local i32 @main() #0 {
   br label %1
 
-1:                                                ; preds = %38, %0
-  %.04 = phi i32 [ 10, %0 ], [ %.15, %38 ]
-  %.0 = phi i32 [ 15, %0 ], [ %.2, %38 ]
-  %storemerge = phi i32 [ 0, %0 ], [ %39, %38 ]
+1:                                                ; preds = %33, %0
+  %.04 = phi i32 [ 10, %0 ], [ %.15, %33 ]
+  %.0 = phi i32 [ 15, %0 ], [ %.2, %33 ]
+  %storemerge = phi i32 [ 0, %0 ], [ %34, %33 ]
   %2 = icmp slt i32 %storemerge, %.0
-  br i1 %2, label %3, label %40
+  br i1 %2, label %3, label %35
 
 3:                                                ; preds = %1
   %4 = and i32 %storemerge, 1
@@ -112,12 +102,12 @@ define dso_local i32 @main() #2 {
   %storemerge1 = phi i32 [ %11, %9 ], [ %8, %6 ]
   br label %13
 
-13:                                               ; preds = %35, %12
-  %.15 = phi i32 [ %storemerge1, %12 ], [ %storemerge3, %35 ]
-  %.2 = phi i32 [ %.1, %12 ], [ %.3, %35 ]
-  %storemerge2 = phi i32 [ 0, %12 ], [ %36, %35 ]
+13:                                               ; preds = %24, %12
+  %.15 = phi i32 [ %storemerge1, %12 ], [ %storemerge3, %24 ]
+  %.2 = phi i32 [ %.1, %12 ], [ %.3, %24 ]
+  %storemerge2 = phi i32 [ 0, %12 ], [ %32, %24 ]
   %14 = icmp slt i32 %storemerge2, %.15
-  br i1 %14, label %15, label %37
+  br i1 %14, label %15, label %33
 
 15:                                               ; preds = %13
   %16 = and i32 %storemerge2, 1
@@ -141,36 +131,26 @@ define dso_local i32 @main() #2 {
   %26 = sitofp i32 %.3 to double
   %27 = sitofp i32 %storemerge3 to double
   %28 = call double @find_max(double noundef %25, double noundef %26, double noundef %27)
-  %29 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, double noundef %28) #4
-  %30 = sitofp i32 %storemerge2 to double
-  %31 = sitofp i32 %.3 to double
-  %32 = sitofp i32 %storemerge3 to double
-  %33 = call double @find_min(double noundef %30, double noundef %31, double noundef %32)
-  %34 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str.1, double noundef %33) #4
-  br label %35
-
-35:                                               ; preds = %24
-  %36 = add nsw i32 %storemerge2, 1
+  %29 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, double noundef %28) #3
+  %30 = call double @find_min(double noundef %25, double noundef %26, double noundef %27)
+  %31 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str.1, double noundef %30) #3
+  %32 = add nsw i32 %storemerge2, 1
   br label %13, !llvm.loop !9
 
-37:                                               ; preds = %13
-  br label %38
-
-38:                                               ; preds = %37
-  %39 = add nsw i32 %storemerge, 1
+33:                                               ; preds = %13
+  %34 = add nsw i32 %storemerge, 1
   br label %1, !llvm.loop !10
 
-40:                                               ; preds = %1
+35:                                               ; preds = %1
   ret i32 0
 }
 
-declare i32 @printf(ptr noundef, ...) #3
+declare i32 @printf(ptr noundef, ...) #2
 
-attributes #0 = { nofree noinline nosync nounwind memory(none) uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
+attributes #0 = { noinline nounwind uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
 attributes #1 = { nocallback nofree nosync nounwind speculatable willreturn memory(none) }
-attributes #2 = { noinline nounwind uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
-attributes #3 = { "frame-pointer"="all" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
-attributes #4 = { nounwind }
+attributes #2 = { "frame-pointer"="all" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
+attributes #3 = { nounwind }
 
 !llvm.module.flags = !{!0, !1, !2, !3, !4}
 !llvm.ident = !{!5}

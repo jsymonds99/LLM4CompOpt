@@ -1,0 +1,4 @@
+GEMINI Prompt 1 (ablation): -ipsccp -inline -always-inline -instcombine -aggressive-instcombine -simplifycfg -sroa -mem2reg -constmerge -function-attrs -globaldce -indvars -loop-unroll -loop-simplify -loop-deletion -adce -dce -dse -reassociate -jump-threading -tailcallelim -strip-dead-prototypes -strip-dead-debug-info -strip
+GEMINI Prompt 2 (ablation): -inline -mem2reg -dce -gvn -instcombine -loop-unroll -tailcallelim
+GPT-4 Prompt 1 (ablation): -constmerge -function-attrs -inline -mem2reg -instcombine -simplifycfg -indvars -loop-rotate -gvn -loop-unroll -dce -jump-threading -sroa -tailcallelim
+GPT-4 Prompt 2 (ablation): -inline -loop-unroll -simplifycfg -dce -gvn -mem2reg -sroa -tailcallelim

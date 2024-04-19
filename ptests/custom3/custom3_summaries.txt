@@ -1,11 +1,6 @@
-GEMINI PROMPT 1:  -ipsccp  -inline -loop-unroll -simplifycfg -loop-unroll-and-jam -indvars -gvn -instcombine -aggressive-instcombine -sroa
-
-GEMINI PROMPT 2: -loop-unroll -loop-reduce -instcombine -aggressive-instcombine -gvn
-
-GEMINI PROMPT 3:  -strip -inline -instcombine -reassociate -loop-simplify -gvn -dse -sccp -indvars -loop-unroll -simplifycfg -dce
-
-GPT-4 PROMPT 1: -ipsccp -inline -loop-simplify -loop-unroll-and-jam -loop-reduce -simplifycfg -sroa -mem2reg -gvn -instcombine
-
-GPT-4 PROMPT 2: -loop-unroll -loop-simplify -gvn -instcombine -dce
-
-GPT-4 PROMPT 3: -always-inline -inline -loop-unroll -loop-simplify -loop-rotate -reassociate -instcombine -simplifycfg -sroa -mem2reg -gvn -deadargelim -dce
+GEMINI PROMPT 1: -loop-unroll -loop-unroll-and-jam -indvars -jump-threading -simplifycfg -mem2reg -gvn -instcombine -aggressive-instcombine -dce -adce -sroa
+GEMINI PROMPT 2: -deadargelim -adce -dce -dse -globaldce -ipsccp -sccp -strip -always-inline -inline -instcombine -aggressive-instcombine -internalize -mergefunc -partial-inliner -tailcallelim -indvars -loop-deletion -loop-extract -loop-reduce -loop-rotate -loop-simplify -simple-loop-unswitch -argpromotion -break-crit-edges -constmerge -function-attrs -gvn -jump-threading -lcssa -mem2reg -memcpyopt -mergereturn -reassociate -rel-lookup-table-converter -reg2mem -sroa -simplifycfg -sink
+GEMINI PROMPT 3: -mem2reg -instcombine -sccp -dse -dce -indvars -loop-unroll -loop-simplify -simplifycfg
+GPT-4 PROMPT 1: -inline -loop-unroll -loop-reduce -mem2reg -gvn -dce -adce -sroa
+GPT-4 PROMPT 2: -mem2reg -instcombine
+GPT-4 PROMPT 3: -mem2reg -loop-simplify -loop-reduce -loop-unroll -gvn -sroa -dce -adce -instcombine

@@ -6,7 +6,6 @@ target triple = "x86_64-unknown-linux-gnu"
 @.str = private unnamed_addr constant [16 x i8] c"Starting PI...\0A\00", align 1
 @.str.1 = private unnamed_addr constant [45 x i8] c" x = %9.6f    y = %12.2f  low = %8d j = %7d\0A\00", align 1
 @.str.2 = private unnamed_addr constant [37 x i8] c"Pi = %9.6f ztot = %12.2f itot = %8d\0A\00", align 1
-@str = private unnamed_addr constant [15 x i8] c"Starting PI...\00", align 1
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local void @myadd(ptr noundef %0, ptr noundef %1) #0 {
@@ -21,64 +20,80 @@ define dso_local void @myadd(ptr noundef %0, ptr noundef %1) #0 {
 define dso_local i32 @main(i32 noundef %0, ptr noundef %1) #0 {
   %3 = alloca float, align 4
   %4 = alloca float, align 4
-  %puts = call i32 @puts(ptr nonnull dereferenceable(1) @str)
+  %5 = call i32 (ptr, ...) @printf(ptr noundef @.str)
   store float 0.000000e+00, ptr %3, align 4
-  br label %5
+  br label %6
 
-5:                                                ; preds = %24, %2
-  %.05 = phi float [ undef, %2 ], [ %11, %24 ]
-  %.04 = phi float [ undef, %2 ], [ %17, %24 ]
-  %.03 = phi float [ 5.813000e+03, %2 ], [ %16, %24 ]
-  %.02 = phi i64 [ 1, %2 ], [ %.1, %24 ]
-  %.01 = phi i64 [ 1907, %2 ], [ %9, %24 ]
-  %.0 = phi i64 [ 1, %2 ], [ %25, %24 ]
-  %6 = icmp ult i64 %.0, 40000001
-  br i1 %6, label %7, label %26
+6:                                                ; preds = %32, %2
+  %.05 = phi float [ undef, %2 ], [ %16, %32 ]
+  %.04 = phi float [ undef, %2 ], [ %23, %32 ]
+  %.03 = phi float [ 5.813000e+03, %2 ], [ %22, %32 ]
+  %.02 = phi i64 [ 1, %2 ], [ %.1, %32 ]
+  %.01 = phi i64 [ 1907, %2 ], [ %12, %32 ]
+  %.0 = phi i64 [ 1, %2 ], [ %33, %32 ]
+  %7 = icmp sle i64 %.0, 40000000
+  br i1 %7, label %8, label %34
 
-7:                                                ; preds = %5
-  %8 = mul nsw i64 %.01, 27611
-  %9 = srem i64 %8, 74383
-  %10 = sitofp i64 %9 to float
-  %11 = fdiv float %10, 7.438300e+04
-  %12 = fmul float %.03, 1.307000e+03
-  %13 = fdiv float %12, 5.471000e+03
-  %14 = fptosi float %13 to i64
-  %15 = sitofp i64 %14 to float
-  %16 = call float @llvm.fmuladd.f32(float %15, float -5.471000e+03, float %12)
-  %17 = fdiv float %16, 5.471000e+03
-  %18 = fmul float %17, %17
-  %19 = call float @llvm.fmuladd.f32(float %11, float %11, float %18)
-  store float %19, ptr %4, align 4
-  call void @myadd(ptr noundef nonnull %3, ptr noundef nonnull %4)
-  %20 = load float, ptr %4, align 4
-  %21 = fcmp ugt float %20, 1.000000e+00
-  br i1 %21, label %24, label %22
+8:                                                ; preds = %6
+  %9 = mul nsw i64 %.01, 27611
+  %10 = sdiv i64 %9, 74383
+  %11 = mul nsw i64 %10, 74383
+  %12 = sub nsw i64 %9, %11
+  %13 = sitofp i64 %12 to float
+  %14 = fpext float %13 to double
+  %15 = fdiv double %14, 7.438300e+04
+  %16 = fptrunc double %15 to float
+  %17 = fmul float %.03, 1.307000e+03
+  %18 = fdiv float %17, 5.471000e+03
+  %19 = fptosi float %18 to i64
+  %20 = sitofp i64 %19 to float
+  %21 = fneg float 5.471000e+03
+  %22 = call float @llvm.fmuladd.f32(float %21, float %20, float %17)
+  %23 = fdiv float %22, 5.471000e+03
+  %24 = fmul float %23, %23
+  %25 = call float @llvm.fmuladd.f32(float %16, float %16, float %24)
+  store float %25, ptr %4, align 4
+  call void @myadd(ptr noundef %3, ptr noundef %4)
+  %26 = load float, ptr %4, align 4
+  %27 = fpext float %26 to double
+  %28 = fcmp ole double %27, 1.000000e+00
+  br i1 %28, label %29, label %31
 
-22:                                               ; preds = %7
-  %23 = add nsw i64 %.02, 1
-  br label %24
+29:                                               ; preds = %8
+  %30 = add nsw i64 %.02, 1
+  br label %31
 
-24:                                               ; preds = %22, %7
-  %.1 = phi i64 [ %23, %22 ], [ %.02, %7 ]
-  %25 = add nuw nsw i64 %.0, 1
-  br label %5, !llvm.loop !6
+31:                                               ; preds = %29, %8
+  %.1 = phi i64 [ %30, %29 ], [ %.02, %8 ]
+  br label %32
 
-26:                                               ; preds = %5
-  %27 = fpext float %.05 to double
-  %28 = fpext float %.04 to double
-  %29 = trunc i64 %.02 to i32
-  %30 = trunc i64 %.0 to i32
-  %31 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str.1, double noundef %27, double noundef %28, i32 noundef %29, i32 noundef %30) #4
-  %32 = sitofp i64 %.02 to float
-  %33 = fpext float %32 to double
-  %34 = fmul double %33, 4.000000e+00
-  %35 = fdiv double %34, 4.000000e+07
-  %36 = fptrunc double %35 to float
-  %37 = fpext float %36 to double
-  %38 = load float, ptr %3, align 4
-  %39 = fpext float %38 to double
-  %40 = fmul double %39, 0.000000e+00
-  %41 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str.2, double noundef %37, double noundef %40, i32 noundef 40000000) #4
+32:                                               ; preds = %31
+  %33 = add nsw i64 %.0, 1
+  br label %6, !llvm.loop !6
+
+34:                                               ; preds = %6
+  %.05.lcssa = phi float [ %.05, %6 ]
+  %.04.lcssa = phi float [ %.04, %6 ]
+  %.02.lcssa = phi i64 [ %.02, %6 ]
+  %.0.lcssa = phi i64 [ %.0, %6 ]
+  %35 = fpext float %.05.lcssa to double
+  %36 = fpext float %.04.lcssa to double
+  %37 = trunc i64 %.02.lcssa to i32
+  %38 = trunc i64 %.0.lcssa to i32
+  %39 = call i32 (ptr, ...) @printf(ptr noundef @.str.1, double noundef %35, double noundef %36, i32 noundef %37, i32 noundef %38)
+  %40 = sitofp i64 %.02.lcssa to float
+  %41 = fpext float %40 to double
+  %42 = fmul double %41, 4.000000e+00
+  %43 = sitofp i64 40000000 to float
+  %44 = fpext float %43 to double
+  %45 = fdiv double %42, %44
+  %46 = fptrunc double %45 to float
+  %47 = fpext float %46 to double
+  %48 = load float, ptr %3, align 4
+  %49 = fpext float %48 to double
+  %50 = fmul double %49, 0.000000e+00
+  %51 = trunc i64 40000000 to i32
+  %52 = call i32 (ptr, ...) @printf(ptr noundef @.str.2, double noundef %47, double noundef %50, i32 noundef %51)
   ret i32 0
 }
 
@@ -87,14 +102,9 @@ declare i32 @printf(ptr noundef, ...) #1
 ; Function Attrs: nocallback nofree nosync nounwind speculatable willreturn memory(none)
 declare float @llvm.fmuladd.f32(float, float, float) #2
 
-; Function Attrs: nofree nounwind
-declare noundef i32 @puts(ptr nocapture noundef readonly) #3
-
 attributes #0 = { noinline nounwind uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
 attributes #1 = { "frame-pointer"="all" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
 attributes #2 = { nocallback nofree nosync nounwind speculatable willreturn memory(none) }
-attributes #3 = { nofree nounwind }
-attributes #4 = { nounwind }
 
 !llvm.module.flags = !{!0, !1, !2, !3, !4}
 !llvm.ident = !{!5}

@@ -1,0 +1,4 @@
+Gemini Prompt 1 (ablation): -ipsccp -constmerge -globaldce -globalopt -instcombine -aggressive-instcombine -sroa -mem2reg -loop-simplify -indvars -loop-unroll -loop-reduce -inline -function-attrs -break-crit-edges -simplifycfg -reassociate -dce
+Gemini Prompt 2 (ablation): -inline -dce -gvn
+GPT-4 Prompt 1 (ablation): -deadargelim -dce -simplifycfg -instcombine -gvn -loop-unroll -sccp -jump-threading
+GPT-4 Prompt 2 (ablation): -inline -gvn -mem2reg -loop-unroll -simplifycfg

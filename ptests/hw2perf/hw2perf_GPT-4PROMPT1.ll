@@ -7,33 +7,147 @@ target triple = "x86_64-unknown-linux-gnu"
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local i32 @main() #0 {
-codeRepl2:
+.lr.ph:
   %0 = alloca [1000 x i64], align 16
   %1 = alloca [1000 x i64], align 16
   %2 = alloca [1000 x i64], align 16
   %3 = alloca [1000 x i64], align 16
-  %4 = alloca i32, align 4
-  %5 = alloca i32, align 4
-  %6 = alloca i32, align 4
-  %7 = alloca i32, align 4
-  %8 = alloca i32, align 4
-  %9 = alloca i64, align 8
-  %10 = alloca i64, align 8
-  %11 = alloca i64, align 8
-  %12 = alloca i64, align 8
-  %13 = alloca i64, align 8
-  %14 = alloca i64, align 8
-  store i32 0, ptr %4, align 4
-  call void @main.extracted.2(ptr nonnull %4, ptr nonnull %0, ptr nonnull %1, ptr nonnull %2, ptr nonnull %3)
+  br label %4
+
+4:                                                ; preds = %.lr.ph, %4
+  %5 = phi i32 [ 0, %.lr.ph ], [ %15, %4 ]
+  %6 = zext i32 %5 to i64
+  %7 = getelementptr inbounds [1000 x i64], ptr %0, i64 0, i64 %6
+  store i64 %6, ptr %7, align 8
+  %8 = shl nuw nsw i32 %5, 1
+  %9 = zext i32 %8 to i64
+  %10 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %6
+  store i64 %9, ptr %10, align 8
+  %11 = mul nsw i32 %5, 3
+  %12 = zext i32 %11 to i64
+  %13 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %6
+  store i64 %12, ptr %13, align 8
+  %14 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %6
+  store i64 0, ptr %14, align 8
+  %15 = add nuw nsw i32 %5, 1
+  %16 = icmp ult i32 %5, 999
+  br i1 %16, label %4, label %.lr.ph5, !llvm.loop !6
+
+.lr.ph5:                                          ; preds = %4
   call void @srand(i32 noundef 4) #3
-  store i32 5, ptr %5, align 4
-  store i32 15, ptr %6, align 4
-  store i32 0, ptr %7, align 4
-  store i32 0, ptr %8, align 4
-  store i32 0, ptr %4, align 4
-  call void @main.extracted.1(ptr nonnull %4, ptr nonnull %5, ptr nonnull %0, ptr nonnull %9, ptr nonnull %6, ptr nonnull %1, ptr nonnull %10, ptr nonnull %2, ptr nonnull %11, ptr nonnull %3, ptr nonnull %7, ptr nonnull %8, ptr nonnull %12, ptr nonnull %13, ptr nonnull %14)
-  store i32 0, ptr %4, align 4
-  call void @main.extracted(ptr nonnull %4, ptr nonnull %3)
+  br label %17
+
+17:                                               ; preds = %.lr.ph5, %95
+  %18 = phi i32 [ 0, %.lr.ph5 ], [ %96, %95 ]
+  %19 = phi i32 [ 0, %.lr.ph5 ], [ %97, %95 ]
+  %20 = phi i32 [ 0, %.lr.ph5 ], [ %100, %95 ]
+  %21 = phi i32 [ 15, %.lr.ph5 ], [ %98, %95 ]
+  %22 = phi i32 [ 5, %.lr.ph5 ], [ %99, %95 ]
+  %23 = sext i32 %22 to i64
+  %24 = getelementptr inbounds [1000 x i64], ptr %0, i64 0, i64 %23
+  %25 = load i64, ptr %24, align 8
+  %26 = mul i64 %25, 87
+  %27 = sdiv i64 %26, 4
+  %28 = add nsw i64 %27, 23
+  %29 = sext i32 %21 to i64
+  %30 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %29
+  %31 = load i64, ptr %30, align 8
+  %32 = mul i64 %31, 231
+  %33 = sdiv i64 %32, 3
+  %34 = add nsw i64 %33, 59
+  %35 = add nsw i64 %34, %28
+  %36 = srem i64 %35, 1000
+  %37 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %36
+  %38 = load i64, ptr %37, align 8
+  %39 = load i64, ptr %24, align 8
+  %40 = add nsw i64 %39, %38
+  %41 = load i64, ptr %30, align 8
+  %42 = add nsw i64 %40, %41
+  %43 = mul nsw i64 %28, 11
+  %44 = mul nsw i64 %34, 13
+  %45 = mul nsw i64 %42, 17
+  %46 = zext i32 %20 to i64
+  %47 = add i64 %43, %46
+  %48 = add i64 %47, %44
+  %49 = add i64 %48, %45
+  %50 = urem i32 %20, 1000
+  %51 = zext i32 %50 to i64
+  %52 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %51
+  store i64 %49, ptr %52, align 8
+  %53 = icmp ult i32 %20, 100
+  br i1 %53, label %.lr.ph2, label %95
+
+.lr.ph2:                                          ; preds = %17, %.lr.ph2
+  %54 = phi i32 [ %89, %.lr.ph2 ], [ 0, %17 ]
+  %55 = phi i32 [ %spec.select, %.lr.ph2 ], [ %18, %17 ]
+  %56 = phi i32 [ %spec.select, %.lr.ph2 ], [ %19, %17 ]
+  %57 = sext i32 %56 to i64
+  %58 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %57
+  %59 = load i64, ptr %58, align 8
+  %60 = mul nsw i64 %59, 6
+  %61 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %57
+  %62 = load i64, ptr %61, align 8
+  %63 = sdiv i64 %62, 2
+  %64 = add nsw i64 %63, %60
+  %65 = srem i64 %64, 1000
+  %66 = getelementptr inbounds [1000 x i64], ptr %0, i64 0, i64 %65
+  %67 = load i64, ptr %66, align 8
+  %68 = shl nsw i64 %67, 1
+  %69 = shl nsw i64 %59, 2
+  %70 = add nsw i64 %68, %69
+  %71 = srem i64 %70, 1000
+  %72 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %71
+  %73 = load i64, ptr %72, align 16
+  %74 = mul nsw i64 %73, 6
+  %75 = sext i32 %55 to i64
+  %76 = getelementptr inbounds [1000 x i64], ptr %0, i64 0, i64 %75
+  %77 = load i64, ptr %76, align 8
+  %78 = mul nsw i64 %77, 3
+  %79 = add nsw i64 %78, %74
+  %80 = mul nsw i64 %79, 2
+  %81 = zext i32 %54 to i64
+  %82 = add i64 %64, %81
+  %83 = add i64 %82, %70
+  %84 = add i64 %83, %80
+  %85 = urem i32 %54, 100
+  %86 = zext i32 %85 to i64
+  %87 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %86
+  store i64 %84, ptr %87, align 8
+  %88 = icmp ult i32 %54, 10
+  %spec.select = select i1 %88, i32 59, i32 %55
+  %89 = add nuw nsw i32 %54, 1
+  %90 = icmp ult i32 %54, 999999
+  br i1 %90, label %.lr.ph2, label %._crit_edge3, !llvm.loop !8
+
+._crit_edge3:                                     ; preds = %.lr.ph2
+  %91 = icmp eq i32 %20, 0
+  br i1 %91, label %92, label %95
+
+92:                                               ; preds = %._crit_edge3
+  %93 = call i32 @rand() #3
+  %94 = srem i32 %93, 1000
+  br label %95
+
+95:                                               ; preds = %92, %._crit_edge3, %17
+  %96 = phi i32 [ %18, %17 ], [ %spec.select, %._crit_edge3 ], [ %spec.select, %92 ]
+  %97 = phi i32 [ %19, %17 ], [ %spec.select, %._crit_edge3 ], [ %spec.select, %92 ]
+  %98 = phi i32 [ %21, %17 ], [ %21, %92 ], [ 37, %._crit_edge3 ]
+  %99 = phi i32 [ %22, %17 ], [ %94, %92 ], [ %22, %._crit_edge3 ]
+  %100 = add nuw nsw i32 %20, 1
+  %101 = icmp ult i32 %20, 999999999
+  br i1 %101, label %17, label %.lr.ph8, !llvm.loop !9
+
+.lr.ph8:                                          ; preds = %95, %.lr.ph8
+  %102 = phi i32 [ %107, %.lr.ph8 ], [ 0, %95 ]
+  %103 = zext i32 %102 to i64
+  %104 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %103
+  %105 = load i64, ptr %104, align 8
+  %106 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i64 noundef %105) #3
+  %107 = add nuw nsw i32 %102, 1
+  %108 = icmp ult i32 %102, 999
+  br i1 %108, label %.lr.ph8, label %._crit_edge9, !llvm.loop !10
+
+._crit_edge9:                                     ; preds = %.lr.ph8
   ret i32 0
 }
 
@@ -44,227 +158,6 @@ declare void @srand(i32 noundef) #1
 declare i32 @rand() #1
 
 declare i32 @printf(ptr noundef, ...) #2
-
-; Function Attrs: noinline nounwind uwtable
-define internal void @main.extracted(ptr %0, ptr %1) #0 {
-newFuncRoot:
-  %.pre = load i32, ptr %0, align 4
-  br label %2
-
-2:                                                ; preds = %newFuncRoot, %5
-  %3 = phi i32 [ %.pre, %newFuncRoot ], [ %11, %5 ]
-  %4 = icmp slt i32 %3, 1000
-  br i1 %4, label %5, label %.exitStub
-
-5:                                                ; preds = %2
-  %6 = sext i32 %3 to i64
-  %7 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %6
-  %8 = load i64, ptr %7, align 8
-  %9 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i64 noundef %8) #3
-  %10 = load i32, ptr %0, align 4
-  %11 = add nsw i32 %10, 1
-  store i32 %11, ptr %0, align 4
-  br label %2, !llvm.loop !6
-
-.exitStub:                                        ; preds = %2
-  ret void
-}
-
-; Function Attrs: noinline nounwind uwtable
-define internal void @main.extracted.1(ptr %0, ptr %1, ptr %2, ptr %3, ptr %4, ptr %5, ptr %6, ptr %7, ptr %8, ptr %9, ptr %10, ptr %11, ptr %12, ptr %13, ptr %14) #0 {
-newFuncRoot:
-  %.pre = load i32, ptr %0, align 4
-  br label %15
-
-15:                                               ; preds = %newFuncRoot, %73
-  %16 = phi i32 [ %.pre, %newFuncRoot ], [ %75, %73 ]
-  %17 = icmp slt i32 %16, 1000000000
-  br i1 %17, label %18, label %.exitStub
-
-18:                                               ; preds = %15
-  %19 = load i32, ptr %1, align 4
-  %20 = sext i32 %19 to i64
-  %21 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %20
-  %22 = load i64, ptr %21, align 8
-  %23 = mul i64 %22, 87
-  %24 = sdiv i64 %23, 4
-  %25 = add nsw i64 %24, 23
-  store i64 %25, ptr %3, align 8
-  %26 = load i32, ptr %4, align 4
-  %27 = sext i32 %26 to i64
-  %28 = getelementptr inbounds [1000 x i64], ptr %5, i64 0, i64 %27
-  %29 = load i64, ptr %28, align 8
-  %30 = mul i64 %29, 231
-  %31 = sdiv i64 %30, 3
-  %32 = add nsw i64 %31, 59
-  store i64 %32, ptr %6, align 8
-  %33 = load i64, ptr %3, align 8
-  %34 = add nsw i64 %33, %32
-  %35 = srem i64 %34, 1000
-  %36 = getelementptr inbounds [1000 x i64], ptr %7, i64 0, i64 %35
-  %37 = load i64, ptr %36, align 8
-  %38 = load i32, ptr %1, align 4
-  %39 = sext i32 %38 to i64
-  %40 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %39
-  %41 = load i64, ptr %40, align 8
-  %42 = add nsw i64 %37, %41
-  %43 = load i32, ptr %4, align 4
-  %44 = sext i32 %43 to i64
-  %45 = getelementptr inbounds [1000 x i64], ptr %5, i64 0, i64 %44
-  %46 = load i64, ptr %45, align 8
-  %47 = add nsw i64 %42, %46
-  store i64 %47, ptr %8, align 8
-  %48 = load i64, ptr %3, align 8
-  %49 = mul nsw i64 %48, 11
-  %50 = load i64, ptr %6, align 8
-  %51 = mul nsw i64 %50, 13
-  %52 = add nsw i64 %49, %51
-  %53 = mul nsw i64 %47, 17
-  %54 = add nsw i64 %52, %53
-  %55 = load i32, ptr %0, align 4
-  %56 = sext i32 %55 to i64
-  %57 = add nsw i64 %54, %56
-  %58 = srem i32 %55, 1000
-  %59 = sext i32 %58 to i64
-  %60 = getelementptr inbounds [1000 x i64], ptr %9, i64 0, i64 %59
-  store i64 %57, ptr %60, align 8
-  %61 = load i32, ptr %0, align 4
-  %62 = icmp slt i32 %61, 100
-  br i1 %62, label %63, label %73
-
-63:                                               ; preds = %18, %120
-  %storemerge = phi i32 [ %122, %120 ], [ 0, %18 ]
-  store i32 %storemerge, ptr %10, align 4
-  %64 = icmp slt i32 %storemerge, 1000000
-  br i1 %64, label %76, label %65
-
-65:                                               ; preds = %63
-  %66 = load i32, ptr %0, align 4
-  %67 = icmp eq i32 %66, 0
-  br i1 %67, label %69, label %68
-
-68:                                               ; preds = %65
-  store i32 37, ptr %4, align 4
-  br label %72
-
-69:                                               ; preds = %65
-  %70 = call i32 @rand() #3
-  %71 = srem i32 %70, 1000
-  store i32 %71, ptr %1, align 4
-  br label %72
-
-72:                                               ; preds = %68, %69
-  %.pre1 = load i32, ptr %0, align 4
-  br label %73
-
-73:                                               ; preds = %72, %18
-  %74 = phi i32 [ %.pre1, %72 ], [ %61, %18 ]
-  %75 = add nsw i32 %74, 1
-  store i32 %75, ptr %0, align 4
-  br label %15, !llvm.loop !8
-
-76:                                               ; preds = %63
-  %77 = load i32, ptr %11, align 4
-  %78 = sext i32 %77 to i64
-  %79 = getelementptr inbounds [1000 x i64], ptr %5, i64 0, i64 %78
-  %80 = load i64, ptr %79, align 8
-  %81 = mul nsw i64 %80, 6
-  %82 = getelementptr inbounds [1000 x i64], ptr %7, i64 0, i64 %78
-  %83 = load i64, ptr %82, align 8
-  %84 = sdiv i64 %83, 2
-  %85 = add nsw i64 %81, %84
-  store i64 %85, ptr %12, align 8
-  %86 = srem i64 %85, 1000
-  %87 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %86
-  %88 = load i64, ptr %87, align 8
-  %89 = shl nsw i64 %88, 1
-  %90 = load i32, ptr %11, align 4
-  %91 = sext i32 %90 to i64
-  %92 = getelementptr inbounds [1000 x i64], ptr %5, i64 0, i64 %91
-  %93 = load i64, ptr %92, align 8
-  %94 = shl nsw i64 %93, 2
-  %95 = add nsw i64 %89, %94
-  store i64 %95, ptr %13, align 8
-  %96 = srem i64 %95, 1000
-  %97 = getelementptr inbounds [1000 x i64], ptr %7, i64 0, i64 %96
-  %98 = load i64, ptr %97, align 8
-  %99 = mul nsw i64 %98, 6
-  %100 = load i32, ptr %11, align 4
-  %101 = sext i32 %100 to i64
-  %102 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %101
-  %103 = load i64, ptr %102, align 8
-  %104 = mul nsw i64 %103, 3
-  %105 = add nsw i64 %99, %104
-  store i64 %105, ptr %14, align 8
-  %106 = load i64, ptr %12, align 8
-  %107 = load i64, ptr %13, align 8
-  %108 = add nsw i64 %106, %107
-  %109 = shl nsw i64 %105, 1
-  %110 = add nsw i64 %108, %109
-  %111 = load i32, ptr %10, align 4
-  %112 = sext i32 %111 to i64
-  %113 = add nsw i64 %110, %112
-  %114 = srem i32 %111, 100
-  %115 = sext i32 %114 to i64
-  %116 = getelementptr inbounds [1000 x i64], ptr %9, i64 0, i64 %115
-  store i64 %113, ptr %116, align 8
-  %117 = load i32, ptr %10, align 4
-  %118 = icmp slt i32 %117, 10
-  br i1 %118, label %119, label %120
-
-119:                                              ; preds = %76
-  store i32 59, ptr %11, align 4
-  %.pre2 = load i32, ptr %10, align 4
-  br label %120
-
-120:                                              ; preds = %119, %76
-  %121 = phi i32 [ %.pre2, %119 ], [ %117, %76 ]
-  %122 = add nsw i32 %121, 1
-  br label %63, !llvm.loop !9
-
-.exitStub:                                        ; preds = %15
-  ret void
-}
-
-; Function Attrs: noinline nounwind uwtable
-define internal void @main.extracted.2(ptr %0, ptr %1, ptr %2, ptr %3, ptr %4) #0 {
-newFuncRoot:
-  %.pre = load i32, ptr %0, align 4
-  br label %5
-
-5:                                                ; preds = %newFuncRoot, %8
-  %6 = phi i32 [ %.pre, %newFuncRoot ], [ %25, %8 ]
-  %7 = icmp slt i32 %6, 1000
-  br i1 %7, label %8, label %.exitStub
-
-8:                                                ; preds = %5
-  %9 = sext i32 %6 to i64
-  %10 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %9
-  store i64 %9, ptr %10, align 8
-  %11 = load i32, ptr %0, align 4
-  %12 = shl nsw i32 %11, 1
-  %13 = sext i32 %12 to i64
-  %14 = sext i32 %11 to i64
-  %15 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %14
-  store i64 %13, ptr %15, align 8
-  %16 = load i32, ptr %0, align 4
-  %17 = mul nsw i32 %16, 3
-  %18 = sext i32 %17 to i64
-  %19 = sext i32 %16 to i64
-  %20 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %19
-  store i64 %18, ptr %20, align 8
-  %21 = load i32, ptr %0, align 4
-  %22 = sext i32 %21 to i64
-  %23 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %22
-  store i64 0, ptr %23, align 8
-  %24 = load i32, ptr %0, align 4
-  %25 = add nsw i32 %24, 1
-  store i32 %25, ptr %0, align 4
-  br label %5, !llvm.loop !10
-
-.exitStub:                                        ; preds = %5
-  ret void
-}
 
 attributes #0 = { noinline nounwind uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
 attributes #1 = { nounwind "frame-pointer"="all" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }

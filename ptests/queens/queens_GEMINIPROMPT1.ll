@@ -3,53 +3,53 @@ source_filename = "queens.c"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-unknown-linux-gnu"
 
-%0 = type { i32, i32 }
-%1 = type { float, float }
+%struct.element = type { i32, i32 }
+%struct.complex = type { float, float }
 
-@seed = dso_local local_unnamed_addr global i64 0, align 8
-@0 = private unnamed_addr constant [4 x i8] c"%d\0A\00", align 1
-@value = dso_local local_unnamed_addr global float 0.000000e+00, align 4
-@fixed = dso_local local_unnamed_addr global float 0.000000e+00, align 4
-@floated = dso_local local_unnamed_addr global float 0.000000e+00, align 4
-@permarray = dso_local local_unnamed_addr global [11 x i32] zeroinitializer, align 16
-@pctr = dso_local local_unnamed_addr global i32 0, align 4
-@tree = dso_local local_unnamed_addr global ptr null, align 8
-@stack = dso_local local_unnamed_addr global [4 x i32] zeroinitializer, align 16
-@cellspace = dso_local local_unnamed_addr global [19 x %0] zeroinitializer, align 16
-@freelist = dso_local local_unnamed_addr global i32 0, align 4
-@movesdone = dso_local local_unnamed_addr global i32 0, align 4
-@ima = dso_local local_unnamed_addr global [41 x [41 x i32]] zeroinitializer, align 16
-@imb = dso_local local_unnamed_addr global [41 x [41 x i32]] zeroinitializer, align 16
-@imr = dso_local local_unnamed_addr global [41 x [41 x i32]] zeroinitializer, align 16
-@rma = dso_local local_unnamed_addr global [41 x [41 x float]] zeroinitializer, align 16
-@rmb = dso_local local_unnamed_addr global [41 x [41 x float]] zeroinitializer, align 16
-@rmr = dso_local local_unnamed_addr global [41 x [41 x float]] zeroinitializer, align 16
-@piececount = dso_local local_unnamed_addr global [4 x i32] zeroinitializer, align 16
-@class = dso_local local_unnamed_addr global [13 x i32] zeroinitializer, align 16
-@piecemax = dso_local local_unnamed_addr global [13 x i32] zeroinitializer, align 16
-@puzzl = dso_local local_unnamed_addr global [512 x i32] zeroinitializer, align 16
-@p = dso_local local_unnamed_addr global [13 x [512 x i32]] zeroinitializer, align 16
-@n = dso_local local_unnamed_addr global i32 0, align 4
-@kount = dso_local local_unnamed_addr global i32 0, align 4
-@sortlist = dso_local local_unnamed_addr global [5001 x i32] zeroinitializer, align 16
-@biggest = dso_local local_unnamed_addr global i32 0, align 4
-@littlest = dso_local local_unnamed_addr global i32 0, align 4
-@top = dso_local local_unnamed_addr global i32 0, align 4
-@z = dso_local local_unnamed_addr global [257 x %1] zeroinitializer, align 16
-@w = dso_local local_unnamed_addr global [257 x %1] zeroinitializer, align 16
-@e = dso_local local_unnamed_addr global [130 x %1] zeroinitializer, align 16
-@zr = dso_local local_unnamed_addr global float 0.000000e+00, align 4
-@zi = dso_local local_unnamed_addr global float 0.000000e+00, align 4
-@1 = private unnamed_addr constant [18 x i8] c" Error in Queens.\00", align 1
+@seed = dso_local global i64 0, align 8
+@.str.1 = private unnamed_addr constant [4 x i8] c"%d\0A\00", align 1
+@value = dso_local global float 0.000000e+00, align 4
+@fixed = dso_local global float 0.000000e+00, align 4
+@floated = dso_local global float 0.000000e+00, align 4
+@permarray = dso_local global [11 x i32] zeroinitializer, align 16
+@pctr = dso_local global i32 0, align 4
+@tree = dso_local global ptr null, align 8
+@stack = dso_local global [4 x i32] zeroinitializer, align 16
+@cellspace = dso_local global [19 x %struct.element] zeroinitializer, align 16
+@freelist = dso_local global i32 0, align 4
+@movesdone = dso_local global i32 0, align 4
+@ima = dso_local global [41 x [41 x i32]] zeroinitializer, align 16
+@imb = dso_local global [41 x [41 x i32]] zeroinitializer, align 16
+@imr = dso_local global [41 x [41 x i32]] zeroinitializer, align 16
+@rma = dso_local global [41 x [41 x float]] zeroinitializer, align 16
+@rmb = dso_local global [41 x [41 x float]] zeroinitializer, align 16
+@rmr = dso_local global [41 x [41 x float]] zeroinitializer, align 16
+@piececount = dso_local global [4 x i32] zeroinitializer, align 16
+@class = dso_local global [13 x i32] zeroinitializer, align 16
+@piecemax = dso_local global [13 x i32] zeroinitializer, align 16
+@puzzl = dso_local global [512 x i32] zeroinitializer, align 16
+@p = dso_local global [13 x [512 x i32]] zeroinitializer, align 16
+@n = dso_local global i32 0, align 4
+@kount = dso_local global i32 0, align 4
+@sortlist = dso_local global [5001 x i32] zeroinitializer, align 16
+@biggest = dso_local global i32 0, align 4
+@littlest = dso_local global i32 0, align 4
+@top = dso_local global i32 0, align 4
+@z = dso_local global [257 x %struct.complex] zeroinitializer, align 16
+@w = dso_local global [257 x %struct.complex] zeroinitializer, align 16
+@e = dso_local global [130 x %struct.complex] zeroinitializer, align 16
+@zr = dso_local global float 0.000000e+00, align 4
+@zi = dso_local global float 0.000000e+00, align 4
+@str = private unnamed_addr constant [18 x i8] c" Error in Queens.\00", align 1
 
 ; Function Attrs: noinline nounwind uwtable
-define dso_local void @Initrand() local_unnamed_addr #0 {
+define dso_local void @Initrand() #0 {
   store i64 74755, ptr @seed, align 8
   ret void
 }
 
 ; Function Attrs: noinline nounwind uwtable
-define dso_local i32 @Rand() local_unnamed_addr #0 {
+define dso_local i32 @Rand() #0 {
   %1 = load i64, ptr @seed, align 8
   %2 = mul nsw i64 %1, 1309
   %3 = add nsw i64 %2, 13849
@@ -60,98 +60,92 @@ define dso_local i32 @Rand() local_unnamed_addr #0 {
 }
 
 ; Function Attrs: noinline nounwind uwtable
-define dso_local void @Try(i32 noundef %0, ptr noundef %1, ptr noundef %2, ptr noundef %3, ptr noundef %4, ptr noundef %5) local_unnamed_addr #0 {
-  %7 = alloca i32, align 4
-  %8 = alloca ptr, align 8
-  %9 = alloca ptr, align 8
-  %10 = alloca ptr, align 8
-  %11 = alloca ptr, align 8
-  store i32 %0, ptr %7, align 4
-  store ptr %2, ptr %8, align 8
-  store ptr %3, ptr %9, align 8
-  store ptr %4, ptr %10, align 8
-  store ptr %5, ptr %11, align 8
+define dso_local void @Try(i32 noundef %0, ptr noundef %1, ptr noundef %2, ptr noundef %3, ptr noundef %4, ptr noundef %5) #0 {
   store i32 0, ptr %1, align 4
-  br label %12
+  %7 = sext i32 %0 to i64
+  %8 = shl nsw i64 %7, 2
+  %9 = add nsw i64 %8, 24
+  %scevgep = getelementptr i8, ptr %4, i64 %9
+  %scevgep12 = getelementptr i8, ptr %2, i64 %8
+  br label %10
 
-12:                                               ; preds = %6, %51
-  %13 = phi ptr [ %1, %6 ], [ %54, %51 ]
-  %14 = phi ptr [ %1, %6 ], [ %53, %51 ]
-  %15 = phi i64 [ 0, %6 ], [ %16, %51 ]
-  %16 = add nuw nsw i64 %15, 1
-  store i32 0, ptr %13, align 4
-  %17 = load ptr, ptr %9, align 8
-  %18 = getelementptr inbounds i32, ptr %17, i64 %16
-  %19 = load i32, ptr %18, align 4
-  %20 = icmp eq i32 %19, 0
-  br i1 %20, label %51, label %21
+10:                                               ; preds = %34, %6
+  %lsr.iv10 = phi ptr [ %scevgep11, %34 ], [ %scevgep, %6 ]
+  %lsr.iv = phi i64 [ %lsr.iv.next, %34 ], [ -8, %6 ]
+  %11 = phi ptr [ %35, %34 ], [ %1, %6 ]
+  %12 = phi ptr [ %36, %34 ], [ %1, %6 ]
+  %13 = phi i32 [ %.pre, %34 ], [ 0, %6 ]
+  %.not = icmp eq i32 %13, 0
+  %14 = icmp ne i64 %lsr.iv, 0
+  %15 = select i1 %.not, i1 %14, i1 false
+  br i1 %15, label %16, label %37
 
-21:                                               ; preds = %12
-  %22 = load ptr, ptr %8, align 8
-  %23 = load i32, ptr %7, align 4
-  %24 = sext i32 %23 to i64
-  %25 = add nsw i64 %24, %16
-  %26 = getelementptr inbounds i32, ptr %22, i64 %25
-  %27 = load i32, ptr %26, align 4
-  %28 = icmp eq i32 %27, 0
-  br i1 %28, label %51, label %29
+16:                                               ; preds = %10
+  store i32 0, ptr %12, align 4
+  %17 = shl nsw i64 %lsr.iv, 2
+  %scevgep15 = getelementptr i8, ptr %3, i64 %17
+  %scevgep16 = getelementptr i8, ptr %scevgep15, i64 36
+  %18 = load i32, ptr %scevgep16, align 4
+  %.not1 = icmp eq i32 %18, 0
+  br i1 %.not1, label %34, label %19
 
-29:                                               ; preds = %21
-  %30 = load ptr, ptr %10, align 8
-  %31 = trunc i64 %16 to i32
-  %32 = sub nsw i32 %23, %31
-  %33 = add nsw i32 %32, 7
-  %34 = sext i32 %33 to i64
-  %35 = getelementptr inbounds i32, ptr %30, i64 %34
-  %36 = load i32, ptr %35, align 4
-  %37 = icmp eq i32 %36, 0
-  br i1 %37, label %51, label %38
+19:                                               ; preds = %16
+  %20 = shl nsw i64 %lsr.iv, 2
+  %scevgep13 = getelementptr i8, ptr %scevgep12, i64 %20
+  %scevgep14 = getelementptr i8, ptr %scevgep13, i64 36
+  %21 = load i32, ptr %scevgep14, align 4
+  %.not2 = icmp eq i32 %21, 0
+  br i1 %.not2, label %34, label %22
 
-38:                                               ; preds = %29
-  %39 = load ptr, ptr %11, align 8
-  %40 = sext i32 %23 to i64
-  %41 = getelementptr inbounds i32, ptr %39, i64 %40
-  %42 = trunc i64 %16 to i32
-  store i32 %42, ptr %41, align 4
-  store i32 0, ptr %18, align 4
-  store i32 0, ptr %26, align 4
-  store i32 0, ptr %35, align 4
-  %43 = icmp slt i32 %23, 8
-  br i1 %43, label %44, label %50
+22:                                               ; preds = %19
+  %23 = load i32, ptr %lsr.iv10, align 4
+  %.not3 = icmp eq i32 %23, 0
+  br i1 %.not3, label %34, label %24
 
-44:                                               ; preds = %38
-  %45 = add nsw i32 %23, 1
-  call void @Try(i32 noundef %45, ptr noundef %1, ptr noundef %22, ptr noundef %17, ptr noundef %30, ptr noundef %39)
-  %46 = load i32, ptr %1, align 4
-  %47 = icmp eq i32 %46, 0
-  br i1 %47, label %48, label %51
+24:                                               ; preds = %22
+  %25 = sext i32 %0 to i64
+  %26 = getelementptr inbounds i32, ptr %5, i64 %25
+  %27 = add i64 %lsr.iv, 9
+  %tmp = trunc i64 %27 to i32
+  store i32 %tmp, ptr %26, align 4
+  store i32 0, ptr %scevgep16, align 4
+  store i32 0, ptr %scevgep14, align 4
+  store i32 0, ptr %lsr.iv10, align 4
+  %28 = icmp slt i32 %0, 8
+  br i1 %28, label %29, label %33
 
-48:                                               ; preds = %44
-  store i32 1, ptr %18, align 4
-  store i32 1, ptr %26, align 4
-  store i32 1, ptr %35, align 4
-  %49 = load i32, ptr %1, align 4
-  br label %51
+29:                                               ; preds = %24
+  %30 = add nsw i32 %0, 1
+  tail call void @Try(i32 noundef %30, ptr noundef %1, ptr noundef %2, ptr noundef %3, ptr noundef %4, ptr noundef %5)
+  %31 = load i32, ptr %1, align 4
+  %.not4 = icmp eq i32 %31, 0
+  br i1 %.not4, label %32, label %34
 
-50:                                               ; preds = %38
-  store i32 1, ptr %14, align 4
-  br label %51
+32:                                               ; preds = %29
+  store i32 1, ptr %scevgep16, align 4
+  store i32 1, ptr %scevgep14, align 4
+  store i32 1, ptr %lsr.iv10, align 4
+  %.pre.pre = load i32, ptr %1, align 4
+  br label %34
 
-51:                                               ; preds = %50, %48, %44, %29, %21, %12
-  %52 = phi i32 [ 1, %50 ], [ %49, %48 ], [ %46, %44 ], [ 0, %29 ], [ 0, %21 ], [ 0, %12 ]
-  %53 = phi ptr [ %14, %50 ], [ %1, %48 ], [ %1, %44 ], [ %14, %29 ], [ %14, %21 ], [ %14, %12 ]
-  %54 = phi ptr [ %14, %50 ], [ %1, %48 ], [ %1, %44 ], [ %13, %29 ], [ %13, %21 ], [ %13, %12 ]
-  %55 = icmp eq i32 %52, 0
-  %56 = icmp ne i64 %16, 8
-  %57 = select i1 %55, i1 %56, i1 false
-  br i1 %57, label %12, label %58, !llvm.loop !6
+33:                                               ; preds = %24
+  store i32 1, ptr %11, align 4
+  br label %34
 
-58:                                               ; preds = %51
+34:                                               ; preds = %33, %32, %29, %22, %19, %16
+  %.pre = phi i32 [ 1, %33 ], [ %.pre.pre, %32 ], [ %31, %29 ], [ 0, %22 ], [ 0, %19 ], [ 0, %16 ]
+  %35 = phi ptr [ %11, %33 ], [ %1, %32 ], [ %1, %29 ], [ %11, %22 ], [ %11, %19 ], [ %11, %16 ]
+  %36 = phi ptr [ %11, %33 ], [ %1, %32 ], [ %1, %29 ], [ %12, %22 ], [ %12, %19 ], [ %12, %16 ]
+  %lsr.iv.next = add nsw i64 %lsr.iv, 1
+  %scevgep11 = getelementptr i8, ptr %lsr.iv10, i64 -4
+  br label %10, !llvm.loop !6
+
+37:                                               ; preds = %10
   ret void
 }
 
 ; Function Attrs: noinline nounwind uwtable
-define dso_local void @Doit() local_unnamed_addr #0 {
+define dso_local void @Doit() #0 {
   %1 = alloca i32, align 4
   %2 = alloca [9 x i32], align 16
   %3 = alloca [17 x i32], align 16
@@ -159,95 +153,101 @@ define dso_local void @Doit() local_unnamed_addr #0 {
   %5 = alloca [9 x i32], align 16
   br label %6
 
-6:                                                ; preds = %0, %23
-  %7 = phi i64 [ -7, %0 ], [ %24, %23 ]
-  %8 = icmp sgt i64 %7, 0
-  %9 = icmp slt i64 %7, 9
-  %10 = select i1 %8, i1 %9, i1 false
-  br i1 %10, label %11, label %13
+6:                                                ; preds = %18, %0
+  %indvars.iv = phi i64 [ %indvars.iv.next, %18 ], [ -7, %0 ]
+  %exitcond = icmp ne i64 %indvars.iv, 17
+  br i1 %exitcond, label %7, label %19
 
-11:                                               ; preds = %6
-  %12 = getelementptr inbounds [9 x i32], ptr %2, i64 0, i64 %7
-  store i32 1, ptr %12, align 4
-  br label %13
+7:                                                ; preds = %6
+  %8 = icmp sgt i64 %indvars.iv, 0
+  %9 = icmp slt i64 %indvars.iv, 9
+  %or.cond = select i1 %8, i1 %9, i1 false
+  br i1 %or.cond, label %10, label %12
 
-13:                                               ; preds = %11, %6
-  %14 = icmp sgt i64 %7, 1
-  br i1 %14, label %15, label %17
+10:                                               ; preds = %7
+  %11 = shl nsw i64 %indvars.iv, 2
+  %scevgep5 = getelementptr i8, ptr %2, i64 %11
+  store i32 1, ptr %scevgep5, align 4
+  br label %12
 
-15:                                               ; preds = %13
-  %16 = getelementptr inbounds [17 x i32], ptr %3, i64 0, i64 %7
-  store i32 1, ptr %16, align 4
+12:                                               ; preds = %10, %7
+  %13 = icmp sgt i64 %indvars.iv, 1
+  br i1 %13, label %14, label %.thread
+
+14:                                               ; preds = %12
+  %15 = shl nsw i64 %indvars.iv, 2
+  %scevgep4 = getelementptr i8, ptr %3, i64 %15
+  store i32 1, ptr %scevgep4, align 4
+  %16 = icmp slt i64 %indvars.iv, 8
+  br i1 %16, label %.thread, label %18
+
+.thread:                                          ; preds = %12, %14
+  %17 = shl nsw i64 %indvars.iv, 2
+  %scevgep = getelementptr i8, ptr %4, i64 %17
+  %scevgep3 = getelementptr i8, ptr %scevgep, i64 28
+  store i32 1, ptr %scevgep3, align 4
   br label %18
 
-17:                                               ; preds = %13
-  br label %18
+18:                                               ; preds = %.thread, %14
+  %indvars.iv.next = add nsw i64 %indvars.iv, 1
+  br label %6, !llvm.loop !8
 
-18:                                               ; preds = %17, %15
-  %19 = icmp slt i64 %7, 8
-  br i1 %19, label %20, label %23
-
-20:                                               ; preds = %18
-  %21 = add nsw i64 %7, 7
-  %22 = getelementptr inbounds [15 x i32], ptr %4, i64 0, i64 %21
-  store i32 1, ptr %22, align 4
-  br label %23
-
-23:                                               ; preds = %20, %18
-  %24 = add nsw i64 %7, 1
-  %25 = icmp ne i64 %24, 17
-  br i1 %25, label %6, label %26, !llvm.loop !8
-
-26:                                               ; preds = %23
+19:                                               ; preds = %6
   call void @Try(i32 noundef 1, ptr noundef nonnull %1, ptr noundef nonnull %3, ptr noundef nonnull %2, ptr noundef nonnull %4, ptr noundef nonnull %5)
-  %27 = load i32, ptr %1, align 4
-  %28 = icmp eq i32 %27, 0
-  br i1 %28, label %29, label %31
+  %20 = load i32, ptr %1, align 4
+  %.not = icmp eq i32 %20, 0
+  br i1 %.not, label %21, label %22
 
-29:                                               ; preds = %26
-  %30 = call i32 @puts(ptr nonnull dereferenceable(1) @1)
-  br label %31
+21:                                               ; preds = %19
+  %puts = call i32 @puts(ptr nonnull dereferenceable(1) @str)
+  br label %22
 
-31:                                               ; preds = %29, %26
+22:                                               ; preds = %21, %19
   ret void
 }
 
-declare i32 @printf(ptr noundef, ...) local_unnamed_addr #1
+declare i32 @printf(ptr noundef, ...) #1
 
 ; Function Attrs: noinline nounwind uwtable
-define dso_local void @Queens(i32 noundef %0) local_unnamed_addr #0 {
+define dso_local void @Queens(i32 noundef %0) #0 {
   br label %2
 
-2:                                                ; preds = %1, %2
-  %3 = phi i32 [ 1, %1 ], [ %4, %2 ]
-  call void @Doit()
-  %4 = add nuw nsw i32 %3, 1
-  %5 = icmp ne i32 %4, 51
-  br i1 %5, label %2, label %6, !llvm.loop !9
+2:                                                ; preds = %3, %1
+  %lsr.iv = phi i32 [ %lsr.iv.next, %3 ], [ 50, %1 ]
+  %exitcond = icmp ne i32 %lsr.iv, 0
+  br i1 %exitcond, label %3, label %4
 
-6:                                                ; preds = %2
-  %7 = add nsw i32 %0, 1
-  %8 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @0, i32 noundef %7) #3
+3:                                                ; preds = %2
+  tail call void @Doit()
+  %lsr.iv.next = add nsw i32 %lsr.iv, -1
+  br label %2, !llvm.loop !9
+
+4:                                                ; preds = %2
+  %5 = add nsw i32 %0, 1
+  %6 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str.1, i32 noundef %5) #3
   ret void
 }
 
 ; Function Attrs: noinline nounwind uwtable
-define dso_local i32 @main() local_unnamed_addr #0 {
+define dso_local i32 @main() #0 {
   br label %1
 
-1:                                                ; preds = %0, %1
-  %2 = phi i32 [ 0, %0 ], [ %3, %1 ]
-  call void @Queens(i32 noundef %2)
-  %3 = add nuw nsw i32 %2, 1
-  %4 = icmp ne i32 %3, 100
-  br i1 %4, label %1, label %5, !llvm.loop !10
+1:                                                ; preds = %3, %0
+  %2 = phi i32 [ 0, %0 ], [ %4, %3 ]
+  %exitcond = icmp ne i32 %2, 100
+  br i1 %exitcond, label %3, label %5
+
+3:                                                ; preds = %1
+  tail call void @Queens(i32 noundef %2)
+  %4 = add nuw nsw i32 %2, 1
+  br label %1, !llvm.loop !10
 
 5:                                                ; preds = %1
   ret i32 0
 }
 
 ; Function Attrs: nofree nounwind
-declare noundef i32 @puts(ptr nocapture noundef readonly) local_unnamed_addr #2
+declare noundef i32 @puts(ptr nocapture noundef readonly) #2
 
 attributes #0 = { noinline nounwind uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
 attributes #1 = { "frame-pointer"="all" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }

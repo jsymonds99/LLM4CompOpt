@@ -13,138 +13,151 @@ define dso_local i32 @main() #0 {
   %4 = alloca [1000 x i64], align 16
   br label %5
 
-5:                                                ; preds = %5, %0
-  %6 = phi i32 [ 0, %0 ], [ %26, %5 ]
-  %7 = zext i32 %6 to i64
-  %8 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %7
-  store i64 %7, ptr %8, align 8
-  %9 = shl nuw nsw i32 %6, 1
-  %10 = zext i32 %9 to i64
-  %11 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %7
-  store i64 %10, ptr %11, align 8
-  %12 = mul nuw nsw i32 %6, 3
-  %13 = zext i32 %12 to i64
-  %14 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %7
-  store i64 %13, ptr %14, align 8
-  %15 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %7
-  store i64 0, ptr %15, align 8
-  %16 = add nuw nsw i32 %6, 1
-  %17 = zext i32 %16 to i64
-  %18 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %17
-  store i64 %17, ptr %18, align 8
-  %19 = shl nuw nsw i32 %16, 1
-  %20 = zext i32 %19 to i64
-  %21 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %17
-  store i64 %20, ptr %21, align 8
-  %22 = mul nuw nsw i32 %16, 3
-  %23 = zext i32 %22 to i64
-  %24 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %17
-  store i64 %23, ptr %24, align 8
-  %25 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %17
-  store i64 0, ptr %25, align 8
-  %26 = add nuw nsw i32 %6, 2
-  %27 = icmp ult i32 %26, 1000
-  br i1 %27, label %5, label %28, !llvm.loop !6
+5:                                                ; preds = %21, %0
+  %.01 = phi i32 [ 0, %0 ], [ %22, %21 ]
+  %6 = icmp slt i32 %.01, 1000
+  br i1 %6, label %7, label %23
 
-28:                                               ; preds = %5
+7:                                                ; preds = %5
+  %8 = sext i32 %.01 to i64
+  %9 = sext i32 %.01 to i64
+  %10 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %9
+  store i64 %8, ptr %10, align 8
+  %11 = mul nsw i32 %.01, 2
+  %12 = sext i32 %11 to i64
+  %13 = sext i32 %.01 to i64
+  %14 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %13
+  store i64 %12, ptr %14, align 8
+  %15 = mul nsw i32 %.01, 3
+  %16 = sext i32 %15 to i64
+  %17 = sext i32 %.01 to i64
+  %18 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %17
+  store i64 %16, ptr %18, align 8
+  %19 = sext i32 %.01 to i64
+  %20 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %19
+  store i64 0, ptr %20, align 8
+  br label %21
+
+21:                                               ; preds = %7
+  %22 = add nsw i32 %.01, 1
+  br label %5, !llvm.loop !6
+
+23:                                               ; preds = %5
   call void @srand(i32 noundef 4) #3
-  br label %29
+  br label %24
 
-29:                                               ; preds = %28, %117
-  %30 = phi i32 [ 0, %28 ], [ %122, %117 ]
-  %31 = phi i32 [ 5, %28 ], [ %121, %117 ]
-  %32 = phi i32 [ 15, %28 ], [ %120, %117 ]
-  %33 = phi i32 [ 0, %28 ], [ %119, %117 ]
-  %34 = phi i32 [ 0, %28 ], [ %118, %117 ]
-  %35 = sext i32 %31 to i64
-  %36 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %35
-  %37 = load i64, ptr %36, align 8
-  %38 = mul i64 %37, 87
-  %39 = sdiv i64 %38, 4
-  %40 = add nsw i64 %39, 23
-  %41 = sext i32 %32 to i64
-  %42 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %41
-  %43 = load i64, ptr %42, align 8
-  %44 = mul i64 %43, 231
-  %45 = sdiv i64 %44, 3
-  %46 = add nsw i64 %45, 59
-  %47 = add nsw i64 %40, %46
-  %48 = srem i64 %47, 1000
-  %49 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %48
-  %50 = load i64, ptr %49, align 8
-  %51 = load i64, ptr %36, align 8
-  %52 = add nsw i64 %50, %51
-  %53 = load i64, ptr %42, align 8
-  %54 = add nsw i64 %52, %53
-  %55 = mul nsw i64 %40, 11
-  %56 = mul nsw i64 %46, 13
+24:                                               ; preds = %116, %23
+  %.07 = phi i32 [ 15, %23 ], [ %.29, %116 ]
+  %.04 = phi i32 [ 5, %23 ], [ %.26, %116 ]
+  %.12 = phi i32 [ 0, %23 ], [ %117, %116 ]
+  %.0 = phi i32 [ 0, %23 ], [ %.3, %116 ]
+  %25 = icmp slt i32 %.12, 1000000000
+  br i1 %25, label %26, label %118
+
+26:                                               ; preds = %24
+  %27 = sext i32 %.04 to i64
+  %28 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %27
+  %29 = load i64, ptr %28, align 8
+  %30 = mul nsw i64 %29, 3
+  %31 = mul nsw i64 %30, 29
+  %32 = sdiv i64 %31, 4
+  %33 = add nsw i64 %32, 23
+  %34 = sext i32 %.07 to i64
+  %35 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %34
+  %36 = load i64, ptr %35, align 8
+  %37 = mul nsw i64 %36, 7
+  %38 = mul nsw i64 %37, 33
+  %39 = sdiv i64 %38, 3
+  %40 = add nsw i64 %39, 59
+  %41 = add nsw i64 %33, %40
+  %42 = srem i64 %41, 1000
+  %43 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %42
+  %44 = load i64, ptr %43, align 8
+  %45 = sext i32 %.04 to i64
+  %46 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %45
+  %47 = load i64, ptr %46, align 8
+  %48 = add nsw i64 %44, %47
+  %49 = sext i32 %.07 to i64
+  %50 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %49
+  %51 = load i64, ptr %50, align 8
+  %52 = add nsw i64 %48, %51
+  %53 = mul nsw i64 %33, 11
+  %54 = mul nsw i64 %40, 13
+  %55 = add nsw i64 %53, %54
+  %56 = mul nsw i64 %52, 17
   %57 = add nsw i64 %55, %56
-  %58 = mul nsw i64 %54, 17
+  %58 = sext i32 %.12 to i64
   %59 = add nsw i64 %57, %58
-  %60 = zext i32 %30 to i64
-  %61 = add nsw i64 %59, %60
-  %62 = urem i32 %30, 1000
-  %63 = zext i32 %62 to i64
-  %64 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %63
-  store i64 %61, ptr %64, align 8
-  %65 = icmp ult i32 %30, 100
-  br i1 %65, label %66, label %117
+  %60 = srem i32 %.12, 1000
+  %61 = sext i32 %60 to i64
+  %62 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %61
+  store i64 %59, ptr %62, align 8
+  %63 = icmp slt i32 %.12, 100
+  br i1 %63, label %64, label %115
 
-66:                                               ; preds = %29
-  br label %67
+64:                                               ; preds = %26
+  br label %65
 
-67:                                               ; preds = %66, %104
-  %68 = phi i32 [ 0, %66 ], [ %106, %104 ]
-  %69 = phi i32 [ %33, %66 ], [ %105, %104 ]
-  %70 = phi i32 [ %34, %66 ], [ %105, %104 ]
-  %71 = sext i32 %69 to i64
-  %72 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %71
-  %73 = load i64, ptr %72, align 8
-  %74 = mul nsw i64 %73, 6
-  %75 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %71
-  %76 = load i64, ptr %75, align 8
-  %77 = sdiv i64 %76, 2
-  %78 = add nsw i64 %74, %77
-  %79 = srem i64 %78, 1000
-  %80 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %79
-  %81 = load i64, ptr %80, align 8
-  %82 = shl nsw i64 %81, 1
-  %83 = shl nsw i64 %73, 2
-  %84 = add nsw i64 %82, %83
-  %85 = srem i64 %84, 1000
-  %86 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %85
-  %87 = load i64, ptr %86, align 16
-  %88 = mul nsw i64 %87, 6
-  %89 = sext i32 %70 to i64
-  %90 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %89
-  %91 = load i64, ptr %90, align 8
-  %92 = mul nsw i64 %91, 3
-  %93 = add nsw i64 %88, %92
-  %94 = add nsw i64 %78, %84
-  %95 = shl nsw i64 %93, 1
-  %96 = add nsw i64 %94, %95
-  %97 = zext i32 %68 to i64
-  %98 = add nsw i64 %96, %97
-  %99 = urem i32 %68, 100
-  %100 = zext i32 %99 to i64
-  %101 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %100
-  store i64 %98, ptr %101, align 8
-  %102 = icmp ult i32 %68, 10
-  br i1 %102, label %103, label %104
+65:                                               ; preds = %106, %64
+  %.010 = phi i32 [ 0, %64 ], [ %107, %106 ]
+  %.1 = phi i32 [ %.0, %64 ], [ %.2, %106 ]
+  %66 = icmp slt i32 %.010, 1000000
+  br i1 %66, label %67, label %108
 
-103:                                              ; preds = %67
-  br label %104
+67:                                               ; preds = %65
+  %68 = sext i32 %.1 to i64
+  %69 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %68
+  %70 = load i64, ptr %69, align 8
+  %71 = mul nsw i64 %70, 6
+  %72 = sext i32 %.1 to i64
+  %73 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %72
+  %74 = load i64, ptr %73, align 8
+  %75 = sdiv i64 %74, 2
+  %76 = add nsw i64 %71, %75
+  %77 = srem i64 %76, 1000
+  %78 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %77
+  %79 = load i64, ptr %78, align 8
+  %80 = mul nsw i64 2, %79
+  %81 = sext i32 %.1 to i64
+  %82 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %81
+  %83 = load i64, ptr %82, align 8
+  %84 = mul nsw i64 4, %83
+  %85 = add nsw i64 %80, %84
+  %86 = srem i64 %85, 1000
+  %87 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %86
+  %88 = load i64, ptr %87, align 8
+  %89 = mul nsw i64 6, %88
+  %90 = sext i32 %.1 to i64
+  %91 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %90
+  %92 = load i64, ptr %91, align 8
+  %93 = mul nsw i64 %92, 3
+  %94 = add nsw i64 %89, %93
+  %95 = add nsw i64 %76, %85
+  %96 = mul nsw i64 %94, 2
+  %97 = add nsw i64 %95, %96
+  %98 = sext i32 %.010 to i64
+  %99 = add nsw i64 %97, %98
+  %100 = srem i32 %.010, 100
+  %101 = sext i32 %100 to i64
+  %102 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %101
+  store i64 %99, ptr %102, align 8
+  %103 = icmp slt i32 %.010, 10
+  br i1 %103, label %104, label %105
 
-104:                                              ; preds = %103, %67
-  %105 = phi i32 [ 59, %103 ], [ %70, %67 ]
-  %106 = add nuw nsw i32 %68, 1
-  %107 = icmp ult i32 %106, 1000000
-  br i1 %107, label %67, label %108, !llvm.loop !8
+104:                                              ; preds = %67
+  br label %105
 
-108:                                              ; preds = %104
-  %.lcssa1 = phi i32 [ %105, %104 ]
-  %.lcssa = phi i32 [ %105, %104 ]
-  %109 = icmp eq i32 %30, 0
+105:                                              ; preds = %104, %67
+  %.2 = phi i32 [ 59, %104 ], [ %.1, %67 ]
+  br label %106
+
+106:                                              ; preds = %105
+  %107 = add nsw i32 %.010, 1
+  br label %65, !llvm.loop !8
+
+108:                                              ; preds = %65
+  %.1.lcssa = phi i32 [ %.1, %65 ]
+  %109 = icmp eq i32 %.12, 0
   br i1 %109, label %110, label %113
 
 110:                                              ; preds = %108
@@ -156,33 +169,40 @@ define dso_local i32 @main() #0 {
   br label %114
 
 114:                                              ; preds = %113, %110
-  %115 = phi i32 [ 37, %113 ], [ %32, %110 ]
-  %116 = phi i32 [ %31, %113 ], [ %112, %110 ]
-  br label %117
+  %.18 = phi i32 [ %.07, %110 ], [ 37, %113 ]
+  %.15 = phi i32 [ %112, %110 ], [ %.04, %113 ]
+  br label %115
 
-117:                                              ; preds = %114, %29
-  %118 = phi i32 [ %.lcssa1, %114 ], [ %34, %29 ]
-  %119 = phi i32 [ %.lcssa, %114 ], [ %33, %29 ]
-  %120 = phi i32 [ %115, %114 ], [ %32, %29 ]
-  %121 = phi i32 [ %116, %114 ], [ %31, %29 ]
-  %122 = add nuw nsw i32 %30, 1
-  %123 = icmp ult i32 %122, 1000000000
-  br i1 %123, label %29, label %124, !llvm.loop !9
+115:                                              ; preds = %114, %26
+  %.29 = phi i32 [ %.18, %114 ], [ %.07, %26 ]
+  %.26 = phi i32 [ %.15, %114 ], [ %.04, %26 ]
+  %.3 = phi i32 [ %.1.lcssa, %114 ], [ %.0, %26 ]
+  br label %116
 
-124:                                              ; preds = %117
-  br label %125
+116:                                              ; preds = %115
+  %117 = add nsw i32 %.12, 1
+  br label %24, !llvm.loop !9
 
-125:                                              ; preds = %124, %125
-  %126 = phi i32 [ 0, %124 ], [ %131, %125 ]
-  %127 = zext i32 %126 to i64
-  %128 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %127
-  %129 = load i64, ptr %128, align 8
-  %130 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i64 noundef %129) #3
-  %131 = add nuw nsw i32 %126, 1
-  %132 = icmp ult i32 %131, 1000
-  br i1 %132, label %125, label %133, !llvm.loop !10
+118:                                              ; preds = %24
+  br label %119
 
-133:                                              ; preds = %125
+119:                                              ; preds = %126, %118
+  %.23 = phi i32 [ 0, %118 ], [ %127, %126 ]
+  %120 = icmp slt i32 %.23, 1000
+  br i1 %120, label %121, label %128
+
+121:                                              ; preds = %119
+  %122 = sext i32 %.23 to i64
+  %123 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %122
+  %124 = load i64, ptr %123, align 8
+  %125 = call i32 (ptr, ...) @printf(ptr noundef @.str, i64 noundef %124)
+  br label %126
+
+126:                                              ; preds = %121
+  %127 = add nsw i32 %.23, 1
+  br label %119, !llvm.loop !10
+
+128:                                              ; preds = %119
   ret i32 0
 }
 

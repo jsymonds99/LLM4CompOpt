@@ -41,15 +41,16 @@ target triple = "x86_64-unknown-linux-gnu"
 @e = dso_local global [130 x %struct.complex] zeroinitializer, align 16
 @zr = dso_local global float 0.000000e+00, align 4
 @zi = dso_local global float 0.000000e+00, align 4
+@str = private unnamed_addr constant [18 x i8] c"Error3 in Bubble.\00", align 1
 
-; Function Attrs: mustprogress nofree noinline norecurse nosync nounwind willreturn memory(write, argmem: none, inaccessiblemem: none) uwtable
+; Function Attrs: noinline nounwind uwtable
 define dso_local void @Initrand() #0 {
   store i64 74755, ptr @seed, align 8
   ret void
 }
 
-; Function Attrs: mustprogress nofree noinline norecurse nosync nounwind willreturn memory(readwrite, argmem: none, inaccessiblemem: none) uwtable
-define dso_local i32 @Rand() #1 {
+; Function Attrs: noinline nounwind uwtable
+define dso_local i32 @Rand() #0 {
   %1 = load i64, ptr @seed, align 8
   %2 = mul nsw i64 %1, 1309
   %3 = add nsw i64 %2, 13849
@@ -59,158 +60,142 @@ define dso_local i32 @Rand() #1 {
   ret i32 %5
 }
 
-; Function Attrs: nofree noinline norecurse nosync nounwind memory(readwrite, inaccessiblemem: none) uwtable
-define dso_local void @bInitarr() #2 {
-.lr.ph:
+; Function Attrs: noinline nounwind uwtable
+define dso_local void @bInitarr() #0 {
   call void @Initrand()
   store i32 0, ptr @biggest, align 4
   store i32 0, ptr @littlest, align 4
-  br label %0
+  br label %1
 
-0:                                                ; preds = %.lr.ph, %18
-  %.0 = phi i32 [ 1, %.lr.ph ], [ %19, %18 ]
-  %1 = call i32 @Rand()
-  %2 = sext i32 %1 to i64
-  %3 = sdiv i64 %2, 100000
-  %4 = mul nsw i64 %3, 100000
-  %5 = sub nsw i64 %2, %4
-  %6 = sub nsw i64 %5, 50000
-  %7 = trunc i64 %6 to i32
-  %8 = sext i32 %.0 to i64
-  %9 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %8
-  store i32 %7, ptr %9, align 4
-  %10 = load i32, ptr @biggest, align 4
-  %11 = icmp sgt i32 %7, %10
-  br i1 %11, label %12, label %13
-
-12:                                               ; preds = %0
-  store i32 %7, ptr @biggest, align 4
-  br label %18
-
-13:                                               ; preds = %0
-  %14 = load i32, ptr @littlest, align 4
-  %15 = icmp slt i32 %7, %14
-  br i1 %15, label %16, label %17
-
-16:                                               ; preds = %13
-  store i32 %7, ptr @littlest, align 4
-  br label %17
-
-17:                                               ; preds = %16, %13
-  br label %18
-
-18:                                               ; preds = %17, %12
-  %19 = add nsw i32 %.0, 1
-  %20 = icmp sle i32 %19, 500
-  br i1 %20, label %0, label %._crit_edge, !llvm.loop !6
-
-._crit_edge:                                      ; preds = %18
-  ret void
-}
-
-; Function Attrs: noinline nounwind uwtable
-define dso_local void @Bubble(i32 noundef %0) #3 {
-  call void @bInitarr()
-  store i32 500, ptr @top, align 4
-  br i1 true, label %.lr.ph2, label %._crit_edge15
-
-._crit_edge15:                                    ; preds = %1
-  br label %21
-
-.lr.ph2:                                          ; preds = %1
-  br label %2
-
-2:                                                ; preds = %.lr.ph2, %18
-  %3 = phi i32 [ 500, %.lr.ph2 ], [ %19, %18 ]
-  %4 = icmp slt i32 1, %3
-  br i1 %4, label %.lr.ph, label %18
-
-.lr.ph:                                           ; preds = %2
-  %.pre = load i32, ptr getelementptr inbounds ([5001 x i32], ptr @sortlist, i64 0, i64 1), align 4
-  br label %5
-
-5:                                                ; preds = %.lr.ph, %15
-  %6 = phi i32 [ %.pre, %.lr.ph ], [ %16, %15 ]
-  %.0 = phi i32 [ 1, %.lr.ph ], [ %9, %15 ]
+1:                                                ; preds = %0, %16
+  %.0 = phi i32 [ 1, %0 ], [ %17, %16 ]
+  %2 = call i32 @Rand()
+  %.fr1 = freeze i32 %2
+  %3 = sext i32 %.fr1 to i64
+  %4 = srem i64 %3, 100000
+  %5 = trunc i64 %4 to i32
+  %6 = add nsw i32 %5, -50000
   %7 = sext i32 %.0 to i64
   %8 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %7
-  %9 = add nsw i32 %.0, 1
-  %10 = sext i32 %9 to i64
-  %11 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %10
-  %12 = load i32, ptr %11, align 4
-  %13 = icmp sgt i32 %6, %12
-  br i1 %13, label %14, label %15
+  store i32 %6, ptr %8, align 4
+  %9 = load i32, ptr @biggest, align 4
+  %10 = icmp sgt i32 %6, %9
+  br i1 %10, label %11, label %12
 
-14:                                               ; preds = %5
-  store i32 %12, ptr %8, align 4
-  store i32 %6, ptr %11, align 4
-  br label %15
+11:                                               ; preds = %1
+  store i32 %6, ptr @biggest, align 4
+  br label %16
 
-15:                                               ; preds = %14, %5
-  %16 = phi i32 [ %6, %14 ], [ %12, %5 ]
-  %17 = icmp slt i32 %9, %3
-  br i1 %17, label %5, label %._crit_edge, !llvm.loop !8
+12:                                               ; preds = %1
+  %13 = load i32, ptr @littlest, align 4
+  %14 = icmp slt i32 %6, %13
+  br i1 %14, label %15, label %16
 
-._crit_edge:                                      ; preds = %15
-  br label %18
+15:                                               ; preds = %12
+  store i32 %6, ptr @littlest, align 4
+  br label %16
 
-18:                                               ; preds = %._crit_edge, %2
-  %19 = sub nsw i32 %3, 1
-  store i32 %19, ptr @top, align 4
-  %20 = icmp sgt i32 %19, 1
-  br i1 %20, label %2, label %._crit_edge3, !llvm.loop !9
+16:                                               ; preds = %11, %15, %12
+  %17 = add nsw i32 %.0, 1
+  %18 = icmp slt i32 %17, 501
+  br i1 %18, label %1, label %19, !llvm.loop !6
 
-._crit_edge3:                                     ; preds = %18
-  br label %21
-
-21:                                               ; preds = %._crit_edge15, %._crit_edge3
-  %22 = load i32, ptr getelementptr inbounds ([5001 x i32], ptr @sortlist, i64 0, i64 1), align 4
-  %23 = load i32, ptr @littlest, align 4
-  %24 = icmp ne i32 %22, %23
-  br i1 %24, label %29, label %25
-
-25:                                               ; preds = %21
-  %26 = load i32, ptr getelementptr inbounds ([5001 x i32], ptr @sortlist, i64 0, i64 500), align 16
-  %27 = load i32, ptr @biggest, align 4
-  %28 = icmp ne i32 %26, %27
-  br i1 %28, label %29, label %31
-
-29:                                               ; preds = %25, %21
-  %30 = call i32 (ptr, ...) @printf(ptr noundef @.str)
-  br label %31
-
-31:                                               ; preds = %29, %25
-  %32 = add nsw i32 %0, 1
-  %33 = sext i32 %32 to i64
-  %34 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %33
-  %35 = load i32, ptr %34, align 4
-  %36 = call i32 (ptr, ...) @printf(ptr noundef @.str.1, i32 noundef %35)
+19:                                               ; preds = %16
   ret void
 }
 
-declare i32 @printf(ptr noundef, ...) #4
+; Function Attrs: noinline nounwind uwtable
+define dso_local void @Bubble(i32 noundef %0) #0 {
+  call void @bInitarr()
+  store i32 500, ptr @top, align 4
+  br label %2
+
+2:                                                ; preds = %1, %._crit_edge
+  %3 = phi i32 [ 500, %1 ], [ %17, %._crit_edge ]
+  %4 = icmp slt i32 1, %3
+  br i1 %4, label %..lr.ph_crit_edge, label %._crit_edge
+
+..lr.ph_crit_edge:                                ; preds = %2
+  %.pre = load i32, ptr getelementptr inbounds ([5001 x i32], ptr @sortlist, i64 0, i64 1), align 4
+  br label %.lr.ph
+
+.lr.ph:                                           ; preds = %..lr.ph_crit_edge, %14
+  %5 = phi i32 [ %15, %14 ], [ %.pre, %..lr.ph_crit_edge ]
+  %.0 = phi i32 [ %8, %14 ], [ 1, %..lr.ph_crit_edge ]
+  %6 = sext i32 %.0 to i64
+  %7 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %6
+  %8 = add nsw i32 %.0, 1
+  %9 = sext i32 %8 to i64
+  %10 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %9
+  %11 = load i32, ptr %10, align 4
+  %12 = icmp sgt i32 %5, %11
+  br i1 %12, label %13, label %14
+
+13:                                               ; preds = %.lr.ph
+  store i32 %11, ptr %7, align 4
+  store i32 %5, ptr %10, align 4
+  br label %14
+
+14:                                               ; preds = %13, %.lr.ph
+  %15 = phi i32 [ %5, %13 ], [ %11, %.lr.ph ]
+  %16 = icmp slt i32 %8, %3
+  br i1 %16, label %.lr.ph, label %._crit_edge, !llvm.loop !8
+
+._crit_edge:                                      ; preds = %14, %2
+  %17 = add nsw i32 %3, -1
+  store i32 %17, ptr @top, align 4
+  %18 = icmp sgt i32 %17, 1
+  br i1 %18, label %2, label %19, !llvm.loop !9
+
+19:                                               ; preds = %._crit_edge
+  %20 = load i32, ptr getelementptr inbounds ([5001 x i32], ptr @sortlist, i64 0, i64 1), align 4
+  %21 = load i32, ptr @littlest, align 4
+  %.not = icmp eq i32 %20, %21
+  br i1 %.not, label %22, label %25
+
+22:                                               ; preds = %19
+  %23 = load i32, ptr getelementptr inbounds ([5001 x i32], ptr @sortlist, i64 0, i64 500), align 16
+  %24 = load i32, ptr @biggest, align 4
+  %.not1 = icmp eq i32 %23, %24
+  br i1 %.not1, label %26, label %25
+
+25:                                               ; preds = %22, %19
+  %puts = call i32 @puts(ptr nonnull dereferenceable(1) @str)
+  br label %26
+
+26:                                               ; preds = %25, %22
+  %27 = add nsw i32 %0, 1
+  %28 = sext i32 %27 to i64
+  %29 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %28
+  %30 = load i32, ptr %29, align 4
+  %31 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str.1, i32 noundef %30) #3
+  ret void
+}
+
+declare i32 @printf(ptr noundef, ...) #1
 
 ; Function Attrs: noinline nounwind uwtable
-define dso_local i32 @main() #3 {
-.lr.ph:
-  br label %0
+define dso_local i32 @main() #0 {
+  br label %1
 
-0:                                                ; preds = %.lr.ph, %0
-  %.0 = phi i32 [ 0, %.lr.ph ], [ %1, %0 ]
+1:                                                ; preds = %0, %1
+  %.0 = phi i32 [ 0, %0 ], [ %2, %1 ]
   call void @Bubble(i32 noundef %.0)
-  %1 = add nsw i32 %.0, 1
-  %2 = icmp slt i32 %1, 100
-  br i1 %2, label %0, label %._crit_edge, !llvm.loop !10
+  %2 = add nsw i32 %.0, 1
+  %3 = icmp slt i32 %2, 100
+  br i1 %3, label %1, label %4, !llvm.loop !10
 
-._crit_edge:                                      ; preds = %0
+4:                                                ; preds = %1
   ret i32 0
 }
 
-attributes #0 = { mustprogress nofree noinline norecurse nosync nounwind willreturn memory(write, argmem: none, inaccessiblemem: none) uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
-attributes #1 = { mustprogress nofree noinline norecurse nosync nounwind willreturn memory(readwrite, argmem: none, inaccessiblemem: none) uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
-attributes #2 = { nofree noinline norecurse nosync nounwind memory(readwrite, inaccessiblemem: none) uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
-attributes #3 = { noinline nounwind uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
-attributes #4 = { "frame-pointer"="all" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
+; Function Attrs: nofree nounwind
+declare noundef i32 @puts(ptr nocapture noundef readonly) #2
+
+attributes #0 = { noinline nounwind uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
+attributes #1 = { "frame-pointer"="all" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
+attributes #2 = { nofree nounwind }
+attributes #3 = { nounwind }
 
 !llvm.module.flags = !{!0, !1, !2, !3, !4}
 !llvm.ident = !{!5}

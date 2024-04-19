@@ -1,11 +1,6 @@
-GEMINI PROMPT 1: -always-inline -instcombine -aggressive-instcombine -mem2reg -sroa -sccp -ipsccp -gvn -loop-unroll -indvars -loop-reduce -dce -adce -function-attrs -globalopt -globaldce -memcpyopt -simplifycfg
-
-GEMINI PROMPT 2: -always-inline -adce -instcombine -loop-unroll -loop-deletion
-
-GEMINI PROMPT 3: -always-inline -instcombine -aggressive-instcombine -loop-unroll -indvars -gvn -memcpyopt -mem2reg -sccp -dce -simplifycfg
-
-GPT-4 PROMPT 1: -always-inline -inline -loop-unroll -memcpyopt -function-attrs -instcombine -reassociate -simplifycfg -constmerge -deadargelim -adce
-
-GPT-4 PROMPT 2: -inline -mem2reg -dce
-
-GPT-4 PROMPT 3: -always-inline -inline -loop-unroll -memcpyopt -mem2reg -dce -adce -sccp -jump-threading -loop-vectorize -globalopt -globaldce -sroa -instcombine
+Gemini Prompt 1: -ipsccp -always-inline -instcombine -aggressive-instcombine -reassociate -mem2reg -sccp -dce -adce -simplifycfg -indvars -loop-deletion -gvn -globaldce -constmerge -function-attrs -inline -tailcallelim -strip -strip-dead-debug-info
+Gemini Prompt 2: -dce -instcombine -mem2reg -loop-unroll
+Gemini Prompt 3: -strip-dead-prototypes -strip-dead-debug-info -function-attrs -instcombine -aggressive-instcombine -simplifycfg -reassociate -constmerge -gvn -dce -dse -mem2reg -sroa -indvars -inline -tailcallelim
+GPT-4 Prompt 1: -globaldce -inline -loop-rotate -mem2reg -memcpyopt -dce -simplifycfg -argpromotion
+GPT-4 Prompt 2: -globalopt -inline -mem2reg -instcombine -globaldce -dce -adce -sroa -simplifycfg -deadargelim
+GPT-4 Prompt 3: -globalopt -inline -mem2reg -instcombine -globaldce -dce -adce -sroa -simplifycfg -deadargelim

@@ -43,14 +43,14 @@ target triple = "x86_64-unknown-linux-gnu"
 @zi = dso_local global float 0.000000e+00, align 4
 @str = private unnamed_addr constant [18 x i8] c"Error3 in Bubble.\00", align 1
 
-; Function Attrs: noinline nounwind uwtable
+; Function Attrs: mustprogress nofree noinline norecurse nosync nounwind willreturn memory(write, argmem: none, inaccessiblemem: none) uwtable
 define dso_local void @Initrand() #0 {
   store i64 74755, ptr @seed, align 8
   ret void
 }
 
-; Function Attrs: noinline nounwind uwtable
-define dso_local i32 @Rand() #0 {
+; Function Attrs: mustprogress nofree noinline norecurse nosync nounwind willreturn memory(readwrite, argmem: none, inaccessiblemem: none) uwtable
+define dso_local i32 @Rand() #1 {
   %1 = load i64, ptr @seed, align 8
   %2 = mul nsw i64 %1, 1309
   %3 = add nsw i64 %2, 13849
@@ -60,17 +60,17 @@ define dso_local i32 @Rand() #0 {
   ret i32 %5
 }
 
-; Function Attrs: noinline nounwind uwtable
-define dso_local void @bInitarr() #0 {
+; Function Attrs: nofree noinline norecurse nosync nounwind memory(readwrite, inaccessiblemem: none) uwtable
+define dso_local void @bInitarr() #2 {
   call void @Initrand()
   store i32 0, ptr @biggest, align 4
   store i32 0, ptr @littlest, align 4
   br label %1
 
-1:                                                ; preds = %19, %0
-  %lsr.iv = phi i64 [ %lsr.iv.next, %19 ], [ -2000, %0 ]
-  %exitcond = icmp ne i64 %lsr.iv, 0
-  br i1 %exitcond, label %2, label %20
+1:                                                ; preds = %16, %0
+  %indvars.iv = phi i64 [ %indvars.iv.next, %16 ], [ 1, %0 ]
+  %exitcond = icmp ne i64 %indvars.iv, 501
+  br i1 %exitcond, label %2, label %17
 
 2:                                                ; preds = %1
   %3 = call i32 @Rand(), !range !6
@@ -79,131 +79,103 @@ define dso_local void @bInitarr() #0 {
   %5 = srem i64 %4, 100000
   %6 = trunc i64 %5 to i32
   %7 = add nsw i32 %6, -50000
-  %scevgep = getelementptr i8, ptr @sortlist, i64 %lsr.iv
-  %scevgep3 = getelementptr i8, ptr %scevgep, i64 2004
-  store i32 %7, ptr %scevgep3, align 4
-  %8 = load i32, ptr %scevgep3, align 4
+  %8 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %indvars.iv
+  store i32 %7, ptr %8, align 4
   %9 = load i32, ptr @biggest, align 4
-  %10 = icmp sgt i32 %8, %9
-  br i1 %10, label %11, label %13
+  %10 = icmp sgt i32 %7, %9
+  br i1 %10, label %11, label %12
 
 11:                                               ; preds = %2
-  %scevgep4 = getelementptr i8, ptr @sortlist, i64 %lsr.iv
-  %scevgep5 = getelementptr i8, ptr %scevgep4, i64 2004
-  %12 = load i32, ptr %scevgep5, align 4
-  store i32 %12, ptr @biggest, align 4
-  br label %19
+  store i32 %7, ptr @biggest, align 4
+  br label %16
 
-13:                                               ; preds = %2
-  %scevgep6 = getelementptr i8, ptr @sortlist, i64 %lsr.iv
-  %scevgep7 = getelementptr i8, ptr %scevgep6, i64 2004
-  %14 = load i32, ptr %scevgep7, align 4
-  %15 = load i32, ptr @littlest, align 4
-  %16 = icmp slt i32 %14, %15
-  br i1 %16, label %17, label %19
+12:                                               ; preds = %2
+  %13 = load i32, ptr @littlest, align 4
+  %14 = icmp slt i32 %7, %13
+  br i1 %14, label %15, label %16
 
-17:                                               ; preds = %13
-  %scevgep8 = getelementptr i8, ptr @sortlist, i64 %lsr.iv
-  %scevgep9 = getelementptr i8, ptr %scevgep8, i64 2004
-  %18 = load i32, ptr %scevgep9, align 4
-  store i32 %18, ptr @littlest, align 4
-  br label %19
+15:                                               ; preds = %12
+  store i32 %7, ptr @littlest, align 4
+  br label %16
 
-19:                                               ; preds = %11, %17, %13
-  %lsr.iv.next = add nsw i64 %lsr.iv, 4
+16:                                               ; preds = %11, %15, %12
+  %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1
   br label %1, !llvm.loop !7
 
-20:                                               ; preds = %1
+17:                                               ; preds = %1
   ret void
 }
 
 ; Function Attrs: noinline nounwind uwtable
-define dso_local void @Bubble(i32 noundef %0) #0 {
+define dso_local void @Bubble(i32 noundef %0) #3 {
   call void @bInitarr()
   br label %2
 
-2:                                                ; preds = %22, %1
-  %storemerge = phi i32 [ 500, %1 ], [ %24, %22 ]
-  store i32 %storemerge, ptr @top, align 4
-  %3 = icmp sgt i32 %storemerge, 1
-  br i1 %3, label %.preheader, label %25
+2:                                                ; preds = %14, %1
+  %indvars.iv4 = phi i64 [ %indvars.iv.next5, %14 ], [ 500, %1 ]
+  %3 = trunc i64 %indvars.iv4 to i32
+  store i32 %3, ptr @top, align 4
+  %4 = icmp ugt i64 %indvars.iv4, 1
+  br i1 %4, label %.preheader, label %15
 
 .preheader:                                       ; preds = %2
-  br label %4
+  br label %5
 
-4:                                                ; preds = %.preheader, %21
-  %indvars.iv = phi i64 [ 1, %.preheader ], [ %indvars.iv.next, %21 ]
-  %5 = load i32, ptr @top, align 4
-  %6 = sext i32 %5 to i64
-  %7 = icmp slt i64 %indvars.iv, %6
-  br i1 %7, label %8, label %22
+5:                                                ; preds = %.preheader, %13
+  %indvars.iv = phi i64 [ 1, %.preheader ], [ %indvars.iv.next, %13 ]
+  %exitcond = icmp ne i64 %indvars.iv, %indvars.iv4
+  br i1 %exitcond, label %6, label %14
 
-8:                                                ; preds = %4
-  %9 = shl nuw nsw i64 %indvars.iv, 2
-  %scevgep = getelementptr i8, ptr @sortlist, i64 %9
-  %10 = load i32, ptr %scevgep, align 4
-  %11 = shl nuw nsw i64 %indvars.iv, 2
-  %scevgep10 = getelementptr i8, ptr @sortlist, i64 %11
-  %scevgep11 = getelementptr i8, ptr %scevgep10, i64 4
-  %12 = load i32, ptr %scevgep11, align 4
-  %13 = icmp sgt i32 %10, %12
-  br i1 %13, label %14, label %21
-
-14:                                               ; preds = %8
-  %15 = shl nuw nsw i64 %indvars.iv, 2
-  %scevgep4 = getelementptr i8, ptr @sortlist, i64 %15
-  %16 = load i32, ptr %scevgep4, align 4
-  %17 = shl nuw nsw i64 %indvars.iv, 2
-  %scevgep5 = getelementptr i8, ptr @sortlist, i64 %17
-  %scevgep6 = getelementptr i8, ptr %scevgep5, i64 4
-  %18 = load i32, ptr %scevgep6, align 4
-  %19 = shl nuw nsw i64 %indvars.iv, 2
-  %scevgep7 = getelementptr i8, ptr @sortlist, i64 %19
-  store i32 %18, ptr %scevgep7, align 4
-  %20 = shl nuw nsw i64 %indvars.iv, 2
-  %scevgep8 = getelementptr i8, ptr @sortlist, i64 %20
-  %scevgep9 = getelementptr i8, ptr %scevgep8, i64 4
-  store i32 %16, ptr %scevgep9, align 4
-  br label %21
-
-21:                                               ; preds = %14, %8
+6:                                                ; preds = %5
+  %7 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %indvars.iv
+  %8 = load i32, ptr %7, align 4
   %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1
-  br label %4, !llvm.loop !9
+  %9 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %indvars.iv.next
+  %10 = load i32, ptr %9, align 4
+  %11 = icmp sgt i32 %8, %10
+  br i1 %11, label %12, label %13
 
-22:                                               ; preds = %4
-  %23 = load i32, ptr @top, align 4
-  %24 = add nsw i32 %23, -1
+12:                                               ; preds = %6
+  store i32 %10, ptr %7, align 4
+  store i32 %8, ptr %9, align 4
+  br label %13
+
+13:                                               ; preds = %12, %6
+  br label %5, !llvm.loop !9
+
+14:                                               ; preds = %5
+  %indvars.iv.next5 = add nsw i64 %indvars.iv4, -1
   br label %2, !llvm.loop !10
 
-25:                                               ; preds = %2
-  %26 = load i32, ptr getelementptr inbounds ([5001 x i32], ptr @sortlist, i64 0, i64 1), align 4
-  %27 = load i32, ptr @littlest, align 4
-  %.not = icmp eq i32 %26, %27
-  br i1 %.not, label %28, label %31
+15:                                               ; preds = %2
+  %16 = load i32, ptr getelementptr inbounds ([5001 x i32], ptr @sortlist, i64 0, i64 1), align 4
+  %17 = load i32, ptr @littlest, align 4
+  %.not = icmp eq i32 %16, %17
+  br i1 %.not, label %18, label %21
 
-28:                                               ; preds = %25
-  %29 = load i32, ptr getelementptr inbounds ([5001 x i32], ptr @sortlist, i64 0, i64 500), align 16
-  %30 = load i32, ptr @biggest, align 4
-  %.not1 = icmp eq i32 %29, %30
-  br i1 %.not1, label %32, label %31
+18:                                               ; preds = %15
+  %19 = load i32, ptr getelementptr inbounds ([5001 x i32], ptr @sortlist, i64 0, i64 500), align 16
+  %20 = load i32, ptr @biggest, align 4
+  %.not1 = icmp eq i32 %19, %20
+  br i1 %.not1, label %22, label %21
 
-31:                                               ; preds = %28, %25
+21:                                               ; preds = %18, %15
   %puts = call i32 @puts(ptr nonnull dereferenceable(1) @str)
-  br label %32
+  br label %22
 
-32:                                               ; preds = %31, %28
-  %33 = add nsw i32 %0, 1
-  %34 = sext i32 %33 to i64
-  %35 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %34
-  %36 = load i32, ptr %35, align 4
-  %37 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str.1, i32 noundef %36) #3
+22:                                               ; preds = %21, %18
+  %23 = add nsw i32 %0, 1
+  %24 = sext i32 %23 to i64
+  %25 = getelementptr inbounds [5001 x i32], ptr @sortlist, i64 0, i64 %24
+  %26 = load i32, ptr %25, align 4
+  %27 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str.1, i32 noundef %26) #6
   ret void
 }
 
-declare i32 @printf(ptr noundef, ...) #1
+declare i32 @printf(ptr noundef, ...) #4
 
 ; Function Attrs: noinline nounwind uwtable
-define dso_local i32 @main() #0 {
+define dso_local i32 @main() #3 {
   br label %1
 
 1:                                                ; preds = %2, %0
@@ -221,12 +193,15 @@ define dso_local i32 @main() #0 {
 }
 
 ; Function Attrs: nofree nounwind
-declare noundef i32 @puts(ptr nocapture noundef readonly) #2
+declare noundef i32 @puts(ptr nocapture noundef readonly) #5
 
-attributes #0 = { noinline nounwind uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
-attributes #1 = { "frame-pointer"="all" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
-attributes #2 = { nofree nounwind }
-attributes #3 = { nounwind }
+attributes #0 = { mustprogress nofree noinline norecurse nosync nounwind willreturn memory(write, argmem: none, inaccessiblemem: none) uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
+attributes #1 = { mustprogress nofree noinline norecurse nosync nounwind willreturn memory(readwrite, argmem: none, inaccessiblemem: none) uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
+attributes #2 = { nofree noinline norecurse nosync nounwind memory(readwrite, inaccessiblemem: none) uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
+attributes #3 = { noinline nounwind uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
+attributes #4 = { "frame-pointer"="all" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
+attributes #5 = { nofree nounwind }
+attributes #6 = { nounwind }
 
 !llvm.module.flags = !{!0, !1, !2, !3, !4}
 !llvm.ident = !{!5}

@@ -59,17 +59,13 @@ define dso_local i32 @Rand() #0 {
   %3 = add nsw i64 %2, 13849
   %4 = and i64 %3, 65535
   store i64 %4, ptr @seed, align 8
-  %5 = load i64, ptr @seed, align 8
-  %6 = trunc i64 %5 to i32
-  ret i32 %6
+  %5 = trunc i64 %4 to i32
+  ret i32 %5
 }
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local void @Error(ptr noundef %0) #0 {
-  %2 = alloca ptr, align 8
-  store ptr %0, ptr %2, align 8
-  %3 = load ptr, ptr %2, align 8
-  %4 = call i32 (ptr, ...) @printf(ptr noundef @.str, ptr noundef %3)
+  %2 = tail call i32 (ptr, ...) @printf(ptr noundef @.str, ptr noundef %0)
   ret void
 }
 
@@ -77,334 +73,282 @@ declare i32 @printf(ptr noundef, ...) #1
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local void @Makenull(i32 noundef %0) #0 {
-  %2 = alloca i32, align 4
-  store i32 %0, ptr %2, align 4
-  %3 = load i32, ptr %2, align 4
-  %4 = sext i32 %3 to i64
-  %5 = getelementptr inbounds [4 x i32], ptr @stack, i64 0, i64 %4
-  store i32 0, ptr %5, align 4
+  %2 = sext i32 %0 to i64
+  %3 = getelementptr inbounds [4 x i32], ptr @stack, i64 0, i64 %2
+  store i32 0, ptr %3, align 4
   ret void
 }
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local i32 @Getelement() #0 {
-  %1 = alloca i32, align 4
-  store i32 0, ptr %1, align 4
-  %2 = load i32, ptr @freelist, align 4
-  %3 = icmp sgt i32 %2, 0
-  br i1 %3, label %4, label %11
+  %1 = load i32, ptr @freelist, align 4
+  %2 = icmp sgt i32 %1, 0
+  br i1 %2, label %3, label %8
 
-4:                                                ; preds = %0
-  %5 = load i32, ptr @freelist, align 4
-  store i32 %5, ptr %1, align 4
-  %6 = load i32, ptr @freelist, align 4
-  %7 = sext i32 %6 to i64
-  %8 = getelementptr inbounds [19 x %struct.element], ptr @cellspace, i64 0, i64 %7
-  %9 = getelementptr inbounds %struct.element, ptr %8, i32 0, i32 1
-  %10 = load i32, ptr %9, align 4
-  store i32 %10, ptr @freelist, align 4
-  br label %12
+3:                                                ; preds = %0
+  %4 = sext i32 %1 to i64
+  %5 = getelementptr inbounds [19 x %struct.element], ptr @cellspace, i64 0, i64 %4
+  %6 = getelementptr inbounds %struct.element, ptr %5, i32 0, i32 1
+  %7 = load i32, ptr %6, align 4
+  store i32 %7, ptr @freelist, align 4
+  br label %9
 
-11:                                               ; preds = %0
-  call void @Error(ptr noundef @.str.1)
-  br label %12
+8:                                                ; preds = %0
+  tail call void @Error(ptr noundef @.str.1)
+  br label %9
 
-12:                                               ; preds = %11, %4
-  %13 = load i32, ptr %1, align 4
-  ret i32 %13
+9:                                                ; preds = %8, %3
+  %10 = phi i32 [ 0, %8 ], [ %1, %3 ]
+  ret i32 %10
 }
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local void @Push(i32 noundef %0, i32 noundef %1) #0 {
-  %3 = alloca i32, align 4
-  %4 = alloca i32, align 4
-  %5 = alloca i32, align 4
-  %6 = alloca i32, align 4
-  store i32 %0, ptr %3, align 4
-  store i32 %1, ptr %4, align 4
-  store i32 0, ptr %5, align 4
-  %7 = load i32, ptr %4, align 4
-  %8 = sext i32 %7 to i64
-  %9 = getelementptr inbounds [4 x i32], ptr @stack, i64 0, i64 %8
-  %10 = load i32, ptr %9, align 4
-  %11 = icmp sgt i32 %10, 0
-  br i1 %11, label %12, label %24
+  %3 = sext i32 %1 to i64
+  %4 = getelementptr inbounds [4 x i32], ptr @stack, i64 0, i64 %3
+  %5 = load i32, ptr %4, align 4
+  %6 = icmp sgt i32 %5, 0
+  br i1 %6, label %7, label %15
 
-12:                                               ; preds = %2
-  %13 = load i32, ptr %4, align 4
-  %14 = sext i32 %13 to i64
-  %15 = getelementptr inbounds [4 x i32], ptr @stack, i64 0, i64 %14
-  %16 = load i32, ptr %15, align 4
-  %17 = sext i32 %16 to i64
-  %18 = getelementptr inbounds [19 x %struct.element], ptr @cellspace, i64 0, i64 %17
-  %19 = getelementptr inbounds %struct.element, ptr %18, i32 0, i32 0
-  %20 = load i32, ptr %19, align 8
-  %21 = load i32, ptr %3, align 4
-  %22 = icmp sle i32 %20, %21
-  br i1 %22, label %23, label %24
+7:                                                ; preds = %2
+  %8 = sext i32 %5 to i64
+  %9 = getelementptr inbounds [19 x %struct.element], ptr @cellspace, i64 0, i64 %8
+  %10 = load i32, ptr %9, align 8
+  %11 = icmp sle i32 %10, %0
+  br i1 %11, label %12, label %13
 
-23:                                               ; preds = %12
-  store i32 1, ptr %5, align 4
-  call void @Error(ptr noundef @.str.2)
+12:                                               ; preds = %7
+  tail call void @Error(ptr noundef @.str.2)
+  br label %13
+
+13:                                               ; preds = %12, %7
+  %14 = phi i32 [ 1, %12 ], [ 0, %7 ]
+  br label %15
+
+15:                                               ; preds = %13, %2
+  %16 = phi i32 [ %14, %13 ], [ 0, %2 ]
+  %17 = icmp ne i32 %16, 0
+  br i1 %17, label %24, label %18
+
+18:                                               ; preds = %15
+  %19 = tail call i32 @Getelement()
+  %20 = load i32, ptr %4, align 4
+  %21 = sext i32 %19 to i64
+  %22 = getelementptr inbounds [19 x %struct.element], ptr @cellspace, i64 0, i64 %21
+  %23 = getelementptr inbounds %struct.element, ptr %22, i32 0, i32 1
+  store i32 %20, ptr %23, align 4
+  store i32 %19, ptr %4, align 4
+  store i32 %0, ptr %22, align 8
   br label %24
 
-24:                                               ; preds = %12, %23, %2
-  %25 = load i32, ptr %5, align 4
-  %26 = icmp ne i32 %25, 0
-  br i1 %26, label %46, label %27
-
-27:                                               ; preds = %24
-  %28 = call i32 @Getelement()
-  store i32 %28, ptr %6, align 4
-  %29 = load i32, ptr %4, align 4
-  %30 = sext i32 %29 to i64
-  %31 = getelementptr inbounds [4 x i32], ptr @stack, i64 0, i64 %30
-  %32 = load i32, ptr %31, align 4
-  %33 = load i32, ptr %6, align 4
-  %34 = sext i32 %33 to i64
-  %35 = getelementptr inbounds [19 x %struct.element], ptr @cellspace, i64 0, i64 %34
-  %36 = getelementptr inbounds %struct.element, ptr %35, i32 0, i32 1
-  store i32 %32, ptr %36, align 4
-  %37 = load i32, ptr %6, align 4
-  %38 = load i32, ptr %4, align 4
-  %39 = sext i32 %38 to i64
-  %40 = getelementptr inbounds [4 x i32], ptr @stack, i64 0, i64 %39
-  store i32 %37, ptr %40, align 4
-  %41 = load i32, ptr %3, align 4
-  %42 = load i32, ptr %6, align 4
-  %43 = sext i32 %42 to i64
-  %44 = getelementptr inbounds [19 x %struct.element], ptr @cellspace, i64 0, i64 %43
-  %45 = getelementptr inbounds %struct.element, ptr %44, i32 0, i32 0
-  store i32 %41, ptr %45, align 8
-  br label %46
-
-46:                                               ; preds = %27, %24
+24:                                               ; preds = %18, %15
   ret void
 }
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local void @Init(i32 noundef %0, i32 noundef %1) #0 {
-  %3 = alloca i32, align 4
-  %4 = alloca i32, align 4
-  %5 = alloca i32, align 4
-  store i32 %0, ptr %3, align 4
-  store i32 %1, ptr %4, align 4
-  %6 = load i32, ptr %3, align 4
-  call void @Makenull(i32 noundef %6)
-  %7 = load i32, ptr %4, align 4
-  store i32 %7, ptr %5, align 4
-  br label %8
+  tail call void @Makenull(i32 noundef %0)
+  br label %3
 
-8:                                                ; preds = %11, %2
-  %9 = load i32, ptr %5, align 4
-  %10 = icmp sge i32 %9, 1
-  br i1 %10, label %11, label %16
+3:                                                ; preds = %6, %2
+  %4 = phi i32 [ %7, %6 ], [ %1, %2 ]
+  %5 = icmp sge i32 %4, 1
+  br i1 %5, label %6, label %8
 
-11:                                               ; preds = %8
-  %12 = load i32, ptr %5, align 4
-  %13 = load i32, ptr %3, align 4
-  call void @Push(i32 noundef %12, i32 noundef %13)
-  %14 = load i32, ptr %5, align 4
-  %15 = add nsw i32 %14, -1
-  store i32 %15, ptr %5, align 4
-  br label %8, !llvm.loop !6
+6:                                                ; preds = %3
+  tail call void @Push(i32 noundef %4, i32 noundef %0)
+  %7 = add nsw i32 %4, -1
+  br label %3, !llvm.loop !6
 
-16:                                               ; preds = %8
+8:                                                ; preds = %3
   ret void
 }
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local i32 @Pop(i32 noundef %0) #0 {
-  %2 = alloca i32, align 4
-  %3 = alloca i32, align 4
-  %4 = alloca i32, align 4
-  %5 = alloca i32, align 4
-  store i32 %0, ptr %3, align 4
-  %6 = load i32, ptr %3, align 4
-  %7 = sext i32 %6 to i64
-  %8 = getelementptr inbounds [4 x i32], ptr @stack, i64 0, i64 %7
-  %9 = load i32, ptr %8, align 4
-  %10 = icmp sgt i32 %9, 0
-  br i1 %10, label %11, label %45
+  %2 = sext i32 %0 to i64
+  %3 = getelementptr inbounds [4 x i32], ptr @stack, i64 0, i64 %2
+  %4 = load i32, ptr %3, align 4
+  %5 = icmp sgt i32 %4, 0
+  br i1 %5, label %6, label %13
 
-11:                                               ; preds = %1
-  %12 = load i32, ptr %3, align 4
-  %13 = sext i32 %12 to i64
-  %14 = getelementptr inbounds [4 x i32], ptr @stack, i64 0, i64 %13
-  %15 = load i32, ptr %14, align 4
-  %16 = sext i32 %15 to i64
-  %17 = getelementptr inbounds [19 x %struct.element], ptr @cellspace, i64 0, i64 %16
-  %18 = getelementptr inbounds %struct.element, ptr %17, i32 0, i32 0
-  %19 = load i32, ptr %18, align 8
-  store i32 %19, ptr %5, align 4
-  %20 = load i32, ptr %3, align 4
-  %21 = sext i32 %20 to i64
-  %22 = getelementptr inbounds [4 x i32], ptr @stack, i64 0, i64 %21
-  %23 = load i32, ptr %22, align 4
-  %24 = sext i32 %23 to i64
-  %25 = getelementptr inbounds [19 x %struct.element], ptr @cellspace, i64 0, i64 %24
-  %26 = getelementptr inbounds %struct.element, ptr %25, i32 0, i32 1
-  %27 = load i32, ptr %26, align 4
-  store i32 %27, ptr %4, align 4
-  %28 = load i32, ptr @freelist, align 4
-  %29 = load i32, ptr %3, align 4
-  %30 = sext i32 %29 to i64
-  %31 = getelementptr inbounds [4 x i32], ptr @stack, i64 0, i64 %30
-  %32 = load i32, ptr %31, align 4
-  %33 = sext i32 %32 to i64
-  %34 = getelementptr inbounds [19 x %struct.element], ptr @cellspace, i64 0, i64 %33
-  %35 = getelementptr inbounds %struct.element, ptr %34, i32 0, i32 1
-  store i32 %28, ptr %35, align 4
-  %36 = load i32, ptr %3, align 4
-  %37 = sext i32 %36 to i64
-  %38 = getelementptr inbounds [4 x i32], ptr @stack, i64 0, i64 %37
-  %39 = load i32, ptr %38, align 4
-  store i32 %39, ptr @freelist, align 4
-  %40 = load i32, ptr %4, align 4
-  %41 = load i32, ptr %3, align 4
-  %42 = sext i32 %41 to i64
-  %43 = getelementptr inbounds [4 x i32], ptr @stack, i64 0, i64 %42
-  store i32 %40, ptr %43, align 4
-  %44 = load i32, ptr %5, align 4
-  store i32 %44, ptr %2, align 4
-  br label %46
+6:                                                ; preds = %1
+  %7 = sext i32 %4 to i64
+  %8 = getelementptr inbounds [19 x %struct.element], ptr @cellspace, i64 0, i64 %7
+  %9 = load i32, ptr %8, align 8
+  %10 = getelementptr inbounds %struct.element, ptr %8, i32 0, i32 1
+  %11 = load i32, ptr %10, align 4
+  %12 = load i32, ptr @freelist, align 4
+  store i32 %12, ptr %10, align 4
+  store i32 %4, ptr @freelist, align 4
+  store i32 %11, ptr %3, align 4
+  br label %14
 
-45:                                               ; preds = %1
-  call void @Error(ptr noundef @.str.3)
-  store i32 0, ptr %2, align 4
-  br label %46
+13:                                               ; preds = %1
+  tail call void @Error(ptr noundef @.str.3)
+  br label %14
 
-46:                                               ; preds = %45, %11
-  %47 = load i32, ptr %2, align 4
-  ret i32 %47
+14:                                               ; preds = %13, %6
+  %15 = phi i32 [ 0, %13 ], [ %9, %6 ]
+  ret i32 %15
 }
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local void @Move(i32 noundef %0, i32 noundef %1) #0 {
-  %3 = alloca i32, align 4
-  %4 = alloca i32, align 4
-  store i32 %0, ptr %3, align 4
-  store i32 %1, ptr %4, align 4
-  %5 = load i32, ptr %3, align 4
-  %6 = call i32 @Pop(i32 noundef %5)
-  %7 = load i32, ptr %4, align 4
-  call void @Push(i32 noundef %6, i32 noundef %7)
-  %8 = load i32, ptr @movesdone, align 4
-  %9 = add nsw i32 %8, 1
-  store i32 %9, ptr @movesdone, align 4
+  %3 = tail call i32 @Pop(i32 noundef %0)
+  tail call void @Push(i32 noundef %3, i32 noundef %1)
+  %4 = load i32, ptr @movesdone, align 4
+  %5 = add nsw i32 %4, 1
+  store i32 %5, ptr @movesdone, align 4
   ret void
 }
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local void @tower(i32 noundef %0, i32 noundef %1, i32 noundef %2) #0 {
-  %4 = alloca i32, align 4
-  %5 = alloca i32, align 4
-  %6 = alloca i32, align 4
-  %7 = alloca i32, align 4
-  store i32 %0, ptr %4, align 4
-  store i32 %1, ptr %5, align 4
-  store i32 %2, ptr %6, align 4
-  %8 = load i32, ptr %6, align 4
-  %9 = icmp eq i32 %8, 1
-  br i1 %9, label %10, label %13
+  br label %tailrecurse
 
-10:                                               ; preds = %3
-  %11 = load i32, ptr %4, align 4
-  %12 = load i32, ptr %5, align 4
-  call void @Move(i32 noundef %11, i32 noundef %12)
-  br label %28
+tailrecurse:                                      ; preds = %6, %3
+  %.tr = phi i32 [ %0, %3 ], [ %8, %6 ]
+  %.tr2 = phi i32 [ %2, %3 ], [ %9, %6 ]
+  %4 = icmp eq i32 %.tr2, 1
+  br i1 %4, label %5, label %6
 
-13:                                               ; preds = %3
-  %14 = load i32, ptr %4, align 4
-  %15 = sub nsw i32 6, %14
-  %16 = load i32, ptr %5, align 4
-  %17 = sub nsw i32 %15, %16
-  store i32 %17, ptr %7, align 4
-  %18 = load i32, ptr %4, align 4
-  %19 = load i32, ptr %7, align 4
-  %20 = load i32, ptr %6, align 4
-  %21 = sub nsw i32 %20, 1
-  call void @tower(i32 noundef %18, i32 noundef %19, i32 noundef %21)
-  %22 = load i32, ptr %4, align 4
-  %23 = load i32, ptr %5, align 4
-  call void @Move(i32 noundef %22, i32 noundef %23)
-  %24 = load i32, ptr %7, align 4
-  %25 = load i32, ptr %5, align 4
-  %26 = load i32, ptr %6, align 4
-  %27 = sub nsw i32 %26, 1
-  call void @tower(i32 noundef %24, i32 noundef %25, i32 noundef %27)
-  br label %28
+5:                                                ; preds = %tailrecurse
+  tail call void @Move(i32 noundef %.tr, i32 noundef %1)
+  br label %10
 
-28:                                               ; preds = %13, %10
+6:                                                ; preds = %tailrecurse
+  %7 = sub nsw i32 6, %.tr
+  %8 = sub nsw i32 %7, %1
+  %9 = sub nsw i32 %.tr2, 1
+  tail call void @tower(i32 noundef %.tr, i32 noundef %8, i32 noundef %9)
+  tail call void @Move(i32 noundef %.tr, i32 noundef %1)
+  br label %tailrecurse
+
+10:                                               ; preds = %5
   ret void
 }
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local void @Towers() #0 {
-  %1 = alloca i32, align 4
-  store i32 1, ptr %1, align 4
+  br label %1
+
+1:                                                ; preds = %0
   br label %2
 
-2:                                                ; preds = %5, %0
-  %3 = load i32, ptr %1, align 4
-  %4 = icmp sle i32 %3, 18
-  br i1 %4, label %5, label %14
+2:                                                ; preds = %1
+  store i32 0, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 1, i32 1), align 4
+  br label %3
 
-5:                                                ; preds = %2
-  %6 = load i32, ptr %1, align 4
-  %7 = sub nsw i32 %6, 1
-  %8 = load i32, ptr %1, align 4
-  %9 = sext i32 %8 to i64
-  %10 = getelementptr inbounds [19 x %struct.element], ptr @cellspace, i64 0, i64 %9
-  %11 = getelementptr inbounds %struct.element, ptr %10, i32 0, i32 1
-  store i32 %7, ptr %11, align 4
-  %12 = load i32, ptr %1, align 4
-  %13 = add nsw i32 %12, 1
-  store i32 %13, ptr %1, align 4
-  br label %2, !llvm.loop !8
+3:                                                ; preds = %2
+  store i32 1, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 2, i32 1), align 4
+  br label %4
 
-14:                                               ; preds = %2
-  store i32 18, ptr @freelist, align 4
-  call void @Init(i32 noundef 1, i32 noundef 14)
-  call void @Makenull(i32 noundef 2)
-  call void @Makenull(i32 noundef 3)
-  store i32 0, ptr @movesdone, align 4
-  call void @tower(i32 noundef 1, i32 noundef 2, i32 noundef 14)
-  %15 = load i32, ptr @movesdone, align 4
-  %16 = icmp ne i32 %15, 16383
-  br i1 %16, label %17, label %19
+4:                                                ; preds = %3
+  store i32 2, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 3, i32 1), align 4
+  br label %5
 
-17:                                               ; preds = %14
-  %18 = call i32 (ptr, ...) @printf(ptr noundef @.str.4)
+5:                                                ; preds = %4
+  store i32 3, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 4, i32 1), align 4
+  br label %6
+
+6:                                                ; preds = %5
+  store i32 4, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 5, i32 1), align 4
+  br label %7
+
+7:                                                ; preds = %6
+  store i32 5, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 6, i32 1), align 4
+  br label %8
+
+8:                                                ; preds = %7
+  store i32 6, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 7, i32 1), align 4
+  br label %9
+
+9:                                                ; preds = %8
+  store i32 7, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 8, i32 1), align 4
+  br label %10
+
+10:                                               ; preds = %9
+  store i32 8, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 9, i32 1), align 4
+  br label %11
+
+11:                                               ; preds = %10
+  store i32 9, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 10, i32 1), align 4
+  br label %12
+
+12:                                               ; preds = %11
+  store i32 10, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 11, i32 1), align 4
+  br label %13
+
+13:                                               ; preds = %12
+  store i32 11, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 12, i32 1), align 4
+  br label %14
+
+14:                                               ; preds = %13
+  store i32 12, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 13, i32 1), align 4
+  br label %15
+
+15:                                               ; preds = %14
+  store i32 13, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 14, i32 1), align 4
+  br label %16
+
+16:                                               ; preds = %15
+  store i32 14, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 15, i32 1), align 4
+  br label %17
+
+17:                                               ; preds = %16
+  store i32 15, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 16, i32 1), align 4
+  br label %18
+
+18:                                               ; preds = %17
+  store i32 16, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 17, i32 1), align 4
   br label %19
 
-19:                                               ; preds = %17, %14
-  %20 = load i32, ptr @movesdone, align 4
-  %21 = call i32 (ptr, ...) @printf(ptr noundef @.str.5, i32 noundef %20)
+19:                                               ; preds = %18
+  store i32 17, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 18, i32 1), align 4
+  br i1 false, label %20, label %21
+
+20:                                               ; preds = %19
+  store i32 18, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 1, i64 0, i32 1), align 4
+  unreachable
+
+21:                                               ; preds = %19
+  store i32 18, ptr @freelist, align 4
+  tail call void @Init(i32 noundef 1, i32 noundef 14)
+  tail call void @Makenull(i32 noundef 2)
+  tail call void @Makenull(i32 noundef 3)
+  store i32 0, ptr @movesdone, align 4
+  tail call void @tower(i32 noundef 1, i32 noundef 2, i32 noundef 14)
+  %22 = load i32, ptr @movesdone, align 4
+  %23 = icmp ne i32 %22, 16383
+  br i1 %23, label %24, label %26
+
+24:                                               ; preds = %21
+  %25 = tail call i32 (ptr, ...) @printf(ptr noundef @.str.4)
+  %.pre = load i32, ptr @movesdone, align 4
+  br label %26
+
+26:                                               ; preds = %24, %21
+  %27 = phi i32 [ %.pre, %24 ], [ 16383, %21 ]
+  %28 = tail call i32 (ptr, ...) @printf(ptr noundef @.str.5, i32 noundef %27)
   ret void
 }
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local i32 @main() #0 {
-  %1 = alloca i32, align 4
-  %2 = alloca i32, align 4
-  store i32 0, ptr %1, align 4
-  store i32 0, ptr %2, align 4
-  br label %3
+  br label %1
 
-3:                                                ; preds = %6, %0
-  %4 = load i32, ptr %2, align 4
-  %5 = icmp slt i32 %4, 100
-  br i1 %5, label %6, label %9
+1:                                                ; preds = %4, %0
+  %2 = phi i32 [ %5, %4 ], [ 0, %0 ]
+  %3 = icmp slt i32 %2, 100
+  br i1 %3, label %4, label %6
 
-6:                                                ; preds = %3
-  call void @Towers()
-  %7 = load i32, ptr %2, align 4
-  %8 = add nsw i32 %7, 1
-  store i32 %8, ptr %2, align 4
-  br label %3, !llvm.loop !9
+4:                                                ; preds = %1
+  tail call void @Towers()
+  %5 = add nsw i32 %2, 1
+  br label %1, !llvm.loop !8
 
-9:                                                ; preds = %3
+6:                                                ; preds = %1
   ret i32 0
 }
 
@@ -423,4 +367,3 @@ attributes #1 = { "frame-pointer"="all" "no-trapping-math"="true" "stack-protect
 !6 = distinct !{!6, !7}
 !7 = !{!"llvm.loop.mustprogress"}
 !8 = distinct !{!8, !7}
-!9 = distinct !{!9, !7}
