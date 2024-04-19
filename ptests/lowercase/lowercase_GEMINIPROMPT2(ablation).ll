@@ -114,8 +114,7 @@ define internal i64 @lower_StringImpl(ptr noalias noundef %0, i64 noundef %1, pt
   br label %4, !llvm.loop !10
 
 17:                                               ; preds = %4
-  %.02.lcssa = phi i16 [ %.02, %4 ]
-  %18 = zext i16 %.02.lcssa to i32
+  %18 = zext i16 %.02 to i32
   %19 = and i32 %18, -128
   %20 = icmp ne i32 %19, 0
   br i1 %20, label %22, label %21

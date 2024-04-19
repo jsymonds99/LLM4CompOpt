@@ -223,42 +223,41 @@ define dso_local void @tower(i32 noundef %0, i32 noundef %1, i32 noundef %2) #0 
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local void @Towers() #0 {
-  store i32 0, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 1, i32 1), align 4
-  store i32 1, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 2, i32 1), align 4
-  store i32 2, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 3, i32 1), align 4
-  store i32 3, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 4, i32 1), align 4
-  store i32 4, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 5, i32 1), align 4
-  store i32 5, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 6, i32 1), align 4
-  store i32 6, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 7, i32 1), align 4
-  store i32 7, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 8, i32 1), align 4
-  store i32 8, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 9, i32 1), align 4
-  store i32 9, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 10, i32 1), align 4
-  store i32 10, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 11, i32 1), align 4
-  store i32 11, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 12, i32 1), align 4
-  store i32 12, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 13, i32 1), align 4
-  store i32 13, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 14, i32 1), align 4
-  store i32 14, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 15, i32 1), align 4
-  store i32 15, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 16, i32 1), align 4
-  store i32 16, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 17, i32 1), align 4
-  store i32 17, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 18, i32 1), align 4
+  br label %1
+
+1:                                                ; preds = %4, %0
+  %2 = phi i32 [ %9, %4 ], [ 1, %0 ]
+  %3 = icmp sle i32 %2, 18
+  br i1 %3, label %4, label %10
+
+4:                                                ; preds = %1
+  %5 = sub nsw i32 %2, 1
+  %6 = sext i32 %2 to i64
+  %7 = getelementptr inbounds [19 x %struct.element], ptr @cellspace, i64 0, i64 %6
+  %8 = getelementptr inbounds %struct.element, ptr %7, i32 0, i32 1
+  store i32 %5, ptr %8, align 4
+  %9 = add nsw i32 %2, 1
+  br label %1, !llvm.loop !8
+
+10:                                               ; preds = %1
   store i32 18, ptr @freelist, align 4
   call void @Init(i32 noundef 1, i32 noundef 14)
   call void @Makenull(i32 noundef 2)
   call void @Makenull(i32 noundef 3)
   store i32 0, ptr @movesdone, align 4
   call void @tower(i32 noundef 1, i32 noundef 2, i32 noundef 14)
-  %1 = load i32, ptr @movesdone, align 4
-  %2 = icmp ne i32 %1, 16383
-  br i1 %2, label %3, label %5
+  %11 = load i32, ptr @movesdone, align 4
+  %12 = icmp ne i32 %11, 16383
+  br i1 %12, label %13, label %15
 
-3:                                                ; preds = %0
-  %4 = call i32 (ptr, ...) @printf(ptr noundef @.str.4)
+13:                                               ; preds = %10
+  %14 = call i32 (ptr, ...) @printf(ptr noundef @.str.4)
   %.pre = load i32, ptr @movesdone, align 4
-  br label %5
+  br label %15
 
-5:                                                ; preds = %3, %0
-  %6 = phi i32 [ %.pre, %3 ], [ 16383, %0 ]
-  %7 = call i32 (ptr, ...) @printf(ptr noundef @.str.5, i32 noundef %6)
+15:                                               ; preds = %13, %10
+  %16 = phi i32 [ %.pre, %13 ], [ 16383, %10 ]
+  %17 = call i32 (ptr, ...) @printf(ptr noundef @.str.5, i32 noundef %16)
   ret void
 }
 
@@ -274,7 +273,7 @@ define dso_local i32 @main() #0 {
 4:                                                ; preds = %1
   call void @Towers()
   %5 = add nsw i32 %2, 1
-  br label %1, !llvm.loop !8
+  br label %1, !llvm.loop !9
 
 6:                                                ; preds = %1
   ret i32 0
@@ -295,3 +294,4 @@ attributes #1 = { "frame-pointer"="all" "no-trapping-math"="true" "stack-protect
 !6 = distinct !{!6, !7}
 !7 = !{!"llvm.loop.mustprogress"}
 !8 = distinct !{!8, !7}
+!9 = distinct !{!9, !7}

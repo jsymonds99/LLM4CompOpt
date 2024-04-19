@@ -156,7 +156,6 @@ define dso_local i32 @main() #0 {
   br label %65, !llvm.loop !8
 
 108:                                              ; preds = %65
-  %.1.lcssa = phi i32 [ %.1, %65 ]
   %109 = icmp eq i32 %.12, 0
   br i1 %109, label %110, label %113
 
@@ -176,7 +175,7 @@ define dso_local i32 @main() #0 {
 115:                                              ; preds = %114, %26
   %.29 = phi i32 [ %.18, %114 ], [ %.07, %26 ]
   %.26 = phi i32 [ %.15, %114 ], [ %.04, %26 ]
-  %.3 = phi i32 [ %.1.lcssa, %114 ], [ %.0, %26 ]
+  %.3 = phi i32 [ %.1, %114 ], [ %.0, %26 ]
   br label %116
 
 116:                                              ; preds = %115

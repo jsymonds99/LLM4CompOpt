@@ -94,16 +94,28 @@ define dso_local i32 @doing_something(i32 noundef %0, i32 noundef %1) #0 {
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local i32 @main(i32 noundef %0, ptr nocapture noundef readnone %1) #2 {
-  %3 = tail call i32 @doing_something(i32 noundef 1, i32 noundef 2)
-  %4 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @2, i32 noundef 1, i32 noundef 2, i32 noundef %3) #5
-  %5 = tail call i32 @doing_something(i32 noundef 6, i32 noundef 3)
-  %6 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @2, i32 noundef 6, i32 noundef 3, i32 noundef %5) #5
-  %7 = tail call i32 @doing_something(i32 noundef 2, i32 noundef 4)
-  %8 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @2, i32 noundef 2, i32 noundef 4, i32 noundef %7) #5
-  %9 = tail call i32 @doing_something(i32 noundef 9, i32 noundef 5)
-  %10 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @2, i32 noundef 9, i32 noundef 5, i32 noundef %9) #5
-  %11 = tail call i32 @doing_something(i32 noundef 10, i32 noundef 6)
-  %12 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @2, i32 noundef 10, i32 noundef 6, i32 noundef %11) #5
+  br label %3
+
+3:                                                ; preds = %6, %2
+  %4 = phi i64 [ %17, %6 ], [ 0, %2 ]
+  %5 = icmp ne i64 %4, 5
+  br i1 %5, label %6, label %18
+
+6:                                                ; preds = %3
+  %7 = getelementptr inbounds [5 x i32], ptr @0, i64 0, i64 %4
+  %8 = load i32, ptr %7, align 4
+  %9 = getelementptr inbounds [5 x i32], ptr @1, i64 0, i64 %4
+  %10 = load i32, ptr %9, align 4
+  %11 = getelementptr inbounds [5 x i32], ptr @0, i64 0, i64 %4
+  %12 = load i32, ptr %11, align 4
+  %13 = getelementptr inbounds [5 x i32], ptr @1, i64 0, i64 %4
+  %14 = load i32, ptr %13, align 4
+  %15 = tail call i32 @doing_something(i32 noundef %12, i32 noundef %14)
+  %16 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @2, i32 noundef %8, i32 noundef %10, i32 noundef %15) #5
+  %17 = add nuw nsw i64 %4, 1
+  br label %3, !llvm.loop !10
+
+18:                                               ; preds = %3
   ret i32 0
 }
 
@@ -132,3 +144,4 @@ attributes #5 = { nounwind }
 !7 = !{!"llvm.loop.mustprogress"}
 !8 = distinct !{!8, !7}
 !9 = distinct !{!9, !7}
+!10 = distinct !{!10, !7}

@@ -344,25 +344,23 @@ define internal void @52() #2 {
   %1 = bitcast i32 0 to i32
   br label %2
 
-2:                                                ; preds = %0
-  store i32 0, ptr getelementptr inbounds ([19 x %0], ptr @4, i64 0, i64 1, i32 1), align 4
-  store i32 1, ptr getelementptr inbounds ([19 x %0], ptr @4, i64 0, i64 2, i32 1), align 4
-  store i32 2, ptr getelementptr inbounds ([19 x %0], ptr @4, i64 0, i64 3, i32 1), align 4
-  store i32 3, ptr getelementptr inbounds ([19 x %0], ptr @4, i64 0, i64 4, i32 1), align 4
-  store i32 4, ptr getelementptr inbounds ([19 x %0], ptr @4, i64 0, i64 5, i32 1), align 4
-  store i32 5, ptr getelementptr inbounds ([19 x %0], ptr @4, i64 0, i64 6, i32 1), align 4
-  store i32 6, ptr getelementptr inbounds ([19 x %0], ptr @4, i64 0, i64 7, i32 1), align 4
-  store i32 7, ptr getelementptr inbounds ([19 x %0], ptr @4, i64 0, i64 8, i32 1), align 4
-  store i32 8, ptr getelementptr inbounds ([19 x %0], ptr @4, i64 0, i64 9, i32 1), align 4
-  store i32 9, ptr getelementptr inbounds ([19 x %0], ptr @4, i64 0, i64 10, i32 1), align 4
-  store i32 10, ptr getelementptr inbounds ([19 x %0], ptr @4, i64 0, i64 11, i32 1), align 4
-  store i32 11, ptr getelementptr inbounds ([19 x %0], ptr @4, i64 0, i64 12, i32 1), align 4
-  store i32 12, ptr getelementptr inbounds ([19 x %0], ptr @4, i64 0, i64 13, i32 1), align 4
-  store i32 13, ptr getelementptr inbounds ([19 x %0], ptr @4, i64 0, i64 14, i32 1), align 4
-  store i32 14, ptr getelementptr inbounds ([19 x %0], ptr @4, i64 0, i64 15, i32 1), align 4
-  store i32 15, ptr getelementptr inbounds ([19 x %0], ptr @4, i64 0, i64 16, i32 1), align 4
-  store i32 16, ptr getelementptr inbounds ([19 x %0], ptr @4, i64 0, i64 17, i32 1), align 4
-  store i32 17, ptr getelementptr inbounds ([19 x %0], ptr @4, i64 0, i64 18, i32 1), align 4
+2:                                                ; preds = %12, %0
+  %3 = phi i64 [ -144, %0 ], [ %10, %12 ]
+  %4 = phi i64 [ 1, %0 ], [ %9, %12 ]
+  %5 = add nsw i64 %4, -1
+  %6 = getelementptr i8, ptr @4, i64 %3
+  %7 = getelementptr i8, ptr %6, i64 156
+  %8 = trunc i64 %5 to i32
+  store i32 %8, ptr %7, align 4
+  %9 = add nuw nsw i64 %4, 1
+  %10 = add nsw i64 %3, 8
+  %11 = icmp ne i64 %10, 0
+  br i1 %11, label %12, label %13, !llvm.loop !9
+
+12:                                               ; preds = %2
+  br label %2
+
+13:                                               ; preds = %2
   ret void
 }
 
@@ -386,3 +384,4 @@ attributes #6 = { nounwind }
 !6 = distinct !{!6, !7}
 !7 = !{!"llvm.loop.mustprogress"}
 !8 = distinct !{!8, !7}
+!9 = distinct !{!9, !7}

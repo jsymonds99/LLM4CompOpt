@@ -14,32 +14,29 @@ target triple = "x86_64-unknown-linux-gnu"
 define dso_local void @printMatrix(ptr noundef %0) #0 {
   br label %2
 
-2:                                                ; preds = %3, %1
-  %indvars.iv4 = phi i64 [ %indvars.iv.next5, %3 ], [ 0, %1 ]
+2:                                                ; preds = %8, %1
+  %indvars.iv4 = phi i64 [ %indvars.iv.next5, %8 ], [ 0, %1 ]
   %exitcond7 = icmp ne i64 %indvars.iv4, 5
-  br i1 %exitcond7, label %3, label %19
+  br i1 %exitcond7, label %3, label %9
 
-3:                                                ; preds = %2
-  %4 = getelementptr inbounds [5 x i32], ptr %0, i64 %indvars.iv4, i64 0
-  %5 = load i32, ptr %4, align 4
-  %6 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef %5) #4
-  %7 = getelementptr inbounds [5 x i32], ptr %0, i64 %indvars.iv4, i64 1
-  %8 = load i32, ptr %7, align 4
-  %9 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef %8) #4
-  %10 = getelementptr inbounds [5 x i32], ptr %0, i64 %indvars.iv4, i64 2
-  %11 = load i32, ptr %10, align 4
-  %12 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef %11) #4
-  %13 = getelementptr inbounds [5 x i32], ptr %0, i64 %indvars.iv4, i64 3
-  %14 = load i32, ptr %13, align 4
-  %15 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef %14) #4
-  %16 = getelementptr inbounds [5 x i32], ptr %0, i64 %indvars.iv4, i64 4
-  %17 = load i32, ptr %16, align 4
-  %18 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef %17) #4
+3:                                                ; preds = %2, %4
+  %indvars.iv = phi i64 [ %indvars.iv.next, %4 ], [ 0, %2 ]
+  %exitcond = icmp ne i64 %indvars.iv, 5
+  br i1 %exitcond, label %4, label %8
+
+4:                                                ; preds = %3
+  %5 = getelementptr inbounds [5 x i32], ptr %0, i64 %indvars.iv4, i64 %indvars.iv
+  %6 = load i32, ptr %5, align 4
+  %7 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef %6) #4
+  %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1
+  br label %3, !llvm.loop !6
+
+8:                                                ; preds = %3
   %putchar2 = call i32 @putchar(i32 10)
   %indvars.iv.next5 = add nuw nsw i64 %indvars.iv4, 1
-  br label %2, !llvm.loop !6
+  br label %2, !llvm.loop !8
 
-19:                                               ; preds = %2
+9:                                                ; preds = %2
   %putchar = call i32 @putchar(i32 10)
   ret void
 }
@@ -50,20 +47,20 @@ declare i32 @printf(ptr noundef, ...) #1
 define dso_local void @manipulateMatrix(ptr noundef %0) #0 {
   br label %2
 
-2:                                                ; preds = %43, %1
-  %indvars.iv11 = phi i64 [ %indvars.iv.next12, %43 ], [ 0, %1 ]
+2:                                                ; preds = %44, %1
+  %indvars.iv11 = phi i64 [ %indvars.iv.next12, %44 ], [ 0, %1 ]
   %exitcond14 = icmp ne i64 %indvars.iv11, 5
-  br i1 %exitcond14, label %3, label %44
+  br i1 %exitcond14, label %3, label %45
 
-3:                                                ; preds = %2, %42
-  %indvars.iv = phi i64 [ %indvars.iv.next, %42 ], [ 0, %2 ]
+3:                                                ; preds = %2, %43
+  %indvars.iv = phi i64 [ %indvars.iv.next, %43 ], [ 0, %2 ]
   %exitcond10 = icmp ne i64 %indvars.iv, 5
-  br i1 %exitcond10, label %4, label %43
+  br i1 %exitcond10, label %4, label %44
 
-4:                                                ; preds = %3, %40
-  %.03 = phi i32 [ %41, %40 ], [ 0, %3 ]
+4:                                                ; preds = %3, %41
+  %.03 = phi i32 [ %42, %41 ], [ 0, %3 ]
   %exitcond8 = icmp ne i32 %.03, 5
-  br i1 %exitcond8, label %5, label %42
+  br i1 %exitcond8, label %5, label %43
 
 5:                                                ; preds = %4
   %6 = getelementptr inbounds [5 x i32], ptr %0, i64 %indvars.iv11, i64 %indvars.iv
@@ -72,10 +69,10 @@ define dso_local void @manipulateMatrix(ptr noundef %0) #0 {
   store i32 %8, ptr %6, align 4
   br label %9
 
-9:                                                ; preds = %38, %5
-  %.04 = phi i32 [ 0, %5 ], [ %39, %38 ]
+9:                                                ; preds = %39, %5
+  %.04 = phi i32 [ 0, %5 ], [ %40, %39 ]
   %exitcond7 = icmp ne i32 %.04, 5
-  br i1 %exitcond7, label %10, label %40
+  br i1 %exitcond7, label %10, label %41
 
 10:                                               ; preds = %9
   %11 = add nuw nsw i32 %.04, 1
@@ -85,10 +82,10 @@ define dso_local void @manipulateMatrix(ptr noundef %0) #0 {
   store i32 %14, ptr %12, align 4
   br label %15
 
-15:                                               ; preds = %16, %10
-  %.05 = phi i32 [ 0, %10 ], [ %37, %16 ]
+15:                                               ; preds = %37, %10
+  %.05 = phi i32 [ 0, %10 ], [ %38, %37 ]
   %exitcond6 = icmp ne i32 %.05, 5
-  br i1 %exitcond6, label %16, label %38
+  br i1 %exitcond6, label %16, label %39
 
 16:                                               ; preds = %15
   %17 = add nuw nsw i64 %indvars.iv11, %indvars.iv
@@ -98,45 +95,57 @@ define dso_local void @manipulateMatrix(ptr noundef %0) #0 {
   %21 = load i32, ptr %20, align 4
   %22 = sub nsw i32 %21, %19
   store i32 %22, ptr %20, align 4
-  %23 = getelementptr inbounds [5 x i32], ptr %0, i64 %indvars.iv11, i64 %indvars.iv
-  %24 = load i32, ptr %23, align 4
-  store i32 %24, ptr %23, align 4
-  %25 = getelementptr inbounds [5 x i32], ptr %0, i64 %indvars.iv11, i64 %indvars.iv
-  %26 = load i32, ptr %25, align 4
-  %27 = sub nsw i32 %26, 1
-  store i32 %27, ptr %25, align 4
+  br label %23
+
+23:                                               ; preds = %35, %16
+  %.0 = phi i32 [ 0, %16 ], [ %36, %35 ]
+  %exitcond = icmp ne i32 %.0, 5
+  br i1 %exitcond, label %24, label %37
+
+24:                                               ; preds = %23
+  %25 = and i32 %.0, 1
+  %26 = icmp eq i32 %25, 0
+  br i1 %26, label %27, label %31
+
+27:                                               ; preds = %24
   %28 = getelementptr inbounds [5 x i32], ptr %0, i64 %indvars.iv11, i64 %indvars.iv
   %29 = load i32, ptr %28, align 4
-  %30 = add nsw i32 %29, 2
+  %30 = add nsw i32 %29, %.0
   store i32 %30, ptr %28, align 4
-  %31 = getelementptr inbounds [5 x i32], ptr %0, i64 %indvars.iv11, i64 %indvars.iv
-  %32 = load i32, ptr %31, align 4
-  %33 = sub nsw i32 %32, 3
-  store i32 %33, ptr %31, align 4
-  %34 = getelementptr inbounds [5 x i32], ptr %0, i64 %indvars.iv11, i64 %indvars.iv
-  %35 = load i32, ptr %34, align 4
-  %36 = add nsw i32 %35, 4
-  store i32 %36, ptr %34, align 4
-  %37 = add nuw nsw i32 %.05, 1
-  br label %15, !llvm.loop !8
+  br label %35
 
-38:                                               ; preds = %15
-  %39 = add nuw nsw i32 %.04, 1
-  br label %9, !llvm.loop !9
+31:                                               ; preds = %24
+  %32 = getelementptr inbounds [5 x i32], ptr %0, i64 %indvars.iv11, i64 %indvars.iv
+  %33 = load i32, ptr %32, align 4
+  %34 = sub nsw i32 %33, %.0
+  store i32 %34, ptr %32, align 4
+  br label %35
 
-40:                                               ; preds = %9
-  %41 = add nuw nsw i32 %.03, 1
-  br label %4, !llvm.loop !10
+35:                                               ; preds = %27, %31
+  %36 = add nuw nsw i32 %.0, 1
+  br label %23, !llvm.loop !9
 
-42:                                               ; preds = %4
+37:                                               ; preds = %23
+  %38 = add nuw nsw i32 %.05, 1
+  br label %15, !llvm.loop !10
+
+39:                                               ; preds = %15
+  %40 = add nuw nsw i32 %.04, 1
+  br label %9, !llvm.loop !11
+
+41:                                               ; preds = %9
+  %42 = add nuw nsw i32 %.03, 1
+  br label %4, !llvm.loop !12
+
+43:                                               ; preds = %4
   %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1
-  br label %3, !llvm.loop !11
+  br label %3, !llvm.loop !13
 
-43:                                               ; preds = %3
+44:                                               ; preds = %3
   %indvars.iv.next12 = add nuw nsw i64 %indvars.iv11, 1
-  br label %2, !llvm.loop !12
+  br label %2, !llvm.loop !14
 
-44:                                               ; preds = %2
+45:                                               ; preds = %2
   ret void
 }
 
@@ -145,36 +154,29 @@ define dso_local i32 @main() #0 {
   %1 = alloca [5 x [5 x i32]], align 16
   br label %2
 
-2:                                                ; preds = %3, %0
-  %indvars.iv4 = phi i64 [ %indvars.iv.next5, %3 ], [ 0, %0 ]
+2:                                                ; preds = %8, %0
+  %indvars.iv4 = phi i64 [ %indvars.iv.next5, %8 ], [ 0, %0 ]
   %exitcond7 = icmp ne i64 %indvars.iv4, 5
-  br i1 %exitcond7, label %3, label %19
+  br i1 %exitcond7, label %3, label %9
 
-3:                                                ; preds = %2
-  %4 = call i32 @rand() #4
-  %5 = srem i32 %4, 10
-  %6 = getelementptr inbounds [5 x [5 x i32]], ptr %1, i64 0, i64 %indvars.iv4, i64 0
-  store i32 %5, ptr %6, align 4
-  %7 = call i32 @rand() #4
-  %8 = srem i32 %7, 10
-  %9 = getelementptr inbounds [5 x [5 x i32]], ptr %1, i64 0, i64 %indvars.iv4, i64 1
-  store i32 %8, ptr %9, align 4
-  %10 = call i32 @rand() #4
-  %11 = srem i32 %10, 10
-  %12 = getelementptr inbounds [5 x [5 x i32]], ptr %1, i64 0, i64 %indvars.iv4, i64 2
-  store i32 %11, ptr %12, align 4
-  %13 = call i32 @rand() #4
-  %14 = srem i32 %13, 10
-  %15 = getelementptr inbounds [5 x [5 x i32]], ptr %1, i64 0, i64 %indvars.iv4, i64 3
-  store i32 %14, ptr %15, align 4
-  %16 = call i32 @rand() #4
-  %17 = srem i32 %16, 10
-  %18 = getelementptr inbounds [5 x [5 x i32]], ptr %1, i64 0, i64 %indvars.iv4, i64 4
-  store i32 %17, ptr %18, align 4
+3:                                                ; preds = %2, %4
+  %indvars.iv = phi i64 [ %indvars.iv.next, %4 ], [ 0, %2 ]
+  %exitcond = icmp ne i64 %indvars.iv, 5
+  br i1 %exitcond, label %4, label %8
+
+4:                                                ; preds = %3
+  %5 = call i32 @rand() #4
+  %6 = srem i32 %5, 10
+  %7 = getelementptr inbounds [5 x [5 x i32]], ptr %1, i64 0, i64 %indvars.iv4, i64 %indvars.iv
+  store i32 %6, ptr %7, align 4
+  %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1
+  br label %3, !llvm.loop !15
+
+8:                                                ; preds = %3
   %indvars.iv.next5 = add nuw nsw i64 %indvars.iv4, 1
-  br label %2, !llvm.loop !13
+  br label %2, !llvm.loop !16
 
-19:                                               ; preds = %2
+9:                                                ; preds = %2
   %puts = call i32 @puts(ptr nonnull dereferenceable(1) @str)
   call void @printMatrix(ptr noundef nonnull %1)
   call void @manipulateMatrix(ptr noundef nonnull %1)
@@ -215,3 +217,6 @@ attributes #4 = { nounwind }
 !11 = distinct !{!11, !7}
 !12 = distinct !{!12, !7}
 !13 = distinct !{!13, !7}
+!14 = distinct !{!14, !7}
+!15 = distinct !{!15, !7}
+!16 = distinct !{!16, !7}

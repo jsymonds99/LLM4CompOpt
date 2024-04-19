@@ -97,40 +97,22 @@ define dso_local i32 @doing_something(i32 noundef %0, i32 noundef %1) #0 {
 define dso_local i32 @main(i32 noundef %0, ptr noundef %1) #0 {
   br label %3
 
-3:                                                ; preds = %2
-  br label %4
+3:                                                ; preds = %4, %2
+  %indvars.iv = phi i64 [ %indvars.iv.next, %4 ], [ 0, %2 ]
+  %exitcond = icmp ne i64 %indvars.iv, 5
+  br i1 %exitcond, label %4, label %11
 
 4:                                                ; preds = %3
-  %5 = tail call i32 @doing_something(i32 noundef 1, i32 noundef 2)
-  %6 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef 1, i32 noundef 2, i32 noundef %5) #4
-  br label %7
+  %5 = getelementptr inbounds [5 x i32], ptr @__const.main.as, i64 0, i64 %indvars.iv
+  %6 = load i32, ptr %5, align 4
+  %7 = getelementptr inbounds [5 x i32], ptr @__const.main.bs, i64 0, i64 %indvars.iv
+  %8 = load i32, ptr %7, align 4
+  %9 = tail call i32 @doing_something(i32 noundef %6, i32 noundef %8)
+  %10 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef %6, i32 noundef %8, i32 noundef %9) #4
+  %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1
+  br label %3, !llvm.loop !10
 
-7:                                                ; preds = %4
-  %8 = tail call i32 @doing_something(i32 noundef 6, i32 noundef 3)
-  %9 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef 6, i32 noundef 3, i32 noundef %8) #4
-  br label %10
-
-10:                                               ; preds = %7
-  %11 = tail call i32 @doing_something(i32 noundef 2, i32 noundef 4)
-  %12 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef 2, i32 noundef 4, i32 noundef %11) #4
-  br label %13
-
-13:                                               ; preds = %10
-  %14 = tail call i32 @doing_something(i32 noundef 9, i32 noundef 5)
-  %15 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef 9, i32 noundef 5, i32 noundef %14) #4
-  br label %16
-
-16:                                               ; preds = %13
-  %17 = tail call i32 @doing_something(i32 noundef 10, i32 noundef 6)
-  %18 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef 10, i32 noundef 6, i32 noundef %17) #4
-  br i1 false, label %19, label %22
-
-19:                                               ; preds = %16
-  %20 = tail call i32 @doing_something(i32 noundef poison, i32 noundef poison)
-  %21 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef poison, i32 noundef poison, i32 noundef %20) #4
-  unreachable
-
-22:                                               ; preds = %16
+11:                                               ; preds = %3
   ret i32 0
 }
 
@@ -161,3 +143,4 @@ attributes #4 = { nounwind }
 !7 = !{!"llvm.loop.mustprogress"}
 !8 = distinct !{!8, !7}
 !9 = distinct !{!9, !7}
+!10 = distinct !{!10, !7}

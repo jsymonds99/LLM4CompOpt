@@ -1,4 +1,4 @@
-GEMINI Prompt 1 (ablation): -deadargelim -inline -adce -dce -dse -constmerge -simplifycfg -indvars -loop-deletion -loop-reduce -loop-unroll -loop-unroll-and-jam -instcombine -reassociate -gvn -sccp -mem2reg -memcpyopt -strip
+GEMINI Prompt 1 (ablation): -deadargelim -inline -adce -dce -dse -constmerge -simplifycfg -indvars -loop-deletion -loop-reduce -instcombine -reassociate -gvn -sccp -mem2reg -memcpyopt -strip
 GEMINI Prompt 2 (ablation): -inline -mem2reg -dce -instcombine -jump-threading -tailcallelim -gvn
-GPT-4 Prompt 1 (ablation): -loop-extract -inline -mem2reg -gvn -loop-unroll -adce -simplifycfg -tailcallelim -instcombine -reassociate
-GPT-4 Prompt 2 (ablation): -inline -mem2reg -indvars -loop-unroll -simplifycfg -instcombine -reassociate -sccp -gvn
+GPT-4 Prompt 1 (ablation): -loop-extract -inline -mem2reg -gvn -adce -simplifycfg -tailcallelim -instcombine -reassociate
+GPT-4 Prompt 2 (ablation): -inline -mem2reg -indvars -simplifycfg -instcombine -reassociate -sccp -gvn

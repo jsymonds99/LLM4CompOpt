@@ -10,45 +10,31 @@ target triple = "x86_64-unknown-linux-gnu"
 define dso_local double @find_max(double noundef %0, double noundef %1, double noundef %2) #0 {
   br label %4
 
-4:                                                ; preds = %22, %3
-  %.0 = phi double [ -1.000000e+09, %3 ], [ %.1.1, %22 ]
-  %storemerge = phi i32 [ -10, %3 ], [ %23, %22 ]
-  %5 = sitofp i32 %storemerge to double
-  %6 = fmul double %0, %5
-  %7 = fmul double %1, %5
-  %8 = tail call double @llvm.fmuladd.f64(double %6, double %5, double %7)
-  %9 = fadd double %2, %8
-  %10 = fcmp ogt double %9, %.0
-  br i1 %10, label %11, label %12
+4:                                                ; preds = %13, %3
+  %.0 = phi double [ -1.000000e+09, %3 ], [ %.1, %13 ]
+  %storemerge = phi i32 [ -10, %3 ], [ %14, %13 ]
+  %exitcond = icmp ne i32 %storemerge, 11
+  br i1 %exitcond, label %5, label %15
 
-11:                                               ; preds = %4
-  br label %12
+5:                                                ; preds = %4
+  %6 = sitofp i32 %storemerge to double
+  %7 = fmul double %0, %6
+  %8 = fmul double %1, %6
+  %9 = tail call double @llvm.fmuladd.f64(double %7, double %6, double %8)
+  %10 = fadd double %2, %9
+  %11 = fcmp ogt double %10, %.0
+  br i1 %11, label %12, label %13
 
-12:                                               ; preds = %4, %11
-  %.1 = phi double [ %9, %11 ], [ %.0, %4 ]
-  %13 = add nuw nsw i32 %storemerge, 1
-  %exitcond.1 = icmp ne i32 %13, 11
-  br i1 %exitcond.1, label %14, label %24
+12:                                               ; preds = %5
+  br label %13
 
-14:                                               ; preds = %12
-  %15 = sitofp i32 %13 to double
-  %16 = fmul double %0, %15
-  %17 = fmul double %1, %15
-  %18 = tail call double @llvm.fmuladd.f64(double %16, double %15, double %17)
-  %19 = fadd double %2, %18
-  %20 = fcmp ogt double %19, %.1
-  br i1 %20, label %21, label %22
-
-21:                                               ; preds = %14
-  br label %22
-
-22:                                               ; preds = %21, %14
-  %.1.1 = phi double [ %19, %21 ], [ %.1, %14 ]
-  %23 = add nsw i32 %storemerge, 2
+13:                                               ; preds = %5, %12
+  %.1 = phi double [ %10, %12 ], [ %.0, %5 ]
+  %14 = add nsw i32 %storemerge, 1
   br label %4, !llvm.loop !6
 
-24:                                               ; preds = %12
-  ret double %.1
+15:                                               ; preds = %4
+  ret double %.0
 }
 
 ; Function Attrs: nocallback nofree nosync nounwind speculatable willreturn memory(none)
@@ -58,45 +44,31 @@ declare double @llvm.fmuladd.f64(double, double, double) #1
 define dso_local double @find_min(double noundef %0, double noundef %1, double noundef %2) #0 {
   br label %4
 
-4:                                                ; preds = %22, %3
-  %.0 = phi double [ 1.000000e+09, %3 ], [ %.1.1, %22 ]
-  %storemerge = phi i32 [ -10, %3 ], [ %23, %22 ]
-  %5 = sitofp i32 %storemerge to double
-  %6 = fmul double %0, %5
-  %7 = fmul double %1, %5
-  %8 = tail call double @llvm.fmuladd.f64(double %6, double %5, double %7)
-  %9 = fadd double %2, %8
-  %10 = fcmp olt double %9, %.0
-  br i1 %10, label %11, label %12
+4:                                                ; preds = %13, %3
+  %.0 = phi double [ 1.000000e+09, %3 ], [ %.1, %13 ]
+  %storemerge = phi i32 [ -10, %3 ], [ %14, %13 ]
+  %exitcond = icmp ne i32 %storemerge, 11
+  br i1 %exitcond, label %5, label %15
 
-11:                                               ; preds = %4
-  br label %12
+5:                                                ; preds = %4
+  %6 = sitofp i32 %storemerge to double
+  %7 = fmul double %0, %6
+  %8 = fmul double %1, %6
+  %9 = tail call double @llvm.fmuladd.f64(double %7, double %6, double %8)
+  %10 = fadd double %2, %9
+  %11 = fcmp olt double %10, %.0
+  br i1 %11, label %12, label %13
 
-12:                                               ; preds = %4, %11
-  %.1 = phi double [ %9, %11 ], [ %.0, %4 ]
-  %13 = add nuw nsw i32 %storemerge, 1
-  %exitcond.1 = icmp ne i32 %13, 11
-  br i1 %exitcond.1, label %14, label %24
+12:                                               ; preds = %5
+  br label %13
 
-14:                                               ; preds = %12
-  %15 = sitofp i32 %13 to double
-  %16 = fmul double %0, %15
-  %17 = fmul double %1, %15
-  %18 = tail call double @llvm.fmuladd.f64(double %16, double %15, double %17)
-  %19 = fadd double %2, %18
-  %20 = fcmp olt double %19, %.1
-  br i1 %20, label %21, label %22
-
-21:                                               ; preds = %14
-  br label %22
-
-22:                                               ; preds = %21, %14
-  %.1.1 = phi double [ %19, %21 ], [ %.1, %14 ]
-  %23 = add nsw i32 %storemerge, 2
+13:                                               ; preds = %5, %12
+  %.1 = phi double [ %10, %12 ], [ %.0, %5 ]
+  %14 = add nsw i32 %storemerge, 1
   br label %4, !llvm.loop !8
 
-24:                                               ; preds = %12
-  ret double %.1
+15:                                               ; preds = %4
+  ret double %.0
 }
 
 ; Function Attrs: noinline nounwind uwtable

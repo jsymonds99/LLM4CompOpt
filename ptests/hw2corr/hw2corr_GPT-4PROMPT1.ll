@@ -13,74 +13,30 @@ define dso_local void @myadd(ptr noundef %0, ptr noundef %1) #0 {
   br i1 true, label %.lr.ph, label %._crit_edge1
 
 ._crit_edge1:                                     ; preds = %2
-  br label %52
+  br label %14
 
 .lr.ph:                                           ; preds = %2
   %.pre = load float, ptr %0, align 4
-  br label %._crit_edge
+  br label %3
 
-._crit_edge:                                      ; preds = %.lr.ph
-  %3 = fadd float %.pre, 0.000000e+00
-  store float %3, ptr %0, align 4
-  %4 = load float, ptr %1, align 4
-  %5 = fptosi float %4 to i32
-  %6 = srem i32 %5, 2
-  %7 = mul nsw i32 %6, 2
-  %8 = sitofp i32 %7 to float
-  %9 = fadd float %3, %8
-  store float %9, ptr %0, align 4
-  %10 = load float, ptr %1, align 4
-  %11 = fptosi float %10 to i32
-  %12 = srem i32 %11, 3
-  %13 = mul nsw i32 %12, 3
-  %14 = sitofp i32 %13 to float
-  %15 = fadd float %9, %14
-  store float %15, ptr %0, align 4
-  %16 = load float, ptr %1, align 4
-  %17 = fptosi float %16 to i32
-  %18 = srem i32 %17, 4
-  %19 = mul nsw i32 %18, 4
-  %20 = sitofp i32 %19 to float
-  %21 = fadd float %15, %20
-  store float %21, ptr %0, align 4
-  %22 = load float, ptr %1, align 4
-  %23 = fptosi float %22 to i32
-  %24 = srem i32 %23, 5
-  %25 = mul nsw i32 %24, 5
-  %26 = sitofp i32 %25 to float
-  %27 = fadd float %21, %26
-  store float %27, ptr %0, align 4
-  %28 = load float, ptr %1, align 4
-  %29 = fptosi float %28 to i32
-  %30 = srem i32 %29, 6
-  %31 = mul nsw i32 %30, 6
-  %32 = sitofp i32 %31 to float
-  %33 = fadd float %27, %32
-  store float %33, ptr %0, align 4
-  %34 = load float, ptr %1, align 4
-  %35 = fptosi float %34 to i32
-  %36 = srem i32 %35, 7
-  %37 = mul nsw i32 %36, 7
-  %38 = sitofp i32 %37 to float
-  %39 = fadd float %33, %38
-  store float %39, ptr %0, align 4
-  %40 = load float, ptr %1, align 4
-  %41 = fptosi float %40 to i32
-  %42 = srem i32 %41, 8
-  %43 = mul nsw i32 %42, 8
-  %44 = sitofp i32 %43 to float
-  %45 = fadd float %39, %44
-  store float %45, ptr %0, align 4
-  %46 = load float, ptr %1, align 4
-  %47 = fptosi float %46 to i32
-  %48 = srem i32 %47, 9
-  %49 = mul nsw i32 %48, 9
-  %50 = sitofp i32 %49 to float
-  %51 = fadd float %45, %50
-  store float %51, ptr %0, align 4
-  br label %52
+3:                                                ; preds = %.lr.ph, %3
+  %4 = phi float [ %.pre, %.lr.ph ], [ %11, %3 ]
+  %5 = phi i32 [ 1, %.lr.ph ], [ %12, %3 ]
+  %6 = load float, ptr %1, align 4
+  %7 = fptosi float %6 to i32
+  %8 = srem i32 %7, %5
+  %9 = mul nsw i32 %8, %5
+  %10 = sitofp i32 %9 to float
+  %11 = fadd float %4, %10
+  store float %11, ptr %0, align 4
+  %12 = add nuw nsw i32 %5, 1
+  %13 = icmp ult i32 %5, 9
+  br i1 %13, label %3, label %._crit_edge, !llvm.loop !6
 
-52:                                               ; preds = %._crit_edge1, %._crit_edge
+._crit_edge:                                      ; preds = %3
+  br label %14
+
+14:                                               ; preds = %._crit_edge1, %._crit_edge
   ret void
 }
 
@@ -129,21 +85,17 @@ define dso_local i32 @main(i32 noundef %0, ptr noundef %1) #0 {
   %27 = phi i64 [ %25, %24 ], [ %7, %5 ]
   %28 = add nuw nsw i64 %6, 1
   %29 = icmp ult i64 %6, 40000000
-  br i1 %29, label %5, label %._crit_edge, !llvm.loop !6
+  br i1 %29, label %5, label %._crit_edge, !llvm.loop !8
 
 ._crit_edge:                                      ; preds = %26
-  %.lcssa5 = phi i64 [ %27, %26 ]
-  %.lcssa4 = phi i64 [ %28, %26 ]
-  %.lcssa3 = phi float [ %13, %26 ]
-  %.lcssa = phi float [ %19, %26 ]
-  %30 = fpext float %.lcssa3 to double
-  %31 = fpext float %.lcssa to double
-  %32 = trunc i64 %.lcssa4 to i32
+  %30 = fpext float %13 to double
+  %31 = fpext float %19 to double
+  %32 = trunc i64 %28 to i32
   br label %33
 
 33:                                               ; preds = %._crit_edge1, %._crit_edge
   %34 = phi i32 [ poison, %._crit_edge1 ], [ %32, %._crit_edge ]
-  %35 = phi i64 [ poison, %._crit_edge1 ], [ %.lcssa5, %._crit_edge ]
+  %35 = phi i64 [ poison, %._crit_edge1 ], [ %27, %._crit_edge ]
   %36 = phi double [ poison, %._crit_edge1 ], [ %31, %._crit_edge ]
   %37 = phi double [ poison, %._crit_edge1 ], [ %30, %._crit_edge ]
   %38 = trunc i64 %35 to i32
@@ -186,3 +138,4 @@ attributes #4 = { nounwind }
 !5 = !{!"clang version 17.0.6"}
 !6 = distinct !{!6, !7}
 !7 = !{!"llvm.loop.mustprogress"}
+!8 = distinct !{!8, !7}

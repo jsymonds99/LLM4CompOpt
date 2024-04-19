@@ -10,45 +10,31 @@ target triple = "x86_64-unknown-linux-gnu"
 define dso_local double @find_max(double noundef %0, double noundef %1, double noundef %2) #0 {
   br label %4
 
-4:                                                ; preds = %26, %3
-  %5 = phi double [ -1.000000e+09, %3 ], [ %27, %26 ]
-  %6 = phi i32 [ -10, %3 ], [ %28, %26 ]
-  %7 = sitofp i32 %6 to double
-  %8 = fmul double %0, %7
-  %9 = fmul double %1, %7
-  %10 = call double @llvm.fmuladd.f64(double %8, double %7, double %9)
-  %11 = fadd double %2, %10
-  %12 = fcmp ogt double %11, %5
-  br i1 %12, label %13, label %14
+4:                                                ; preds = %16, %3
+  %5 = phi double [ -1.000000e+09, %3 ], [ %17, %16 ]
+  %6 = phi i32 [ -10, %3 ], [ %18, %16 ]
+  %7 = icmp ne i32 %6, 11
+  br i1 %7, label %8, label %19
 
-13:                                               ; preds = %4
-  br label %14
+8:                                                ; preds = %4
+  %9 = sitofp i32 %6 to double
+  %10 = fmul double %0, %9
+  %11 = fmul double %1, %9
+  %12 = call double @llvm.fmuladd.f64(double %10, double %9, double %11)
+  %13 = fadd double %2, %12
+  %14 = fcmp ogt double %13, %5
+  br i1 %14, label %15, label %16
 
-14:                                               ; preds = %4, %13
-  %15 = phi double [ %11, %13 ], [ %5, %4 ]
-  %16 = add nuw nsw i32 %6, 1
-  %17 = icmp slt i32 %16, 11
-  br i1 %17, label %18, label %29
+15:                                               ; preds = %8
+  br label %16
 
-18:                                               ; preds = %14
-  %19 = sitofp i32 %16 to double
-  %20 = fmul double %0, %19
-  %21 = fmul double %1, %19
-  %22 = call double @llvm.fmuladd.f64(double %20, double %19, double %21)
-  %23 = fadd double %2, %22
-  %24 = fcmp ogt double %23, %15
-  br i1 %24, label %25, label %26
-
-25:                                               ; preds = %18
-  br label %26
-
-26:                                               ; preds = %25, %18
-  %27 = phi double [ %23, %25 ], [ %15, %18 ]
-  %28 = add nsw i32 %6, 2
+16:                                               ; preds = %8, %15
+  %17 = phi double [ %13, %15 ], [ %5, %8 ]
+  %18 = add nsw i32 %6, 1
   br label %4, !llvm.loop !6
 
-29:                                               ; preds = %14
-  ret double %15
+19:                                               ; preds = %4
+  ret double %5
 }
 
 ; Function Attrs: nocallback nofree nosync nounwind speculatable willreturn memory(none)
@@ -58,45 +44,31 @@ declare double @llvm.fmuladd.f64(double, double, double) #1
 define dso_local double @find_min(double noundef %0, double noundef %1, double noundef %2) #0 {
   br label %4
 
-4:                                                ; preds = %26, %3
-  %5 = phi double [ 1.000000e+09, %3 ], [ %27, %26 ]
-  %6 = phi i32 [ -10, %3 ], [ %28, %26 ]
-  %7 = sitofp i32 %6 to double
-  %8 = fmul double %0, %7
-  %9 = fmul double %1, %7
-  %10 = call double @llvm.fmuladd.f64(double %8, double %7, double %9)
-  %11 = fadd double %2, %10
-  %12 = fcmp olt double %11, %5
-  br i1 %12, label %13, label %14
+4:                                                ; preds = %16, %3
+  %5 = phi double [ 1.000000e+09, %3 ], [ %17, %16 ]
+  %6 = phi i32 [ -10, %3 ], [ %18, %16 ]
+  %7 = icmp ne i32 %6, 11
+  br i1 %7, label %8, label %19
 
-13:                                               ; preds = %4
-  br label %14
+8:                                                ; preds = %4
+  %9 = sitofp i32 %6 to double
+  %10 = fmul double %0, %9
+  %11 = fmul double %1, %9
+  %12 = call double @llvm.fmuladd.f64(double %10, double %9, double %11)
+  %13 = fadd double %2, %12
+  %14 = fcmp olt double %13, %5
+  br i1 %14, label %15, label %16
 
-14:                                               ; preds = %4, %13
-  %15 = phi double [ %11, %13 ], [ %5, %4 ]
-  %16 = add nuw nsw i32 %6, 1
-  %17 = icmp slt i32 %16, 11
-  br i1 %17, label %18, label %29
+15:                                               ; preds = %8
+  br label %16
 
-18:                                               ; preds = %14
-  %19 = sitofp i32 %16 to double
-  %20 = fmul double %0, %19
-  %21 = fmul double %1, %19
-  %22 = call double @llvm.fmuladd.f64(double %20, double %19, double %21)
-  %23 = fadd double %2, %22
-  %24 = fcmp olt double %23, %15
-  br i1 %24, label %25, label %26
-
-25:                                               ; preds = %18
-  br label %26
-
-26:                                               ; preds = %25, %18
-  %27 = phi double [ %23, %25 ], [ %15, %18 ]
-  %28 = add nsw i32 %6, 2
+16:                                               ; preds = %8, %15
+  %17 = phi double [ %13, %15 ], [ %5, %8 ]
+  %18 = add nsw i32 %6, 1
   br label %4, !llvm.loop !8
 
-29:                                               ; preds = %14
-  ret double %15
+19:                                               ; preds = %4
+  ret double %5
 }
 
 ; Function Attrs: noinline nounwind uwtable

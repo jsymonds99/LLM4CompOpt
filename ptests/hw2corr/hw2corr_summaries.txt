@@ -1,6 +1,6 @@
-GEMINI PROMPT 1: -ipsccp -inline -instcombine -aggressive-instcombine -loop-unroll -indvars -gvn -mem2reg -sccp -jump-threading -dce -adce -dse -strip
-GEMINI PROMPT 2: -instcombine -aggressive-instcombine -dce -adce -gvn -loop-unroll  -loop-reduce -loop-simplify
-GEMINI PROMPT 3: -deadargelim -inline -dce -dse -constmerge -simplifycfg -mem2reg -instcombine -reassociate -gvn -indvars -loop-unroll -loop-reduce
-GPT-4 PROMPT 1: -ipsccp -loop-rotate -adce -gvn -sroa -mem2reg -instcombine -loop-unroll
+GEMINI PROMPT 1: -ipsccp -inline -instcombine -aggressive-instcombine -indvars -gvn -mem2reg -sccp -jump-threading -dce -adce -dse -strip
+GEMINI PROMPT 2: -instcombine -aggressive-instcombine -dce -adce -gvn  -loop-reduce -loop-simplify
+GEMINI PROMPT 3: -deadargelim -inline -dce -dse -constmerge -simplifycfg -mem2reg -instcombine -reassociate -gvn -indvars -loop-reduce
+GPT-4 PROMPT 1: -ipsccp -loop-rotate -adce -gvn -sroa -mem2reg -instcombine
 GPT-4 PROMPT 2: -mem2reg -dse -instcombine -gvn
-GPT-4 PROMPT 3: -deadargelim -inline -mem2reg -loop-unroll -simplifycfg -aggressive-instcombine
+GPT-4 PROMPT 3: -deadargelim -inline -mem2reg -simplifycfg -aggressive-instcombine

@@ -44,10 +44,6 @@ data = (np.array([
     gptp1,
     gptp2,
     gptp3,
-    #gemab1,
-    #gemab2,
-    #gptab1,
-    #gptab2,
     oz
 ]) / np.array(unopt)).T
 
@@ -55,7 +51,7 @@ x = np.arange(7)
 width = 0.06
 
 plt.figure(figsize=(12, 6))
-plt.ylim(0, 2)
+plt.ylim(0, 1)
 plt.bar(x-4.5*width, data[0], width, color='pink') # bubblesort
 plt.bar(x-3.5*width, data[1], width, color='red') # custom1
 plt.bar(x-2.5*width, data[2], width, color='orange') # custom2
@@ -68,13 +64,45 @@ plt.bar(x+3.5*width, data[8], width, color='grey') # queens
 plt.bar(x+4.5*width, data[9], width, color='black') # towers
 
 averages = np.mean(data, axis=0)
-plt.bar(x, averages, width*16, color='black', alpha=0.3)
+plt.bar(x, averages, width*16, color='black', alpha=0.2)
 
 
 plt.xticks(x, ["GEM:1", "GEM:2", "GEM:3", "GPT:1", "GPT:2", "GPT:3", "Oz"], rotation=45) 
 plt.ylabel("Instruction Count / Unoptimized Instruction Count") 
 plt.legend(tests, bbox_to_anchor=(1.1, 1), loc='upper right')
 plt.hlines(averages[6], colors='black', linestyles='dashed', xmin=-0.5, xmax=6.5)
-plt.title("Instruction Count Change After Optimization")
+plt.title("Instruction Count Change After Optimization (with loop unrolling passes removed)")
 plt.savefig("multibar.png")
 
+
+
+
+# ablation
+data = np.average((np.array([
+    gemp1,
+    gemp2,
+    gemp3,
+    gemab1,
+    gemab2,
+    gptp1,
+    gptp2,
+    gptp3,
+    gptab1,
+    gptab2,
+]) / np.array(unopt)), axis=1)
+
+x = np.arange(10)
+plt.figure(figsize=(12, 6))
+plt.ylim(0, 1)
+plt.bar(x, data, color=['cornflowerblue', 'royalblue', 'dodgerblue', 'darkorchid', 'purple', 'indianred', 'maroon', 'firebrick', 'khaki', 'gold'])
+
+plt.bar(1, np.average(data[0:3]), 3, color='blue', alpha=0.3)
+plt.bar(3.5, np.average(data[3:5]), 2, color='purple', alpha=0.3)
+plt.bar(6, np.average(data[5:8]), 3, color='red', alpha=0.3)
+plt.bar(8.5, np.average(data[8:10]), 2, color='orange', alpha=0.3)
+
+
+plt.xticks(x, ["GEM:1", "GEM:2", "GEM:3", "GEMab:1", "GEMab:2", "GPT:1", "GPT:2", "GPT:3", "GPTab:1", "GPTab:2"], rotation=45)
+plt.ylabel("Instruction Count / Unoptimized Instruction Count")
+plt.title("Instruction Count Change Ablation")
+plt.savefig("ablation.png")

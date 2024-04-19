@@ -10,142 +10,17 @@ target triple = "x86_64-unknown-linux-gnu"
 define dso_local i32 @main(i32 noundef %0, ptr noundef %1) #0 {
   br label %3
 
-3:                                                ; preds = %2
-  br label %4
+3:                                                ; preds = %5, %2
+  %.0 = phi i64 [ 0, %2 ], [ %6, %5 ]
+  %4 = icmp ult i64 %.0, 32
+  br i1 %4, label %5, label %7
 
-4:                                                ; preds = %3
-  call void @2(i64 noundef 0)
-  br label %5
+5:                                                ; preds = %3
+  call void @2(i64 noundef %.0)
+  %6 = add i64 %.0, 1
+  br label %3, !llvm.loop !6
 
-5:                                                ; preds = %4
-  call void @2(i64 noundef 1)
-  br label %6
-
-6:                                                ; preds = %5
-  call void @2(i64 noundef 2)
-  br label %7
-
-7:                                                ; preds = %6
-  call void @2(i64 noundef 3)
-  br label %8
-
-8:                                                ; preds = %7
-  call void @2(i64 noundef 4)
-  br label %9
-
-9:                                                ; preds = %8
-  call void @2(i64 noundef 5)
-  br label %10
-
-10:                                               ; preds = %9
-  call void @2(i64 noundef 6)
-  br label %11
-
-11:                                               ; preds = %10
-  call void @2(i64 noundef 7)
-  br label %12
-
-12:                                               ; preds = %11
-  call void @2(i64 noundef 8)
-  br label %13
-
-13:                                               ; preds = %12
-  call void @2(i64 noundef 9)
-  br label %14
-
-14:                                               ; preds = %13
-  call void @2(i64 noundef 10)
-  br label %15
-
-15:                                               ; preds = %14
-  call void @2(i64 noundef 11)
-  br label %16
-
-16:                                               ; preds = %15
-  call void @2(i64 noundef 12)
-  br label %17
-
-17:                                               ; preds = %16
-  call void @2(i64 noundef 13)
-  br label %18
-
-18:                                               ; preds = %17
-  call void @2(i64 noundef 14)
-  br label %19
-
-19:                                               ; preds = %18
-  call void @2(i64 noundef 15)
-  br label %20
-
-20:                                               ; preds = %19
-  call void @2(i64 noundef 16)
-  br label %21
-
-21:                                               ; preds = %20
-  call void @2(i64 noundef 17)
-  br label %22
-
-22:                                               ; preds = %21
-  call void @2(i64 noundef 18)
-  br label %23
-
-23:                                               ; preds = %22
-  call void @2(i64 noundef 19)
-  br label %24
-
-24:                                               ; preds = %23
-  call void @2(i64 noundef 20)
-  br label %25
-
-25:                                               ; preds = %24
-  call void @2(i64 noundef 21)
-  br label %26
-
-26:                                               ; preds = %25
-  call void @2(i64 noundef 22)
-  br label %27
-
-27:                                               ; preds = %26
-  call void @2(i64 noundef 23)
-  br label %28
-
-28:                                               ; preds = %27
-  call void @2(i64 noundef 24)
-  br label %29
-
-29:                                               ; preds = %28
-  call void @2(i64 noundef 25)
-  br label %30
-
-30:                                               ; preds = %29
-  call void @2(i64 noundef 26)
-  br label %31
-
-31:                                               ; preds = %30
-  call void @2(i64 noundef 27)
-  br label %32
-
-32:                                               ; preds = %31
-  call void @2(i64 noundef 28)
-  br label %33
-
-33:                                               ; preds = %32
-  call void @2(i64 noundef 29)
-  br label %34
-
-34:                                               ; preds = %33
-  call void @2(i64 noundef 30)
-  br label %35
-
-35:                                               ; preds = %34
-  call void @2(i64 noundef 31)
-  br i1 false, label %36, label %37
-
-36:                                               ; preds = %35
-  call void @2(i64 noundef 32)
-  unreachable
-
-37:                                               ; preds = %35
+7:                                                ; preds = %3
   ret i32 0
 }
 
@@ -166,7 +41,7 @@ define internal void @2(i64 noundef %0) #0 {
   %9 = getelementptr inbounds i16, ptr %5, i64 %.0
   call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 2 dereferenceable(32) %9, ptr noundef nonnull align 16 dereferenceable(32) @0, i64 32, i1 false)
   %10 = add i64 %.0, 16
-  br label %6, !llvm.loop !6
+  br label %6, !llvm.loop !8
 
 11:                                               ; preds = %6
   %12 = call ptr @malloc(i64 noundef %4) #5
@@ -182,7 +57,7 @@ define internal void @2(i64 noundef %0) #0 {
 16:                                               ; preds = %14
   %17 = call i64 @3(ptr noundef %5, i64 noundef %0, ptr noundef %12)
   %18 = add i64 %.1, 1
-  br label %14, !llvm.loop !8
+  br label %14, !llvm.loop !9
 
 19:                                               ; preds = %14
   ret void
@@ -217,11 +92,10 @@ define internal i64 @3(ptr noalias noundef %0, i64 noundef %1, ptr noalias nound
   store i16 %9, ptr %10, align 2
   %11 = or i16 %8, %.02
   %12 = add i64 %.01, 1
-  br label %4, !llvm.loop !9
+  br label %4, !llvm.loop !10
 
 13:                                               ; preds = %4
-  %.02.lcssa = phi i16 [ %.02, %4 ]
-  %.not = icmp ult i16 %.02.lcssa, 128
+  %.not = icmp ult i16 %.02, 128
   br i1 %.not, label %14, label %15
 
 14:                                               ; preds = %13
@@ -272,3 +146,4 @@ attributes #6 = { nounwind }
 !7 = !{!"llvm.loop.mustprogress"}
 !8 = distinct !{!8, !7}
 !9 = distinct !{!9, !7}
+!10 = distinct !{!10, !7}

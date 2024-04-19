@@ -1,5 +1,5 @@
 Gemini Prompt 1: -ipsccp -always-inline -instcombine -aggressive-instcombine -reassociate -mem2reg -sccp -dce -adce -simplifycfg -indvars -loop-deletion -gvn -globaldce -constmerge -function-attrs -inline -tailcallelim -strip -strip-dead-debug-info
-Gemini Prompt 2: -dce -instcombine -mem2reg -loop-unroll
+Gemini Prompt 2: -dce -instcombine -mem2reg
 Gemini Prompt 3: -strip-dead-prototypes -strip-dead-debug-info -function-attrs -instcombine -aggressive-instcombine -simplifycfg -reassociate -constmerge -gvn -dce -dse -mem2reg -sroa -indvars -inline -tailcallelim
 GPT-4 Prompt 1: -globaldce -inline -loop-rotate -mem2reg -memcpyopt -dce -simplifycfg -argpromotion
 GPT-4 Prompt 2: -globalopt -inline -mem2reg -instcombine -globaldce -dce -adce -sroa -simplifycfg -deadargelim

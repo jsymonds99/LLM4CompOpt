@@ -229,103 +229,38 @@ define dso_local void @tower(i32 noundef %0, i32 noundef %1, i32 noundef %2) #0 
 define dso_local void @Towers() #0 {
   br label %1
 
-1:                                                ; preds = %0
-  br label %2
+1:                                                ; preds = %4, %0
+  %2 = phi i32 [ %8, %4 ], [ 1, %0 ]
+  %3 = icmp ult i32 %2, 19
+  br i1 %3, label %4, label %9
 
-2:                                                ; preds = %1
-  store i32 0, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 1, i32 1), align 4
-  br label %3
+4:                                                ; preds = %1
+  %5 = add nsw i32 %2, -1
+  %6 = zext i32 %2 to i64
+  %7 = getelementptr inbounds [19 x %struct.element], ptr @cellspace, i64 0, i64 %6, i32 1
+  store i32 %5, ptr %7, align 4
+  %8 = add nuw nsw i32 %2, 1
+  br label %1, !llvm.loop !8
 
-3:                                                ; preds = %2
-  store i32 1, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 2, i32 1), align 4
-  br label %4
-
-4:                                                ; preds = %3
-  store i32 2, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 3, i32 1), align 4
-  br label %5
-
-5:                                                ; preds = %4
-  store i32 3, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 4, i32 1), align 4
-  br label %6
-
-6:                                                ; preds = %5
-  store i32 4, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 5, i32 1), align 4
-  br label %7
-
-7:                                                ; preds = %6
-  store i32 5, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 6, i32 1), align 4
-  br label %8
-
-8:                                                ; preds = %7
-  store i32 6, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 7, i32 1), align 4
-  br label %9
-
-9:                                                ; preds = %8
-  store i32 7, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 8, i32 1), align 4
-  br label %10
-
-10:                                               ; preds = %9
-  store i32 8, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 9, i32 1), align 4
-  br label %11
-
-11:                                               ; preds = %10
-  store i32 9, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 10, i32 1), align 4
-  br label %12
-
-12:                                               ; preds = %11
-  store i32 10, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 11, i32 1), align 4
-  br label %13
-
-13:                                               ; preds = %12
-  store i32 11, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 12, i32 1), align 4
-  br label %14
-
-14:                                               ; preds = %13
-  store i32 12, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 13, i32 1), align 4
-  br label %15
-
-15:                                               ; preds = %14
-  store i32 13, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 14, i32 1), align 4
-  br label %16
-
-16:                                               ; preds = %15
-  store i32 14, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 15, i32 1), align 4
-  br label %17
-
-17:                                               ; preds = %16
-  store i32 15, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 16, i32 1), align 4
-  br label %18
-
-18:                                               ; preds = %17
-  store i32 16, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 17, i32 1), align 4
-  br label %19
-
-19:                                               ; preds = %18
-  store i32 17, ptr getelementptr inbounds ([19 x %struct.element], ptr @cellspace, i64 0, i64 18, i32 1), align 4
-  br i1 false, label %20, label %21
-
-20:                                               ; preds = %19
-  unreachable
-
-21:                                               ; preds = %19
+9:                                                ; preds = %1
   store i32 18, ptr @freelist, align 4
   call void @Init(i32 noundef 1, i32 noundef 14)
   call void @Makenull(i32 noundef 2)
   call void @Makenull(i32 noundef 3)
   store i32 0, ptr @movesdone, align 4
   call void @tower(i32 noundef 1, i32 noundef 2, i32 noundef 14)
-  %22 = load i32, ptr @movesdone, align 4
-  %.not = icmp eq i32 %22, 16383
-  br i1 %.not, label %24, label %23
+  %10 = load i32, ptr @movesdone, align 4
+  %.not = icmp eq i32 %10, 16383
+  br i1 %.not, label %12, label %11
 
-23:                                               ; preds = %21
+11:                                               ; preds = %9
   %puts = call i32 @puts(ptr nonnull dereferenceable(1) @str)
   %.pre = load i32, ptr @movesdone, align 4
-  br label %24
+  br label %12
 
-24:                                               ; preds = %23, %21
-  %25 = phi i32 [ %.pre, %23 ], [ 16383, %21 ]
-  %26 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str.5, i32 noundef %25) #3
+12:                                               ; preds = %11, %9
+  %13 = phi i32 [ %.pre, %11 ], [ 16383, %9 ]
+  %14 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str.5, i32 noundef %13) #3
   ret void
 }
 
@@ -341,7 +276,7 @@ define dso_local i32 @main() #0 {
 4:                                                ; preds = %1
   call void @Towers()
   %5 = add nuw nsw i32 %2, 1
-  br label %1, !llvm.loop !8
+  br label %1, !llvm.loop !9
 
 6:                                                ; preds = %1
   ret i32 0
@@ -367,3 +302,4 @@ attributes #3 = { nounwind }
 !6 = distinct !{!6, !7}
 !7 = !{!"llvm.loop.mustprogress"}
 !8 = distinct !{!8, !7}
+!9 = distinct !{!9, !7}

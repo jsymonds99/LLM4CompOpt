@@ -14,152 +14,141 @@ define dso_local i32 @main() #0 {
   br label %5
 
 5:                                                ; preds = %6, %0
-  %indvars.iv = phi i64 [ 0, %0 ], [ %indvars.iv.next.1, %6 ]
+  %indvars.iv = phi i64 [ %indvars.iv.next, %6 ], [ 0, %0 ]
   %exitcond.not = icmp eq i64 %indvars.iv, 1000
-  br i1 %exitcond.not, label %19, label %6
+  br i1 %exitcond.not, label %13, label %6
 
 6:                                                ; preds = %5
   %7 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %indvars.iv
-  store i64 %indvars.iv, ptr %7, align 16
+  store i64 %indvars.iv, ptr %7, align 8
   %8 = shl nuw nsw i64 %indvars.iv, 1
   %9 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %indvars.iv
-  store i64 %8, ptr %9, align 16
+  store i64 %8, ptr %9, align 8
   %10 = mul nuw nsw i64 %indvars.iv, 3
   %11 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %indvars.iv
-  store i64 %10, ptr %11, align 16
+  store i64 %10, ptr %11, align 8
   %12 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %indvars.iv
-  store i64 0, ptr %12, align 16
-  %indvars.iv.next = or i64 %indvars.iv, 1
-  %13 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %indvars.iv.next
-  store i64 %indvars.iv.next, ptr %13, align 8
-  %14 = shl nuw nsw i64 %indvars.iv.next, 1
-  %15 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %indvars.iv.next
-  store i64 %14, ptr %15, align 8
-  %16 = mul nuw nsw i64 %indvars.iv.next, 3
-  %17 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %indvars.iv.next
-  store i64 %16, ptr %17, align 8
-  %18 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %indvars.iv.next
-  store i64 0, ptr %18, align 8
-  %indvars.iv.next.1 = add nuw nsw i64 %indvars.iv, 2
+  store i64 0, ptr %12, align 8
+  %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1
   br label %5, !llvm.loop !6
 
-19:                                               ; preds = %5
+13:                                               ; preds = %5
   call void @srand(i32 noundef 4) #3
-  br label %20
+  br label %14
 
-20:                                               ; preds = %87, %19
-  %indvars.iv17 = phi i64 [ %indvars.iv.next18, %87 ], [ 0, %19 ]
-  %.07 = phi i32 [ %.29, %87 ], [ 15, %19 ]
-  %.04 = phi i32 [ %.26, %87 ], [ 5, %19 ]
-  %.0 = phi i32 [ %.3, %87 ], [ 0, %19 ]
+14:                                               ; preds = %81, %13
+  %indvars.iv17 = phi i64 [ %indvars.iv.next18, %81 ], [ 0, %13 ]
+  %.07 = phi i32 [ %.29, %81 ], [ 15, %13 ]
+  %.04 = phi i32 [ %.26, %81 ], [ 5, %13 ]
+  %.0 = phi i32 [ %.3, %81 ], [ 0, %13 ]
   %exitcond20.not = icmp eq i64 %indvars.iv17, 1000000000
-  br i1 %exitcond20.not, label %88, label %21
+  br i1 %exitcond20.not, label %82, label %15
 
-21:                                               ; preds = %20
-  %22 = sext i32 %.04 to i64
-  %23 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %22
+15:                                               ; preds = %14
+  %16 = sext i32 %.04 to i64
+  %17 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %16
+  %18 = load i64, ptr %17, align 8
+  %19 = mul i64 %18, 87
+  %20 = sdiv i64 %19, 4
+  %21 = add nsw i64 %20, 23
+  %22 = zext i32 %.07 to i64
+  %23 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %22
   %24 = load i64, ptr %23, align 8
-  %25 = mul i64 %24, 87
-  %26 = sdiv i64 %25, 4
-  %27 = add nsw i64 %26, 23
-  %28 = zext i32 %.07 to i64
-  %29 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %28
-  %30 = load i64, ptr %29, align 8
-  %31 = mul i64 %30, 231
-  %32 = sdiv i64 %31, 3
-  %33 = add nsw i64 %32, 59
-  %34 = add nsw i64 %33, %27
-  %35 = srem i64 %34, 1000
-  %36 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %35
-  %37 = load i64, ptr %36, align 8
-  %38 = add nsw i64 %24, %37
-  %39 = add nsw i64 %38, %30
-  %40 = mul nsw i64 %27, 11
-  %41 = mul nsw i64 %33, 13
-  %42 = mul nsw i64 %39, 17
-  %43 = add i64 %40, %indvars.iv17
-  %44 = add i64 %43, %41
-  %45 = add i64 %44, %42
-  %46 = trunc i64 %indvars.iv17 to i32
-  %.urem16 = urem i32 %46, 1000
-  %47 = zext i32 %.urem16 to i64
-  %48 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %47
-  store i64 %45, ptr %48, align 8
-  %49 = icmp ult i64 %indvars.iv17, 100
-  br i1 %49, label %50, label %87
+  %25 = mul i64 %24, 231
+  %26 = sdiv i64 %25, 3
+  %27 = add nsw i64 %26, 59
+  %28 = add nsw i64 %27, %21
+  %29 = srem i64 %28, 1000
+  %30 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %29
+  %31 = load i64, ptr %30, align 8
+  %32 = add nsw i64 %18, %31
+  %33 = add nsw i64 %32, %24
+  %34 = mul nsw i64 %21, 11
+  %35 = mul nsw i64 %27, 13
+  %36 = mul nsw i64 %33, 17
+  %37 = add i64 %34, %indvars.iv17
+  %38 = add i64 %37, %35
+  %39 = add i64 %38, %36
+  %40 = trunc i64 %indvars.iv17 to i32
+  %.urem16 = urem i32 %40, 1000
+  %41 = zext i32 %.urem16 to i64
+  %42 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %41
+  store i64 %39, ptr %42, align 8
+  %43 = icmp ult i64 %indvars.iv17, 100
+  br i1 %43, label %44, label %81
 
-50:                                               ; preds = %21, %51
-  %indvars.iv12 = phi i64 [ %indvars.iv.next13, %51 ], [ 0, %21 ]
-  %.1 = phi i32 [ %spec.select, %51 ], [ %.0, %21 ]
+44:                                               ; preds = %15, %45
+  %indvars.iv12 = phi i64 [ %indvars.iv.next13, %45 ], [ 0, %15 ]
+  %.1 = phi i32 [ %spec.select, %45 ], [ %.0, %15 ]
   %exitcond15.not = icmp eq i64 %indvars.iv12, 1000000
-  br i1 %exitcond15.not, label %82, label %51
+  br i1 %exitcond15.not, label %76, label %45
 
-51:                                               ; preds = %50
-  %52 = zext i32 %.1 to i64
-  %53 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %52
-  %54 = load i64, ptr %53, align 8
-  %55 = mul nsw i64 %54, 6
-  %56 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %52
-  %57 = load i64, ptr %56, align 8
-  %58 = sdiv i64 %57, 2
-  %59 = add nsw i64 %58, %55
+45:                                               ; preds = %44
+  %46 = zext i32 %.1 to i64
+  %47 = getelementptr inbounds [1000 x i64], ptr %2, i64 0, i64 %46
+  %48 = load i64, ptr %47, align 8
+  %49 = mul nsw i64 %48, 6
+  %50 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %46
+  %51 = load i64, ptr %50, align 8
+  %52 = sdiv i64 %51, 2
+  %53 = add nsw i64 %52, %49
+  %54 = srem i64 %53, 1000
+  %55 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %54
+  %56 = load i64, ptr %55, align 8
+  %57 = shl nsw i64 %56, 1
+  %58 = shl nsw i64 %48, 2
+  %59 = add nsw i64 %58, %57
   %60 = srem i64 %59, 1000
-  %61 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %60
-  %62 = load i64, ptr %61, align 8
-  %63 = shl nsw i64 %62, 1
-  %64 = shl nsw i64 %54, 2
-  %65 = add nsw i64 %64, %63
-  %66 = srem i64 %65, 1000
-  %67 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %66
-  %68 = load i64, ptr %67, align 16
-  %69 = mul nsw i64 %68, 6
-  %70 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %52
-  %71 = load i64, ptr %70, align 8
-  %72 = mul nsw i64 %71, 3
-  %73 = add nsw i64 %72, %69
-  %74 = mul nsw i64 %73, 2
-  %75 = add i64 %59, %indvars.iv12
-  %76 = add i64 %75, %65
-  %77 = add i64 %76, %74
-  %78 = trunc i64 %indvars.iv12 to i32
-  %.urem = urem i32 %78, 100
-  %79 = zext i32 %.urem to i64
-  %80 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %79
-  store i64 %77, ptr %80, align 8
-  %81 = icmp ult i64 %indvars.iv12, 10
-  %spec.select = select i1 %81, i32 59, i32 %.1
+  %61 = getelementptr inbounds [1000 x i64], ptr %3, i64 0, i64 %60
+  %62 = load i64, ptr %61, align 16
+  %63 = mul nsw i64 %62, 6
+  %64 = getelementptr inbounds [1000 x i64], ptr %1, i64 0, i64 %46
+  %65 = load i64, ptr %64, align 8
+  %66 = mul nsw i64 %65, 3
+  %67 = add nsw i64 %66, %63
+  %68 = mul nsw i64 %67, 2
+  %69 = add i64 %53, %indvars.iv12
+  %70 = add i64 %69, %59
+  %71 = add i64 %70, %68
+  %72 = trunc i64 %indvars.iv12 to i32
+  %.urem = urem i32 %72, 100
+  %73 = zext i32 %.urem to i64
+  %74 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %73
+  store i64 %71, ptr %74, align 8
+  %75 = icmp ult i64 %indvars.iv12, 10
+  %spec.select = select i1 %75, i32 59, i32 %.1
   %indvars.iv.next13 = add nuw nsw i64 %indvars.iv12, 1
-  br label %50, !llvm.loop !8
+  br label %44, !llvm.loop !8
 
-82:                                               ; preds = %50
-  %83 = icmp eq i64 %indvars.iv17, 0
-  br i1 %83, label %84, label %87
+76:                                               ; preds = %44
+  %77 = icmp eq i64 %indvars.iv17, 0
+  br i1 %77, label %78, label %81
 
-84:                                               ; preds = %82
-  %85 = call i32 @rand() #3
-  %86 = srem i32 %85, 1000
-  br label %87
+78:                                               ; preds = %76
+  %79 = call i32 @rand() #3
+  %80 = srem i32 %79, 1000
+  br label %81
 
-87:                                               ; preds = %21, %82, %84
-  %.29 = phi i32 [ %.07, %21 ], [ %.07, %84 ], [ 37, %82 ]
-  %.26 = phi i32 [ %.04, %21 ], [ %86, %84 ], [ %.04, %82 ]
-  %.3 = phi i32 [ %.0, %21 ], [ %.1, %84 ], [ %.1, %82 ]
+81:                                               ; preds = %15, %76, %78
+  %.29 = phi i32 [ %.07, %15 ], [ %.07, %78 ], [ 37, %76 ]
+  %.26 = phi i32 [ %.04, %15 ], [ %80, %78 ], [ %.04, %76 ]
+  %.3 = phi i32 [ %.0, %15 ], [ %.1, %78 ], [ %.1, %76 ]
   %indvars.iv.next18 = add nuw nsw i64 %indvars.iv17, 1
-  br label %20, !llvm.loop !9
+  br label %14, !llvm.loop !9
 
-88:                                               ; preds = %20, %89
-  %indvars.iv21 = phi i64 [ %indvars.iv.next22, %89 ], [ 0, %20 ]
+82:                                               ; preds = %14, %83
+  %indvars.iv21 = phi i64 [ %indvars.iv.next22, %83 ], [ 0, %14 ]
   %exitcond24.not = icmp eq i64 %indvars.iv21, 1000
-  br i1 %exitcond24.not, label %93, label %89
+  br i1 %exitcond24.not, label %87, label %83
 
-89:                                               ; preds = %88
-  %90 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %indvars.iv21
-  %91 = load i64, ptr %90, align 8
-  %92 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i64 noundef %91) #3
+83:                                               ; preds = %82
+  %84 = getelementptr inbounds [1000 x i64], ptr %4, i64 0, i64 %indvars.iv21
+  %85 = load i64, ptr %84, align 8
+  %86 = call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i64 noundef %85) #3
   %indvars.iv.next22 = add nuw nsw i64 %indvars.iv21, 1
-  br label %88, !llvm.loop !10
+  br label %82, !llvm.loop !10
 
-93:                                               ; preds = %88
+87:                                               ; preds = %82
   ret i32 0
 }
 

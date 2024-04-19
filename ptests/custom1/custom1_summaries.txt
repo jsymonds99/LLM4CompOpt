@@ -1,6 +1,6 @@
-GEMINI PROMPT 1: -ipsccp -instcombine -aggressive-instcombine -mem2reg -sccp -gvn -dce -adce -loop-simplify -indvars -loop-unroll -loop-unroll-and-jam -inline -tailcallelim
-GEMINI PROMPT 2: -ipsccp -adce -dce -deadargelim -dse -globaldce -always-inline -inline -partial-inliner -indvars -loop-deletion -loop-extract -loop-reduce -loop-rotate -loop-simplify -loop-unroll -loop-unroll-and-jam -simple-loop-unswitch -argpromotion -break-crit-edges -constmerge -function-attrs -globalopt -gvn -instcombine -aggressive-instcombine -internalize -jump-threading -lcssa -lower-global-dtors -mem2reg -memcpyopt -mergefunc -mergereturn -reassociate -rel-lookup-table-converter -reg2mem -sroa -sccp -simplifycfg -sink -strip -strip-dead-debug-info -strip-dead-prototypes -strip-debug-declare -strip-nondebug -tailcallelim
-GEMINI PROMPT 3: -strip-dead-prototypes -strip-dead-debug-info -constmerge -globalopt -gvn -mem2reg -sroa -loop-simplify -loop-rotate -indvars -loop-unroll -loop-reduce -dce -dse -instcombine -aggressive-instcombine -simplifycfg -reassociate -argpromotion
-GPT-4 PROMPT 1: -inline -loop-unroll -gvn -dce -simplifycfg -sroa -mem2reg -tailcallelim
-GPT-4 PROMPT 2: -mem2reg -loop-unroll
-GPT-4 PROMPT 3: -inline -mem2reg -dce -adce -loop-unroll -instcombine -gvn -tailcallelim -simplifycfg
+GEMINI PROMPT 1: -ipsccp -instcombine -aggressive-instcombine -mem2reg -sccp -gvn -dce -adce -loop-simplify -indvars -inline -tailcallelim
+GEMINI PROMPT 2: -ipsccp -adce -dce -deadargelim -dse -globaldce -always-inline -inline -partial-inliner -indvars -loop-deletion -loop-extract -loop-reduce -loop-rotate -loop-simplify -simple-loop-unswitch -argpromotion -break-crit-edges -constmerge -function-attrs -globalopt -gvn -instcombine -aggressive-instcombine -internalize -jump-threading -lcssa -lower-global-dtors -mem2reg -memcpyopt -mergefunc -mergereturn -reassociate -rel-lookup-table-converter -reg2mem -sroa -sccp -simplifycfg -sink -strip -strip-dead-debug-info -strip-dead-prototypes -strip-debug-declare -strip-nondebug -tailcallelim
+GEMINI PROMPT 3: -strip-dead-prototypes -strip-dead-debug-info -constmerge -globalopt -gvn -mem2reg -sroa -loop-simplify -loop-rotate -indvars -loop-reduce -dce -dse -instcombine -aggressive-instcombine -simplifycfg -reassociate -argpromotion
+GPT-4 PROMPT 1: -inline -gvn -dce -simplifycfg -sroa -mem2reg -tailcallelim
+GPT-4 PROMPT 2: -mem2reg
+GPT-4 PROMPT 3: -inline -mem2reg -dce -adce -instcombine -gvn -tailcallelim -simplifycfg

@@ -12,115 +12,24 @@ target triple = "x86_64-unknown-linux-gnu"
 define dso_local void @myadd(ptr noundef %0, ptr noundef %1) #0 {
   br label %3
 
-3:                                                ; preds = %2
-  br label %4
+3:                                                ; preds = %4, %2
+  %.0 = phi i32 [ 1, %2 ], [ %12, %4 ]
+  %exitcond = icmp ne i32 %.0, 10
+  br i1 %exitcond, label %4, label %13
 
 4:                                                ; preds = %3
-  %5 = load float, ptr %0, align 4
-  %6 = fadd float %5, 0.000000e+00
-  store float %6, ptr %0, align 4
-  br label %7
+  %5 = load float, ptr %1, align 4
+  %6 = fptosi float %5 to i32
+  %7 = srem i32 %6, %.0
+  %8 = load float, ptr %0, align 4
+  %9 = mul nsw i32 %7, %.0
+  %10 = sitofp i32 %9 to float
+  %11 = fadd float %8, %10
+  store float %11, ptr %0, align 4
+  %12 = add nuw nsw i32 %.0, 1
+  br label %3, !llvm.loop !6
 
-7:                                                ; preds = %4
-  %8 = load float, ptr %1, align 4
-  %9 = fptosi float %8 to i32
-  %10 = srem i32 %9, 2
-  %11 = load float, ptr %0, align 4
-  %12 = mul nsw i32 %10, 2
-  %13 = sitofp i32 %12 to float
-  %14 = fadd float %11, %13
-  store float %14, ptr %0, align 4
-  br label %15
-
-15:                                               ; preds = %7
-  %16 = load float, ptr %1, align 4
-  %17 = fptosi float %16 to i32
-  %18 = srem i32 %17, 3
-  %19 = load float, ptr %0, align 4
-  %20 = mul nsw i32 %18, 3
-  %21 = sitofp i32 %20 to float
-  %22 = fadd float %19, %21
-  store float %22, ptr %0, align 4
-  br label %23
-
-23:                                               ; preds = %15
-  %24 = load float, ptr %1, align 4
-  %25 = fptosi float %24 to i32
-  %26 = srem i32 %25, 4
-  %27 = load float, ptr %0, align 4
-  %28 = mul nsw i32 %26, 4
-  %29 = sitofp i32 %28 to float
-  %30 = fadd float %27, %29
-  store float %30, ptr %0, align 4
-  br label %31
-
-31:                                               ; preds = %23
-  %32 = load float, ptr %1, align 4
-  %33 = fptosi float %32 to i32
-  %34 = srem i32 %33, 5
-  %35 = load float, ptr %0, align 4
-  %36 = mul nsw i32 %34, 5
-  %37 = sitofp i32 %36 to float
-  %38 = fadd float %35, %37
-  store float %38, ptr %0, align 4
-  br label %39
-
-39:                                               ; preds = %31
-  %40 = load float, ptr %1, align 4
-  %41 = fptosi float %40 to i32
-  %42 = srem i32 %41, 6
-  %43 = load float, ptr %0, align 4
-  %44 = mul nsw i32 %42, 6
-  %45 = sitofp i32 %44 to float
-  %46 = fadd float %43, %45
-  store float %46, ptr %0, align 4
-  br label %47
-
-47:                                               ; preds = %39
-  %48 = load float, ptr %1, align 4
-  %49 = fptosi float %48 to i32
-  %50 = srem i32 %49, 7
-  %51 = load float, ptr %0, align 4
-  %52 = mul nsw i32 %50, 7
-  %53 = sitofp i32 %52 to float
-  %54 = fadd float %51, %53
-  store float %54, ptr %0, align 4
-  br label %55
-
-55:                                               ; preds = %47
-  %56 = load float, ptr %1, align 4
-  %57 = fptosi float %56 to i32
-  %58 = srem i32 %57, 8
-  %59 = load float, ptr %0, align 4
-  %60 = mul nsw i32 %58, 8
-  %61 = sitofp i32 %60 to float
-  %62 = fadd float %59, %61
-  store float %62, ptr %0, align 4
-  br label %63
-
-63:                                               ; preds = %55
-  %64 = load float, ptr %1, align 4
-  %65 = fptosi float %64 to i32
-  %66 = srem i32 %65, 9
-  %67 = load float, ptr %0, align 4
-  %68 = mul nsw i32 %66, 9
-  %69 = sitofp i32 %68 to float
-  %70 = fadd float %67, %69
-  store float %70, ptr %0, align 4
-  br i1 false, label %71, label %79
-
-71:                                               ; preds = %63
-  %72 = load float, ptr %1, align 4
-  %73 = fptosi float %72 to i32
-  %74 = srem i32 %73, 10
-  %75 = load float, ptr %0, align 4
-  %76 = mul nsw i32 %74, 10
-  %77 = sitofp i32 %76 to float
-  %78 = fadd float %75, %77
-  store float %78, ptr %0, align 4
-  unreachable
-
-79:                                               ; preds = %63
+13:                                               ; preds = %3
   ret void
 }
 
@@ -168,7 +77,7 @@ define dso_local i32 @main(i32 noundef %0, ptr noundef %1) #0 {
 23:                                               ; preds = %6, %21
   %.1 = phi i64 [ %22, %21 ], [ %.05, %6 ]
   %lsr.iv.next = add nsw i64 %lsr.iv, -1
-  br label %5, !llvm.loop !6
+  br label %5, !llvm.loop !8
 
 24:                                               ; preds = %5
   %.05.lcssa = phi i64 [ %.05, %5 ]
@@ -217,3 +126,4 @@ attributes #4 = { nounwind }
 !5 = !{!"clang version 17.0.6"}
 !6 = distinct !{!6, !7}
 !7 = !{!"llvm.loop.mustprogress"}
+!8 = distinct !{!8, !7}

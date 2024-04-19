@@ -9,73 +9,26 @@ target triple = "x86_64-unknown-linux-gnu"
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local void @myadd(ptr noundef %0, ptr noundef %1) #0 {
-  %3 = load float, ptr %0, align 4
-  %4 = fadd float %3, 0.000000e+00
-  store float %4, ptr %0, align 4
-  %5 = load float, ptr %1, align 4
-  %6 = fptosi float %5 to i32
-  %7 = srem i32 %6, 2
-  %8 = load float, ptr %0, align 4
-  %9 = mul nsw i32 %7, 2
-  %10 = sitofp i32 %9 to float
-  %11 = fadd float %8, %10
-  store float %11, ptr %0, align 4
-  %12 = load float, ptr %1, align 4
-  %13 = fptosi float %12 to i32
-  %14 = srem i32 %13, 3
-  %15 = load float, ptr %0, align 4
-  %16 = mul nsw i32 %14, 3
-  %17 = sitofp i32 %16 to float
-  %18 = fadd float %15, %17
-  store float %18, ptr %0, align 4
-  %19 = load float, ptr %1, align 4
-  %20 = fptosi float %19 to i32
-  %21 = srem i32 %20, 4
-  %22 = load float, ptr %0, align 4
-  %23 = mul nsw i32 %21, 4
-  %24 = sitofp i32 %23 to float
-  %25 = fadd float %22, %24
-  store float %25, ptr %0, align 4
-  %26 = load float, ptr %1, align 4
-  %27 = fptosi float %26 to i32
-  %28 = srem i32 %27, 5
-  %29 = load float, ptr %0, align 4
-  %30 = mul nsw i32 %28, 5
-  %31 = sitofp i32 %30 to float
-  %32 = fadd float %29, %31
-  store float %32, ptr %0, align 4
-  %33 = load float, ptr %1, align 4
-  %34 = fptosi float %33 to i32
-  %35 = srem i32 %34, 6
-  %36 = load float, ptr %0, align 4
-  %37 = mul nsw i32 %35, 6
-  %38 = sitofp i32 %37 to float
-  %39 = fadd float %36, %38
-  store float %39, ptr %0, align 4
-  %40 = load float, ptr %1, align 4
-  %41 = fptosi float %40 to i32
-  %42 = srem i32 %41, 7
-  %43 = load float, ptr %0, align 4
-  %44 = mul nsw i32 %42, 7
-  %45 = sitofp i32 %44 to float
-  %46 = fadd float %43, %45
-  store float %46, ptr %0, align 4
-  %47 = load float, ptr %1, align 4
-  %48 = fptosi float %47 to i32
-  %49 = srem i32 %48, 8
-  %50 = load float, ptr %0, align 4
-  %51 = mul nsw i32 %49, 8
-  %52 = sitofp i32 %51 to float
-  %53 = fadd float %50, %52
-  store float %53, ptr %0, align 4
-  %54 = load float, ptr %1, align 4
-  %55 = fptosi float %54 to i32
-  %56 = srem i32 %55, 9
-  %57 = load float, ptr %0, align 4
-  %58 = mul nsw i32 %56, 9
-  %59 = sitofp i32 %58 to float
-  %60 = fadd float %57, %59
-  store float %60, ptr %0, align 4
+  br label %3
+
+3:                                                ; preds = %5, %2
+  %.0 = phi i32 [ 1, %2 ], [ %13, %5 ]
+  %4 = icmp slt i32 %.0, 10
+  br i1 %4, label %5, label %14
+
+5:                                                ; preds = %3
+  %6 = load float, ptr %1, align 4
+  %7 = fptosi float %6 to i32
+  %8 = srem i32 %7, %.0
+  %9 = load float, ptr %0, align 4
+  %10 = mul nsw i32 %8, %.0
+  %11 = sitofp i32 %10 to float
+  %12 = fadd float %9, %11
+  store float %12, ptr %0, align 4
+  %13 = add nsw i32 %.0, 1
+  br label %3, !llvm.loop !6
+
+14:                                               ; preds = %3
   ret void
 }
 
@@ -123,19 +76,15 @@ define dso_local i32 @main(i32 noundef %0, ptr noundef %1) #0 {
   %29 = add nsw i64 %.02, 1
   %.1 = select i1 %28, i64 %29, i64 %.02
   %30 = add nsw i64 %.0, 1
-  br label %6, !llvm.loop !6
+  br label %6, !llvm.loop !8
 
 31:                                               ; preds = %6
-  %.05.lcssa = phi float [ %.05, %6 ]
-  %.04.lcssa = phi float [ %.04, %6 ]
-  %.02.lcssa = phi i64 [ %.02, %6 ]
-  %.0.lcssa = phi i64 [ %.0, %6 ]
-  %32 = fpext float %.05.lcssa to double
-  %33 = fpext float %.04.lcssa to double
-  %34 = trunc i64 %.02.lcssa to i32
-  %35 = trunc i64 %.0.lcssa to i32
+  %32 = fpext float %.05 to double
+  %33 = fpext float %.04 to double
+  %34 = trunc i64 %.02 to i32
+  %35 = trunc i64 %.0 to i32
   %36 = call i32 (ptr, ...) @printf(ptr noundef @.str.1, double noundef %32, double noundef %33, i32 noundef %34, i32 noundef %35)
-  %37 = sitofp i64 %.02.lcssa to float
+  %37 = sitofp i64 %.02 to float
   %38 = fpext float %37 to double
   %39 = fmul double 4.000000e+00, %38
   %40 = sitofp i64 40000000 to float
@@ -170,3 +119,4 @@ attributes #2 = { nocallback nofree nosync nounwind speculatable willreturn memo
 !5 = !{!"clang version 17.0.6"}
 !6 = distinct !{!6, !7}
 !7 = !{!"llvm.loop.mustprogress"}
+!8 = distinct !{!8, !7}

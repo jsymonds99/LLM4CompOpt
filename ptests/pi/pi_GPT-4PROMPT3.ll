@@ -72,16 +72,12 @@ define dso_local i32 @main(i32 noundef %0, ptr noundef %1) #0 {
   br label %6, !llvm.loop !6
 
 34:                                               ; preds = %6
-  %.05.lcssa = phi float [ %.05, %6 ]
-  %.04.lcssa = phi float [ %.04, %6 ]
-  %.02.lcssa = phi i64 [ %.02, %6 ]
-  %.0.lcssa = phi i64 [ %.0, %6 ]
-  %35 = fpext float %.05.lcssa to double
-  %36 = fpext float %.04.lcssa to double
-  %37 = trunc i64 %.02.lcssa to i32
-  %38 = trunc i64 %.0.lcssa to i32
+  %35 = fpext float %.05 to double
+  %36 = fpext float %.04 to double
+  %37 = trunc i64 %.02 to i32
+  %38 = trunc i64 %.0 to i32
   %39 = call i32 (ptr, ...) @printf(ptr noundef @.str.1, double noundef %35, double noundef %36, i32 noundef %37, i32 noundef %38)
-  %40 = sitofp i64 %.02.lcssa to float
+  %40 = sitofp i64 %.02 to float
   %41 = fpext float %40 to double
   %42 = fmul double %41, 4.000000e+00
   %43 = sitofp i64 40000000 to float

@@ -109,8 +109,7 @@ define internal i64 @lower_StringImpl(ptr noalias noundef %0, i64 noundef %1, pt
   br label %4, !llvm.loop !10
 
 14:                                               ; preds = %4
-  %.0.lcssa = phi i16 [ %.0, %4 ]
-  %.not = icmp ult i16 %.0.lcssa, 128
+  %.not = icmp ult i16 %.0, 128
   br i1 %.not, label %15, label %16
 
 15:                                               ; preds = %14

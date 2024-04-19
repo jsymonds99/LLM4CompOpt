@@ -8,45 +8,19 @@ target triple = "x86_64-unknown-linux-gnu"
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local i32 @main(i32 noundef %0, ptr noundef %1) #0 {
-  call void @doTest(i64 noundef 0)
-  call void @doTest(i64 noundef 1)
-  call void @doTest(i64 noundef 2)
-  call void @doTest(i64 noundef 3)
-  call void @doTest(i64 noundef 4)
-  call void @doTest(i64 noundef 5)
-  call void @doTest(i64 noundef 6)
-  call void @doTest(i64 noundef 7)
-  call void @doTest(i64 noundef 8)
-  call void @doTest(i64 noundef 9)
-  call void @doTest(i64 noundef 10)
-  call void @doTest(i64 noundef 11)
-  call void @doTest(i64 noundef 12)
-  call void @doTest(i64 noundef 13)
-  call void @doTest(i64 noundef 14)
-  call void @doTest(i64 noundef 15)
-  call void @doTest(i64 noundef 16)
-  call void @doTest(i64 noundef 17)
-  call void @doTest(i64 noundef 18)
-  call void @doTest(i64 noundef 19)
-  call void @doTest(i64 noundef 20)
-  call void @doTest(i64 noundef 21)
-  call void @doTest(i64 noundef 22)
-  call void @doTest(i64 noundef 23)
-  call void @doTest(i64 noundef 24)
-  call void @doTest(i64 noundef 25)
-  call void @doTest(i64 noundef 26)
-  call void @doTest(i64 noundef 27)
-  call void @doTest(i64 noundef 28)
-  call void @doTest(i64 noundef 29)
-  call void @doTest(i64 noundef 30)
-  call void @doTest(i64 noundef 31)
-  br i1 false, label %3, label %4
+  br label %3
 
-3:                                                ; preds = %2
-  call void @doTest(i64 noundef 32)
-  unreachable
+3:                                                ; preds = %4, %2
+  %storemerge = phi i64 [ 0, %2 ], [ %5, %4 ]
+  %exitcond = icmp ne i64 %storemerge, 32
+  br i1 %exitcond, label %4, label %6
 
-4:                                                ; preds = %2
+4:                                                ; preds = %3
+  call void @doTest(i64 noundef %storemerge)
+  %5 = add nuw nsw i64 %storemerge, 1
+  br label %3, !llvm.loop !6
+
+6:                                                ; preds = %3
   ret i32 0
 }
 
@@ -67,7 +41,7 @@ define internal void @doTest(i64 noundef %0) #0 {
   %9 = getelementptr inbounds i16, ptr %5, i64 %storemerge
   call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 2 dereferenceable(32) %9, ptr noundef nonnull align 16 dereferenceable(32) @staticData, i64 32, i1 false)
   %10 = add nuw i64 %storemerge, 16
-  br label %6, !llvm.loop !6
+  br label %6, !llvm.loop !8
 
 11:                                               ; preds = %6
   %12 = call ptr @malloc(i64 noundef %4) #5
@@ -83,7 +57,7 @@ define internal void @doTest(i64 noundef %0) #0 {
 15:                                               ; preds = %14
   %16 = call i64 @lower_StringImpl(ptr noundef %5, i64 noundef %0, ptr noundef %12)
   %17 = add nuw nsw i64 %storemerge1, 1
-  br label %14, !llvm.loop !8
+  br label %14, !llvm.loop !9
 
 18:                                               ; preds = %14
   ret void
@@ -118,7 +92,7 @@ define internal i64 @lower_StringImpl(ptr noalias noundef %0, i64 noundef %1, pt
   %10 = getelementptr inbounds i16, ptr %2, i64 %storemerge
   store i16 %9, ptr %10, align 2
   %11 = add i64 %storemerge, 1
-  br label %4, !llvm.loop !9
+  br label %4, !llvm.loop !10
 
 12:                                               ; preds = %4
   %.0.lcssa = phi i16 [ %.0, %4 ]
@@ -158,3 +132,4 @@ attributes #6 = { nounwind }
 !7 = !{!"llvm.loop.mustprogress"}
 !8 = distinct !{!8, !7}
 !9 = distinct !{!9, !7}
+!10 = distinct !{!10, !7}

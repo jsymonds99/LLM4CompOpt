@@ -35,61 +35,18 @@ define dso_local i32 @normal_factorial(i32 noundef %0) #1 {
   br i1 %exitcond2, label %._crit_edge, label %.lr.ph
 
 .lr.ph:                                           ; preds = %1
-  %3 = add nsw i32 %smax, -1
-  %xtraiter = and i32 %smax, 7
-  %4 = icmp ult i32 %3, 7
-  br i1 %4, label %._crit_edge.unr-lcssa, label %.lr.ph.new
+  br label %3
 
-.lr.ph.new:                                       ; preds = %.lr.ph
-  %unroll_iter = sub i32 %smax, %xtraiter
-  br label %5
+3:                                                ; preds = %.lr.ph, %3
+  %.04 = phi i32 [ 1, %.lr.ph ], [ %5, %3 ]
+  %.013 = phi i32 [ 1, %.lr.ph ], [ %4, %3 ]
+  %4 = mul nsw i32 %.013, %.04
+  %5 = add nuw i32 %.04, 1
+  %exitcond = icmp eq i32 %5, %2
+  br i1 %exitcond, label %._crit_edge, label %3, !llvm.loop !6
 
-5:                                                ; preds = %5, %.lr.ph.new
-  %.04 = phi i32 [ 1, %.lr.ph.new ], [ %21, %5 ]
-  %.013 = phi i32 [ 1, %.lr.ph.new ], [ %20, %5 ]
-  %niter = phi i32 [ 0, %.lr.ph.new ], [ %niter.next.7, %5 ]
-  %6 = mul nsw i32 %.013, %.04
-  %7 = add nuw nsw i32 %.04, 1
-  %8 = mul nsw i32 %6, %7
-  %9 = add nuw nsw i32 %.04, 2
-  %10 = mul nsw i32 %8, %9
-  %11 = add nuw nsw i32 %.04, 3
-  %12 = mul nsw i32 %10, %11
-  %13 = add nuw nsw i32 %.04, 4
-  %14 = mul nsw i32 %12, %13
-  %15 = add nuw nsw i32 %.04, 5
-  %16 = mul nsw i32 %14, %15
-  %17 = add nuw nsw i32 %.04, 6
-  %18 = mul nsw i32 %16, %17
-  %19 = add nuw i32 %.04, 7
-  %20 = mul nsw i32 %18, %19
-  %21 = add nuw i32 %.04, 8
-  %niter.next.7 = add i32 %niter, 8
-  %niter.ncmp.7 = icmp eq i32 %niter.next.7, %unroll_iter
-  br i1 %niter.ncmp.7, label %._crit_edge.unr-lcssa, label %5, !llvm.loop !6
-
-._crit_edge.unr-lcssa:                            ; preds = %5, %.lr.ph
-  %.lcssa.ph = phi i32 [ undef, %.lr.ph ], [ %20, %5 ]
-  %.04.unr = phi i32 [ 1, %.lr.ph ], [ %21, %5 ]
-  %.013.unr = phi i32 [ 1, %.lr.ph ], [ %20, %5 ]
-  %lcmp.mod = icmp ne i32 %xtraiter, 0
-  br i1 %lcmp.mod, label %.epil.preheader, label %._crit_edge
-
-.epil.preheader:                                  ; preds = %._crit_edge.unr-lcssa
-  br label %22
-
-22:                                               ; preds = %22, %.epil.preheader
-  %.04.epil = phi i32 [ %.04.unr, %.epil.preheader ], [ %24, %22 ]
-  %.013.epil = phi i32 [ %.013.unr, %.epil.preheader ], [ %23, %22 ]
-  %epil.iter = phi i32 [ 0, %.epil.preheader ], [ %epil.iter.next, %22 ]
-  %23 = mul nsw i32 %.013.epil, %.04.epil
-  %24 = add nuw i32 %.04.epil, 1
-  %epil.iter.next = add i32 %epil.iter, 1
-  %epil.iter.cmp = icmp ne i32 %epil.iter.next, %xtraiter
-  br i1 %epil.iter.cmp, label %22, label %._crit_edge, !llvm.loop !8
-
-._crit_edge:                                      ; preds = %._crit_edge.unr-lcssa, %22, %1
-  %.01.lcssa = phi i32 [ 1, %1 ], [ %.lcssa.ph, %._crit_edge.unr-lcssa ], [ %23, %22 ]
+._crit_edge:                                      ; preds = %3, %1
+  %.01.lcssa = phi i32 [ 1, %1 ], [ %4, %3 ]
   ret i32 %.01.lcssa
 }
 
@@ -123,13 +80,13 @@ define dso_local i32 @doing_something(i32 noundef %0, i32 noundef %1) #0 {
   %10 = add nsw i32 %8, %9
   %11 = add nuw i32 %.07, 1
   %exitcond = icmp ne i32 %11, %smax
-  br i1 %exitcond, label %5, label %._crit_edge, !llvm.loop !10
+  br i1 %exitcond, label %5, label %._crit_edge, !llvm.loop !8
 
 ._crit_edge:                                      ; preds = %5, %3
   %.1.lcssa = phi i32 [ %4, %3 ], [ %10, %5 ]
   %12 = add nuw i32 %.0110, 1
   %exitcond4 = icmp ne i32 %12, %smax3
-  br i1 %exitcond4, label %3, label %._crit_edge13, !llvm.loop !11
+  br i1 %exitcond4, label %3, label %._crit_edge13, !llvm.loop !9
 
 ._crit_edge13:                                    ; preds = %._crit_edge, %2
   %.02.lcssa = phi i32 [ 0, %2 ], [ %.1.lcssa, %._crit_edge ]
@@ -138,16 +95,21 @@ define dso_local i32 @doing_something(i32 noundef %0, i32 noundef %1) #0 {
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local i32 @main(i32 noundef %0, ptr noundef %1) #2 {
-  %3 = tail call i32 @doing_something(i32 noundef 1, i32 noundef 2)
-  %4 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef 1, i32 noundef 2, i32 noundef %3) #6
-  %5 = tail call i32 @doing_something(i32 noundef 6, i32 noundef 3)
-  %6 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef 6, i32 noundef 3, i32 noundef %5) #6
-  %7 = tail call i32 @doing_something(i32 noundef 2, i32 noundef 4)
-  %8 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef 2, i32 noundef 4, i32 noundef %7) #6
-  %9 = tail call i32 @doing_something(i32 noundef 9, i32 noundef 5)
-  %10 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef 9, i32 noundef 5, i32 noundef %9) #6
-  %11 = tail call i32 @doing_something(i32 noundef 10, i32 noundef 6)
-  %12 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef 10, i32 noundef 6, i32 noundef %11) #6
+  br label %3
+
+3:                                                ; preds = %2, %3
+  %indvars.iv2 = phi i64 [ 0, %2 ], [ %indvars.iv.next, %3 ]
+  %4 = getelementptr inbounds [5 x i32], ptr @__const.main.as, i64 0, i64 %indvars.iv2
+  %5 = load i32, ptr %4, align 4
+  %6 = getelementptr inbounds [5 x i32], ptr @__const.main.bs, i64 0, i64 %indvars.iv2
+  %7 = load i32, ptr %6, align 4
+  %8 = tail call i32 @doing_something(i32 noundef %5, i32 noundef %7)
+  %9 = tail call i32 (ptr, ...) @printf(ptr noundef nonnull dereferenceable(1) @.str, i32 noundef %5, i32 noundef %7, i32 noundef %8) #6
+  %indvars.iv.next = add nuw nsw i64 %indvars.iv2, 1
+  %exitcond = icmp ne i64 %indvars.iv.next, 5
+  br i1 %exitcond, label %3, label %10, !llvm.loop !10
+
+10:                                               ; preds = %3
   ret i32 0
 }
 
@@ -178,7 +140,6 @@ attributes #6 = { nounwind }
 !5 = !{!"clang version 17.0.6"}
 !6 = distinct !{!6, !7}
 !7 = !{!"llvm.loop.mustprogress"}
-!8 = distinct !{!8, !9}
-!9 = !{!"llvm.loop.unroll.disable"}
+!8 = distinct !{!8, !7}
+!9 = distinct !{!9, !7}
 !10 = distinct !{!10, !7}
-!11 = distinct !{!11, !7}

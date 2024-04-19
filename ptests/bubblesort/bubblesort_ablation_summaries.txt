@@ -1,4 +1,4 @@
-GEMINI PROMPT 1 (ablation): -constmerge -dce -dse -function-attrs -globaldce -globalopt -gvn -instcombine -jump-threading -memcpyopt -reassociate -sccp -simplifycfg -indvars -loop-deletion -loop-reduce -loop-rotate -loop-unroll -loop-unroll-and-jam -simple-loop-unswitch -inline -mem2reg -sroa
-GEMINI PROMPT 2 (ablation): -deadargelim -mem2reg -loop-simplify -simplifycfg -indvars -loop-unroll -loop-rotate -inline -gvn -memcpyopt
-GPT-4 PROMPT 1 (ablation): -mem2reg -simplifycfg -loop-simplify -loop-unroll -instcombine -gvn -dce -sccp -reassociate
-GPT-4 PROMPT 2 (ablation): -inline -loop-unroll -dce -sroa -gvn -mem2reg -instcombine -reassociate -dse -gvn
+GEMINI PROMPT 1 (ablation): -constmerge -dce -dse -function-attrs -globaldce -globalopt -gvn -instcombine -jump-threading -memcpyopt -reassociate -sccp -simplifycfg -indvars -loop-deletion -loop-reduce -loop-rotate -simple-loop-unswitch -inline -mem2reg -sroa
+GEMINI PROMPT 2 (ablation): -deadargelim -mem2reg -loop-simplify -simplifycfg -indvars -loop-rotate -inline -gvn -memcpyopt
+GPT-4 PROMPT 1 (ablation): -mem2reg -simplifycfg -loop-simplify -instcombine -gvn -dce -sccp -reassociate
+GPT-4 PROMPT 2 (ablation): -inline -dce -sroa -gvn -mem2reg -instcombine -reassociate -dse -gvn
