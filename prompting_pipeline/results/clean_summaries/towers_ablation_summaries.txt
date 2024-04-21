@@ -1,0 +1,7 @@
+- For **GEMINI PROMPT 1** (ablation):-constmerge -globaldce -globalopt -instcombine -aggressive-instcombine -sroa -mem2reg -loop-simplify -indvars -licm -loop-unroll -loop-reduce -inline -ipsccp -function-attrs -codegenprepare -break-crit-edges -lower-switch -lower-invoke -simplifycfg -reassociate -dce 
+
+- For **GEMINI PROMPT 2** (ablation):-dce -gvn -licm -inline 
+
+- For **GPT-4 PROMPT 1** (ablation):-deadargelim -dce -simplifycfg -instcombine -gvn -licm -loop-unroll -sccp -codegenprepare -jump-threading 
+
+- For **GPT-4 PROMPT 2** (ablation):-gvn -mem2reg -loop-unroll -simplifycfg -inline 

@@ -1,0 +1,7 @@
+GEMINI PROMPT 1: -instcombine -mem2reg -sccp -dce -simplifycfg -inline -loop-unroll -gvn -indvars -licm -reassociate
+
+GEMINI PROMPT 2: -mem2reg -constprop -dce -licm -loop-unroll -loop-strength-reduce -inline -tailcallelim -slsr
+
+GPT-4 PROMPT 1: -mem2reg -instcombine -reassociate -gvn -sccp -loop-unroll -licm -dce -codegenprepare -inline -memcpyopt -strip-nondebug
+
+GPT-4 PROMPT 2: -inline -loop-unroll -dce -scalarrepl -mem2reg -constprop -gvn -instcombine -slsr -tailcallelim -loop-vectorize -slp-vectorizer

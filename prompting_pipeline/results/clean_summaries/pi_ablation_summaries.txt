@@ -1,0 +1,4 @@
+- Gemini Prompt 1 (ablation):-adce -constmerge -dce -deadargelim -dse -function-attrs -globaldce -globalopt -gvn -instcombine -jump-threading -memcpyopt -reassociate -sccp -simplifycfg -indvars -licm -loop-deletion -loop-reduce -loop-rotate -loop-unroll -loop-unroll-and-jam -simple-loop-unswitch -inline -mem2reg -sroa -tailcallelim 
+- Gemini Prompt 2 (ablation):-mem2reg -dce -instcombine 
+- GPT-4 Prompt 1 (ablation):-mem2reg -instcombine -reassociate -simplifycfg -inline -loop-unroll -gvn -licm 
+- GPT-4 Prompt 2 (ablation):-mem2reg -loop-unroll -licm -reassociate -simplifycfg -instcombine -inline -tailcallelim -dce 

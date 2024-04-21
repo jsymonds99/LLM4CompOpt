@@ -1,0 +1,7 @@
+GEMINI 1:-loop-simplify -indvars -loop-reduce -licm -loop-unroll -loop-unroll-and-jam -mem2reg -gvn -sroa -dse -dce -constmerge -instcombine -aggressive-instcombine -reassociate -simplifycfg -function-attrs -argpromotion -inline -globaldce 
+GEMINI 2:-mem2reg -gvn -instcombine -licm -loop-unroll -loop-reduce -simplifycfg -sroa -sccp -dce -dse -inline 
+GEMINI 3:-dce -instcombine -simplifycfg -reassociate -mem2reg -sroa -argpromotion -indvars -licm -loop-unroll -loop-reduce -gvn -sccp -jump-threading -codegenprepare 
+
+GPT-4 1:-loop-unroll -loop-rotate -licm -gvn -instcombine -jump-threading -dce -simplifycfg -reassociate -codegenprepare 
+GPT-4 2:-mem2reg -loop-unroll -licm 
+GPT-4 3:-mem2reg -licm -loop-unroll -indvars -gvn -instcombine -dce -simplifycfg -sroa -inline -adce -tailcallelim 

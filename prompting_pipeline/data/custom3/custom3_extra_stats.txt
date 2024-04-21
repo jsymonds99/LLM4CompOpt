@@ -1,0 +1,4 @@
+Unoptimized instruction count: 
+260
+Optimized instruction count: 
+123

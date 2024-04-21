@@ -1,0 +1,178 @@
+GEMINI PROMPT 1:
+## Suggested Optimization Passes for the Given LLVM IR:
+
+Based on the provided LLVM IR and the summaries of each pass, here's a potential sequence of optimization passes for efficient code generation:
+
+**Early Optimizations:**
+
+1. **always-inline:** Inline functions marked with `always_inline`. While none exist in this example, it's good practice early on. 
+2. **instcombine & aggressive-instcombine:** Combine instructions for simpler and faster code. 
+3. **codegenprepare:** Prepare for efficient code generation.
+4. **simplifycfg:** Simplify the control flow graph for subsequent analyses.
+5. **sroa:**  Decompose aggregates into scalars to improve memory access and enable further optimizations.
+6. **mem2reg:** Promote memory references to register references for better performance.
+7. **globalsopt:** Optimize global variables.
+8. **constmerge:** Merge identical global constants.
+
+**Interprocedural Optimizations:**
+
+1. **ipsccp:** Interprocedural constant propagation and dead code elimination.
+2. **inline:** Perform cost-benefit analysis for inlining functions. 
+3. **function-attrs:** Analyze functions and arguments to deduce attributes for better optimization.
+4. **globaldce:** Remove unused global variables and functions.
+
+**Loop Optimizations:**
+
+1. **indvars:** Canonicalize induction variables for easier analysis and transformation.
+2. **licm:** Move loop-invariant code outside the loop.
+3. **loop-unroll (consider loop-unroll-and-jam):** Unroll loops for potential performance gains, but be mindful of code size increase.
+4. **loop-simplify:** Standardize loop structure for easier analysis.
+5. **loop-deletion:** Remove loops with no effect.
+
+**Late Optimizations:**
+
+1. **adce:** Aggressively eliminate dead code.
+2. **dce:** Eliminate remaining dead code.
+3. **dse:** Eliminate dead stores.
+4. **reassociate:** Reorder commutative operations for better constant propagation.
+5. **jump-threading:** Optimize control flow by threading jumps.
+6. **tailcallelim:** Optimize tail calls.
+
+**Cleanup:**
+
+1. **strip-dead-prototypes & strip-dead-debug-info:** Remove unused prototypes and debug info.
+2. **strip (optional):** Remove non-essential information for code size reduction if desired.
+
+**Additional Considerations:**
+
+*   Profile-guided optimization (PGO) can significantly improve the effectiveness of these passes. 
+*   The optimal sequence and selection of passes may vary depending on the specific code and target architecture.
+
+**Important Note:**
+
+*   The `noinline` attribute on the functions may hinder some of the inlining optimizations. Consider evaluating the need for this attribute and potentially removing it for better optimization results. 
+
+## Disclaimer:
+
+This is a suggested sequence and may require adjustments based on specific needs and profiling data. Always benchmark and evaluate the impact of each pass on your code.
+
+
+GEMINI PROMPT 2:
+## Efficient Compiler Optimization Passes for LLVM IR Code:
+
+Based on the provided LLVM IR, here are some efficient optimization passes you can consider:
+
+**General Optimizations:**
+
+* **Mem2Reg:** This pass promotes alloca instructions to SSA registers, eliminating unnecessary memory accesses and improving register allocation. 
+* **Dead Code Elimination:** Removes instructions that have no effect on the output, reducing code size and improving execution speed.
+* **Constant Folding:** Evaluates constant expressions at compile time, reducing runtime computations.
+* **Global Value Numbering (GVN):** This pass identifies redundant computations and expressions, replacing them with a single copy to improve efficiency.
+* **Instruction Combining:** Merges and simplifies instructions, such as combining multiple arithmetic operations into one.
+
+**Loop Optimizations:**
+
+* **Loop Invariant Code Motion (LICM):** Moves computations that do not change within a loop out of the loop, reducing redundant calculations.
+* **Loop Strength Reduction:** Replaces expensive operations in loops with cheaper ones, such as replacing multiplications with additions.
+* **Loop Unrolling:** Duplicates the body of a loop to reduce loop overhead and improve instruction-level parallelism. 
+* **Loop Unswitching:** Creates separate versions of a loop based on the value of a condition, potentially enabling further optimizations.
+
+**Function Optimizations:**
+
+* **Inline Expansion:** Replaces function calls with the function body, potentially improving performance by eliminating function call overhead and enabling further optimizations. Be cautious with this pass as it can increase code size.
+* **Tail Call Optimization:** Optimizes certain function calls to avoid stack growth, improving efficiency for recursive functions.
+
+**Specific Observations for the Provided Code:**
+
+* **Factorial Functions:** Both `recursive_factorial` and `normal_factorial` have potential for optimization. Consider replacing recursion with iteration for `recursive_factorial` to avoid function call overhead. Explore loop optimizations for the `normal_factorial` function.
+* **`doing_something` Function:** Analyze the loop structures within this function and apply loop optimizations like LICM and loop unrolling. 
+* **Main Function:** Consider constant folding and dead code elimination for any unused instructions.
+
+**Additional Considerations:**
+
+* **Profile-Guided Optimization (PGO):** This technique uses profiling information to guide optimization decisions, leading to more efficient code for specific workloads.
+* **Link Time Optimization (LTO):** Performs optimizations across multiple translation units, enabling more aggressive optimizations that consider the entire program.
+
+**Applying Optimizations:**
+
+Use the `opt` tool provided by LLVM to apply these passes. You can specify multiple passes in a sequence to achieve the desired level of optimization. 
+
+**Remember:** 
+
+* The effectiveness of each pass depends on the specific code and target architecture. 
+* Analyze the generated code and performance to ensure optimizations are beneficial and do not introduce regressions.
+
+By applying these optimization techniques and carefully evaluating the results, you can significantly improve the performance and efficiency of the compiled code.
+
+
+-----------------------------
+
+GPT-4 PROMPT 1:
+For the LLVM IR code provided, an efficient selection of compiler optimization passes will target specific inefficiencies and redundancies. Here, I will outline some vital passes that could substantially improve the performance and reduce the size of the compiled program:
+
+1. **mem2reg (Memory to Register Promotion)**: This pass is crucial as it moves stack-based variables into registers, which is beneficial for speed, especially in the provided code where there are a significant number of `alloca` and `load/store` operations that interact frequently with memory.
+
+2. **instcombine (Combine Instructions)**: This pass simplifies redundant and complicated instruction patterns into simpler and more efficient instructions. It can help in cleaning up after other optimizations like `mem2reg`.
+
+3. **simplifycfg (Simplify the Control-Flow Graph)**: This pass removes unnecessary control flow blocks, consolidates branches, and simplifies control flow, which can help streamline the execution paths in the function.
+
+4. **indvars (Canonicalize Induction Variables)**: This is valuable for loops, as it simplifies loop induction variables, which could improve the loop performance and help other loop optimizations to be more effective.
+
+5. **licm (Loop Invariant Code Motion)**: This moves code that computes the same result on every iteration of the loop outside the loop, thereby reducing the computational load inside the loop.
+
+6. **loop-rotate (Loop Rotation)**: Helps by repositioning the loop’s condition check to the end, which in many cases increases performance by reordering loop exits and allowing further loop optimizations.
+
+7. **gvn (Global Value Numbering)**: Eliminates redundant calculations throughout the functions, which could enhance both space and time efficiency by reusing previously computed values.
+
+8. **function-attrs (Function Attributes Inference)**: Deduces attributes for functions which can give hints to the compiler for further optimizations about how functions are used (e.g., `readnone`, `readonly`).
+
+9. **loop-unroll (Loop Unroll)**: This pass can expand loops by replicating their body; it’s crucial when loops are small or have a statically-known small trip count. This can help reduce loop overhead.
+
+10. **inline (Function Integration/Inlining)**: Even though the attributes suggest `noinline`, selectively inlining small utility functions (if any exist outside the provided code) can significantly reduce call overhead.
+
+11. **dce (Dead Code Elimination)**: Eliminates code that does not affect the program, reducing the code size and potentially removing unused branches or instructions post other optimizations.
+
+12. **jump-threading (Jump Threading)**: This pass can simplify conditional branches with fixed outcomes, which often arises after other analysis and simplifications have been performed.
+
+13. **sroa (Scalar Replacement of Aggregates)**: Useful in breaking down aggregates into individual scalars, which can be optimized further.
+
+14. **tailcallelim (Tail Call Elimination)**: Optimizes tail calls into jumps within the same function, useful in recursive function scenarios to reduce call overhead.
+
+15. **constmerge (Constant Merging)**: This reduces memory usage by merging identical global constants.
+
+Each of these optimizations should be tested for their impacts individually and in combination to understand their effects on the specific codebase they are applied to. Furthermore, profiling could dictate the focus of certain optimizations, especially around loops and function calls.
+
+GPT-4 PROMPT 2:
+Given the nature of the LLVM IR generated from the C source code provided, several compiler optimization passes can be employed to potentially improve performance and efficiency. Most of the optimization opportunities lie in loop optimizations, function inlining, and constant propagation. Here’s a list of appropriate LLVM passes that might be beneficial:
+
+1. **Function Inlining** (`-inline`):
+   - The `@doing_something` function and potentially other smaller functions might be good candidates for inlining to eliminate the function call overhead, which is relevant despite the `noinline` attribute (if it's feasible to ignore or alter this directive in a practical scenario).
+
+2. **Loop Unrolling** (`-loop-unroll`):
+   - This optimization expands the loop body to reduce the loop overhead and increase parallelism. Loops in `@normal_factorial`, `@main`, and `@doing_something` could be considered for unrolling.
+   
+3. **Loop Vectorization** (`-loop-vectorize`):
+   - This employs SIMD capabilities on the processor. The computational loops within the `@doing_something` and `@main` functions may benefit from vectorization to perform multiple iterations simultaneously.
+
+4. **Simplify CFG** (`-simplifycfg`):
+   - This pass simplifies the control flow graph by removing unnecessary control flow elements. All functions could benefit since redundant branches and conditionals may exist.
+
+5. **Dead Code Elimination** (`-dce`):
+   - This optimizes out code that computes values but does not use them and can be applied post-inlining or other transformations that may introduce unneeded instructions.
+
+6. **Global Value Numbering** (`-gvn`):
+   - This optimization works on eliminating redundant calculations through value numbering. This may be particularly relevant in `@doing_something` where calculations seem to be repeated.
+
+7. **Constant Propagation** (`-constprop`):
+   - Substitutes values of known constants in expressions, which might be beneficial in initializing phases of functions like `@main` where `@__const.main.as` and `@__const.main.bs` constants are frequently accessed.
+
+8. **Eliminate unnecessary memory operations** (`-mem2reg`):
+   - Converts memory residency of values into SSA form, which strives to reduce and optimize the load and store operations, generally increasing performance by harnessing faster access to registers compared to memory.
+
+9. **Scalar Replacement of Aggregates** (`-sroa`):
+   - Breaks down aggregates into individual scalar values enabling better optimization of these uses on a fine-grained scale. This could potentially be utilized for simplifying the structures manipulated in `@main`.
+
+10. **Tail Call Optimization** (`-tailcallelim`):
+    - Although no direct opportunities within the provided code seem apparent, if any function redesigns into a form that enables tail recursion, applying this pass can optimize such calls into jumps instead of function calls.
+
+After choosing the relevant optimization passes, the exact order and combination would need experimentation and profiling to verify improvements, as LLVM transformations can interact in complex ways, not always leading to expected performance enhancements. Optimizing with the attribute directives (`noinline`, `optnone`) noted in your code would typically require removing these restrictions to allow for broader optimization application.

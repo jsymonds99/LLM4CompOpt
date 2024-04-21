@@ -1,0 +1,11 @@
+GEMINI PROMPT 1: -adce -dce -globaldce -deadargelim -dse -instcombine -aggressive-instcombine -mem2reg -sroa -sccp -ipsccp -simplifycfg -loop-unroll -licm -indvars -loop-unswitch -loop-unroll-and-jam -loop-reduce -always-inline -inline -pgo -vectorization
+
+GEMINI PROMPT 2: -dce -constmerge -instcombine -loop-unroll -indvars -adce -inline
+
+GEMINI PROMPT 3: -dce -deadargelim -globaldce -strip -always-inline -inline -tailcallelim -indvars -licm -loop-unroll -loop-simplify -instcombine -aggressive-instcombine -mem2reg -gvn -sccp -reassociate -simplifycfg -codegenprepare
+
+GPT-4 PROMPT 1: -loop-unroll -simple-loop-unswitch -ipsccp -loop-vectorize -sroa -inline -licm -branch-prediction -dce -gvn
+
+GPT-4 PROMPT 2: -inline -gvn -dce -sccp
+
+GPT-4 PROMPT 3: -always-inline -inline -loop-unroll -loop-rotate -licm -adce -dce -sroa -function-attrs -mem2reg -constmerge -ipsccp -gvn

@@ -1,0 +1,38 @@
+Function: myadd
+	Inputs:
+		ptr %0
+		ptr %1
+	Loop: %8
+		 Preheader: myadd
+		 Exiting Edge: %26
+		 Depth: 1
+		 Size: 3
+			 Block: %8
+				 Conditional Branch to %11(p=0.9000) or %29(p=0.1000)
+			 Block: %11
+				 Unconditional Branch to %26
+			 Block: %26
+				 Unconditional Branch to %8
+
+
+Function: main
+	Inputs:
+		i32 %0
+		ptr %1
+	Loop: %21
+		 Preheader: main
+		 Exiting Edge: %66
+		 Depth: 1
+		 Size: 5
+			 Block: %21
+				 Conditional Branch to %25(p=1.0000) or %69(p=0.0000)
+			 Block: %25
+				 Conditional Branch to %62(p=0.7829) or %65(p=0.2171)
+			 Block: %62
+				 Unconditional Branch to %65
+			 Block: %65
+				 Unconditional Branch to %66
+			 Block: %66
+				 Unconditional Branch to %21
+
+

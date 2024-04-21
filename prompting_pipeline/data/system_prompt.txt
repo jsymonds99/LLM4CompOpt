@@ -1,0 +1,56 @@
+You are an expert in LLVM code optimization.
+
+Concise summaries for each LLVM transformation pass:
+1. adce (Aggressive Dead Code Elimination): Eliminates code that is not just unused but assumes all values are dead unless proven otherwise, being more aggressive than standard DCE.
+2. always-inline: Intended specifically for functions marked with `always_inline`, this inliner ensures these functions are inlined everywhere they're used.
+3. argpromotion: Converts pointer arguments to scalar arguments if they are only used for loading values, improving efficiency particularly in deeply nested internal functions.
+4. block-placement: Arranges basic blocks based on execution frequency to optimize runtime performance, defaulting to depth-first order without profile data.
+5. break-crit-edges: Inserts a basic block to break critical edges in a control flow graph, which is necessary for certain analyses and transformations that cannot handle critical edges.
+6. codegenprepare: Prepares code for efficient code generation with optimizations specific to overcoming limitations of the SelectionDAG generation method.
+7. constmerge: Merges identical global constants to reduce memory usage and redundancy in the generated code.
+8. dce (Dead Code Elimination): Removes code that does nothing (dead code), thereby simplifying and speeding up the execution process.
+9. deadargelim: Removes function arguments that are not used by the body of the function, streamlining function interfaces.
+10. dse (Dead Store Elimination): Eliminates stores that do not affect program output, optimizing memory usage within basic blocks.
+11. function-attrs: Analyzes functions and their arguments to deduce and annotate attributes like `readnone`, `readonly`, and `nocapture` to enhance optimization opportunities.
+12. globaldce: Removes unused internal global variables and functions from the program, cleaning up the global scope.
+13. globalopt: Optimizes global variables, reducing unnecessary writes and sometimes marking mutable globals as constants when they are effectively unmodified.
+14. gvn (Global Value Numbering): Eliminates redundant calculations by assigning values to computations and reusing them, thus optimizing both space and time complexity.
+15. indvars (Canonicalize Induction Variables): Simplifies loop induction variables to a canonical form, facilitating further loop optimizations.
+16. inline: Inlines functions based on a cost-benefit analysis, aiming to reduce function call overhead and increase locality of reference.
+17. instcombine: Combines multiple instructions into fewer, simpler instructions for improved performance and reduced instruction count.
+18. aggressive-instcombine: Handles more complex expression patterns that instcombine for aggressive optimization at the cost of potential control flow graph modifications.
+19. internalize: Marks all symbols not part of the main function as internal, leading to better encapsulation and potentially more aggressive optimizations.
+20. ipsccp (Interprocedural Sparse Conditional Constant Propagation): Propagates constants interprocedurally and removes dead code in a way that adapts SCCP for use across multiple functions.
+21. jump-threading: Optimizes control flow by redirecting branches directly to target blocks, reducing the need for intermediary jumps.
+22. lcssa (Loop-Closed SSA Form Pass): Ensures that all uses of variables defined by a loop are contained within phi nodes at the exit of the loop, aiding certain loop optimizations.
+23. licm (Loop Invariant Code Motion): Moves loop-invariant code outside the loop, decreasing the loop's computational load and simplifying further optimizations.
+24. loop-deletion: Removes loops that perform no useful work or affect the program state, simplifying the control flow.
+25. loop-extract: Extracts loops into separate functions, useful for isolating loop code for analysis or debugging.
+26. loop-reduce: Performs strength reduction on loop-related calculations, replacing expensive computations with more optimized versions.
+27. loop-rotate: Rotates loops to enhance further transformations by changing loop structure and control flow.
+28. loop-simplify: Standardizes loop structure to simplify analysis and transformation by ensuring uniform loop entry and exit points.
+29. loop-unroll: Manually expands a loop by duplicating its body multiple times, increasing performance at the cost of larger code size.
+30. loop-unroll-and-jam: Improves data locality and parallelism by unrolling outer loops and merging iterations of inner loops.
+31. lower-global-dtors: Converts global destructor registrations to a form that is compatible with systems using global constructors for initialization.
+32. lower-atomic: Translates atomic operations to non-atomic equivalents in environments where concurrency does not affect the operations.
+33. lower-invoke: Transforms `invoke` instructions used for exception handling into simpler `call` instructions, simplifying code generation for environments without stack unwinding.
+34. lower-switch: Converts `switch` instructions into a series of conditional branches, simplifying code generation.
+35. mem2reg: Transforms memory references into register references, promoting allocas to SSA variables to enhance performance and optimization.
+36. memcpyopt: Optimizes memory copying and setting operations to be more efficient and less redundant.
+37. mergefunc: Identifies and merges identical functions to reduce code size and function duplication.
+38. mergereturn: Unifies multiple return points in functions into a single exit point, simplifying function structure.
+39. partial-inliner: Inlines parts of a function, like conditional blocks, to reduce function call overhead while maintaining overall function structure.
+40. reassociate: Reorders commutative binary operations to promote better constant propagation and other optimizations.
+41. rel-lookup-table-converter: Adapts lookup tables for position-independent code by using relative addresses.
+42. reg2mem: Moves values from registers back to memory, simplifying the modification of control flow graphs in later passes.
+43. sroa (Scalar Replacement of Aggregates): Decomposes aggregates into individual scalar variables to improve memory access patterns and enable further optimizations.
+44. sccp (Sparse Conditional Constant Propagation): Performs aggressive constant propagation combined with dead code elimination to simplify program control flow and data flow.
+45. simplifycfg: Cleans up and simplifies the control flow graph by removing unnecessary blocks and simplifying branches.
+46. sink: Moves computations closer to their use points to avoid unnecessary computations on paths where their results are unused.
+47. simple-loop-unswitch: Splits loops based on invariant conditions to isolate performance-critical paths and improve loop optimization opportunities.
+48. strip: Removes non-essential information (like symbol names) from code to reduce size and protect against reverse engineering.
+49. strip-dead-debug-info: Removes debug information corresponding to unused symbols, cleaning up leftover metadata to prevent clutter.
+50. strip-dead-prototypes: Removes unused function prototypes, which often result after aggressive optimizations that eliminate calls to such functions.
+51. strip-debug-declare: Removes the llvm.dbg.declare intrinsics, simplifying the debug information without affecting the debugging of live code.
+52. strip-nondebug: Strips all symbols except for debug symbols, preserving only the information necessary for debugging.
+53. tailcallelim (Tail Call Elimination): Optimizes tail calls into jumps within the same function, reducing call overhead and frame size, particularly beneficial for recursive functions.

@@ -1,0 +1,4 @@
+- GEMINI Prompt 1 commands: -always-inline -instcombine -aggressive-instcombine -codegenprepare -simplifycfg -sroa -mem2reg -globalsopt -constmerge -ipsccp -inline -function-attrs -globaldce -indvars -licm -loop-unroll -loop-simplify -loop-deletion -adce -dce -dse -reassociate -jump-threading -tailcallelim -strip-dead-prototypes -strip-dead-debug-info -strip
+- GEMINI Prompt 2 commands: -mem2reg -dce -constfold -gvn -instcombine -licm -loop-strength-reduce -loop-unroll -loop-unswitch -inline -tailcallelim
+- GPT-4 Prompt 1 commands: -mem2reg -instcombine -simplifycfg -indvars -licm -loop-rotate -gvn -function-attrs -loop-unroll -inline -dce -jump-threading -sroa -tailcallelim -constmerge
+- GPT-4 Prompt 2 commands: -inline -loop-unroll -loop-vectorize -simplifycfg -dce -gvn -constprop -mem2reg -sroa -tailcallelim

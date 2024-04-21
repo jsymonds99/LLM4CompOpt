@@ -1,0 +1,4 @@
+- Gemini Prompt 1: -adce -constmerge -dce -deadargelim -dse -function-attrs -globaldce -globalopt -gvn -instcombine -jump-threading -memcpyopt -reassociate -sccp -simplifycfg -indvars -licm -loop-deletion -loop-reduce -loop-rotate -loop-unroll -loop-unroll-and-jam -simple-loop-unswitch -inline -mem2reg -sroa -tailcallelim -PGO
+- Gemini Prompt 2: -mem2reg -dce -constfold -constprop -LICM -loop-unrolling -loop-strength-reduction -instcombine -function-inlining -basicaa -GVN -PGO -vectorization
+- GPT-4 Prompt 1: -mem2reg -instcombine -reassociate -simplifycfg -inline -loop-unroll -gvn -licm
+- GPT-4 Prompt 2: -mem2reg -loop-unroll -loop-vectorize -licm -reassociate -simplifycfg -instcombine -inline -tailcallelim -dce -instsimplify

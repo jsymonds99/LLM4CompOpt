@@ -1,0 +1,420 @@
+GEMINI PROMPT 1:
+## Analyzing LLVM IR Code and Suggesting Optimization Passes
+
+Based on the provided LLVM IR code and profile data, here's an analysis and suggested optimization passes:
+
+**General Observations:**
+
+* The code heavily relies on loops and function calls, indicating potential for loop and function optimizations.
+* Profile data shows significant branching within loops, suggesting opportunities for control flow optimizations.
+
+**Suggested Optimization Passes:**
+
+**Loop Optimizations:**
+
+* **Loop unrolling (loop-unroll):**  For loops with small trip counts like in `Doit` and `Queens`, manual unrolling can improve performance by reducing loop overhead. 
+* **Loop invariant code motion (licm):**  Identify and move invariant code outside loops to reduce redundant computations.
+* **Loop simplification (loop-simplify):**  Ensure uniform loop structure for better analysis and application of other optimizations.
+* **Loop strength reduction (loop-reduce):** Analyze and replace expensive operations within loops with more efficient alternatives.
+* **Indvars:** Analyze and canonicalize induction variables to facilitate further loop optimizations.
+
+**Function Optimizations:**
+
+* **Inline (inline):** Based on cost-benefit analysis, inlining frequently called functions like `Doit` within `Queens` can reduce function call overhead.
+* **Always-inline (always-inline):** For performance-critical functions explicitly marked, ensure inlining for maximum efficiency.
+* **Tail call elimination (tailcallelim):** Optimize tail calls to improve performance, especially in recursive scenarios.
+* **Argument promotion (argpromotion):**  Improve efficiency by converting pointer arguments to scalar arguments when applicable.
+
+**General Optimizations:**
+
+* **Global value numbering (gvn):**  Eliminate redundant calculations by identifying and reusing equivalent expressions.
+* **Constant propagation and folding (sccp):**  Simplify expressions and eliminate dead code by aggressively propagating constants.
+* **Dead code elimination (dce):** Remove unreachable or unused code to reduce code size and improve execution speed.
+* **Dead store elimination (dse):** Eliminate stores that have no impact on the program's output.
+* **Instruction combining (instcombine):** Combine instructions into fewer, more efficient ones.
+* **Simplify CFG (simplifycfg):**  Clean up the control flow graph for better analysis and optimization.
+* **Jump threading (jump-threading):** Optimize control flow by directly connecting branches to their targets.
+* **Mem2reg (mem2reg):** Promote memory access to register access for improved performance.
+* **SROA (sroa):** Break down aggregates into scalar variables to improve memory access patterns and enable further optimizations.
+
+**Additional Considerations:**
+
+* **Profile-guided optimizations (PGO):** Leverage profile data for more targeted optimizations based on actual program behavior.
+* **Interprocedural optimizations (IPO):** Analyze and optimize across function boundaries for greater optimization potential.
+
+**Implementation:**
+
+1. **Start with basic optimizations:** Begin by applying general optimizations like `gvn`, `sccp`, `dce`, `dse`, and `instcombine`.
+2. **Focus on loops:** Apply loop-specific optimizations like `loop-unroll`, `licm`, `loop-simplify`, `loop-reduce`, and `indvars`.
+3. **Address function calls:** Consider `inline`, `always-inline`, and `tailcallelim` to reduce overhead.
+4. **Refine with advanced techniques:** Implement PGO and IPO for further optimization.
+
+**Note:** The effectiveness of each pass depends on the specific code and profile data. It's crucial to measure performance improvements and adjust the optimization strategy accordingly.
+
+
+GEMINI PROMPT 2:
+## LLVM Transformation Pass Summaries:
+
+**General Optimizations:**
+
+* **adce, dce, globaldce:** Remove unused code (dead code) at various levels (aggressive, basic, global).
+* **dse:** Eliminate redundant stores that don't affect the program.
+* **constmerge:** Merge identical global constants to save memory.
+* **gvn:** Eliminate redundant calculations by identifying and reusing equivalent values.
+* **instcombine, aggressive-instcombine:** Combine instructions for simpler, more efficient code.
+* **reassociate:** Reorder operations for better constant propagation and optimizations.
+* **simplifycfg:** Simplify the control flow graph for better analysis and optimization.
+* **sink:** Move computations closer to their use, avoiding unnecessary work.
+* **memcpyopt:** Optimize memory copy and set operations.
+* **mergefunc:** Merge identical functions to reduce code size.
+
+**Function Optimizations:**
+
+* **always-inline:** Force inlining of functions marked `always_inline`.
+* **argpromotion:** Convert pointer arguments to scalars for efficiency.
+* **deadargelim:** Remove unused function arguments.
+* **function-attrs:** Add attributes to functions for better optimization.
+* **inline, partial-inliner:** Inline functions or parts of them based on cost/benefit.
+* **internalize:** Mark symbols as internal for better encapsulation and optimization.
+* **tailcallelim:** Optimize tail calls into jumps for reduced overhead.
+
+**Loop Optimizations:**
+
+* **indvars:** Simplify loop induction variables.
+* **licm:** Move loop-invariant code outside the loop.
+* **loop-deletion:** Remove useless loops.
+* **loop-extract:** Extract loops into separate functions.
+* **loop-reduce:** Perform strength reduction on loop calculations.
+* **loop-rotate:** Rotate loops for improved transformation opportunities.
+* **loop-simplify, lcssa:** Standardize loop structure for easier analysis and optimization.
+* **loop-unroll, loop-unroll-and-jam:** Manually unroll loops for potential performance gains.
+* **simple-loop-unswitch:** Split loops based on conditions for better optimization.
+
+**Code Generation Preparation and Lowering:**
+
+* **block-placement:** Arrange basic blocks for optimal performance.
+* **break-crit-edges:** Insert blocks to break critical edges for certain optimizations.
+* **codegenprepare:** Optimize for SelectionDAG code generation limitations.
+* **globalopt:** Optimize global variables and reduce unnecessary writes.
+* **lower-atomic, lower-invoke, lower-switch:** Convert instructions for simpler code generation.
+* **mem2reg:** Promote memory references to registers for better performance.
+* **reg2mem:** Move values from registers back to memory for control flow modifications.
+* **sroa:** Decompose aggregates into scalars for better memory access.
+* **sccp, ipsccp:** Perform constant propagation and dead code elimination.
+
+**Miscellaneous:**
+
+* **rel-lookup-table-converter:** Adapt lookup tables for position-independent code.
+* **strip, strip-dead-debug-info, strip-dead-prototypes, strip-debug-declare, strip-nondebug:** Remove non-essential information from the code.
+* **lower-global-dtors:** Convert global destructor registrations.
+
+
+## Code Inefficiencies:
+
+The provided code snippet appears to implement a solution to the N-Queens problem. Based on the function attributes and structure, some potential inefficiencies include:
+
+* **Lack of inlining:** The `noinline` attribute prevents inlining, which could improve performance by reducing function call overhead and increasing locality of reference. 
+* **Global variables:** Extensive use of global variables can hinder optimization and make code less maintainable. Consider using local variables or passing data as function arguments when possible.
+* **Arrays with static sizes:**  Arrays like `permarray`, `stack`, `cellspace`, `ima`, `imb`, etc., have fixed sizes, limiting flexibility and potentially wasting memory. Using dynamic allocation or more appropriate data structures might improve efficiency. 
+* **Loops with constant bounds:**  Loops in `Doit` and `Queens` have constant bounds, limiting their adaptability and potentially preventing optimizations. 
+* **Unnecessary branches:** Several conditional branches might be redundant or could be simplified through better logic or data structures. 
+* **Redundant calculations:** There might be opportunities to eliminate redundant calculations through techniques like common subexpression elimination or loop-invariant code motion.
+
+
+## Recommended LLVM Passes:
+
+Considering the identified inefficiencies, the following LLVM passes could potentially improve the code:
+
+* **inline:** To investigate the benefits of inlining functions like `Try` and `Doit`.
+* **mem2reg:** To promote memory accesses to registers for better performance.
+* **gvn, instcombine, sccp:** To eliminate redundant calculations and simplify expressions.
+* **licm:** To move loop-invariant code outside loops in functions like `Doit` and `Queens`.
+* **loop-unroll (carefully):** To potentially improve performance for small, fixed-size loops. 
+* **simplifycfg:** To clean up the control flow graph and remove unnecessary branches. 
+* **argpromotion:**  If applicable, to convert pointer arguments to scalars for improved efficiency. 
+
+**Additional Considerations:**
+
+* **Profiling:**  Using profiling tools can provide valuable insights into program behavior and guide optimization decisions. 
+* **Algorithmic improvements:**  Beyond LLVM optimizations, consider exploring algorithmic improvements to the N-Queens solver itself for better efficiency.
+* **Data structure optimization:** Evaluate the use of data structures and consider alternatives that might be more efficient for the problem.
+
+**Disclaimer:** The effectiveness of each pass depends on the specific code and compiler version. Experimentation and profiling are crucial to determine the best optimization strategy.
+## Optimizing Inefficiencies with LLVM Passes:
+
+Given the identified inefficiencies, two areas stand out as having the most significant potential for optimization:
+
+1. **Lack of Inlining:** The `noinline` attribute hinders potential performance gains from reduced function call overhead and improved locality of reference.
+2. **Global Variables:** Extensive use of global variables limits optimization opportunities and can negatively impact code maintainability and performance.
+
+Let's explore how to address these using LLVM passes:
+
+### 1.  Inlining Functions with `inline` Pass:
+
+The `inline` pass analyzes functions and determines whether inlining them into their call sites would be beneficial based on a cost-benefit analysis. By removing the `noinline` attribute and applying the `inline` pass, we can potentially:
+
+* **Reduce function call overhead:** Eliminate the overhead of setting up and tearing down stack frames for function calls, especially for small, frequently called functions like `Try`.
+* **Improve instruction locality:** Bring the instructions of the inlined function closer to its call site, increasing the chance of instructions and data being in the cache, leading to faster execution.
+* **Enable further optimizations:** Expose the inlined code to other optimization passes like constant propagation, dead code elimination, and instruction combining within the caller's context, leading to more efficient code generation.
+
+**Applying the `inline` Pass:**
+
+1. **Remove `noinline` attributes:** Edit the LLVM IR and remove the `noinline` attribute from functions like `Try` and `Doit`.
+2. **Apply the pass:** Use the `opt` tool with the `-inline` flag:
+   ```bash
+   opt -inline <input.ll> -o <output.ll>
+   ```
+3. **Analyze the results:** Examine the generated LLVM IR to verify that inlining occurred and analyze the impact on code size and potential performance improvements.
+
+**Considerations:**
+
+* **Code size increase:** Inlining can increase code size, potentially leading to cache pressure and instruction cache misses.  It's essential to balance the potential performance gains with code size implications.
+* **Compile time:** Inlining can increase compile time due to the additional analysis and code generation required.
+
+### 2.  Reducing Global Variables:
+
+The excessive use of global variables like `ima`, `imb`, `imr`, etc., limits optimization potential and hinders code maintainability. Here are some approaches to mitigate this issue:
+
+**a) Convert Global Variables to Local Variables:**
+
+* **Analyze usage:** Identify global variables that are only used within a specific function.
+* **Refactor code:** Change these global variables to local variables within the respective functions. This improves data encapsulation and allows for better optimization within the function's scope.
+
+**b) Pass Data as Function Arguments:**
+
+* **Analyze data flow:** Identify global variables that are shared between functions.
+* **Refactor functions:** Modify function signatures to accept these variables as arguments instead of accessing them globally. This improves code clarity and allows for better interprocedural analysis and optimization.
+
+**c) Use Data Structures:**
+
+* **Group related variables:** If multiple global variables are logically related, consider grouping them into a struct or an array. This can improve data locality and make code more organized.
+* **Use appropriate data structures:**  Evaluate if more suitable data structures (e.g., hash tables, trees) can be used instead of large, statically allocated arrays to improve memory usage and access patterns.
+
+**Impact and Considerations:**
+
+* **Improved optimization:** Reducing global variables enables better optimization within functions and across function boundaries.
+* **Enhanced code maintainability:**  Local variables and function arguments make code easier to understand and maintain.
+* **Potential performance trade-offs:** Passing data as arguments can introduce overhead, but this might be offset by improved optimization opportunities.
+
+**Additional LLVM Passes:**
+
+* **mem2reg:** This pass can be helpful after converting global variables to local variables to further optimize memory accesses.
+* **argpromotion:** If pointer arguments are used only for loading values, this pass can convert them to scalar arguments for improved efficiency.
+
+
+## Conclusion:
+
+By strategically applying techniques like function inlining and reducing global variables, you can leverage the power of LLVM transformation passes to significantly improve the efficiency and maintainability of your code. Remember that profiling and analysis are crucial for evaluating the impact of these optimizations and making informed decisions based on your specific use case.
+
+
+GEMINI PROMPT 3:
+## Optimizing the LLVM IR code for "queens.c": A Walkthrough
+
+Here's how I would approach optimizing the provided LLVM IR code, outlining my thought process and rationale for choosing specific transformation passes:
+
+**1. Analysis:**
+
+*   **Understanding the Code:** The code appears to implement a solution to the N-Queens problem, likely using backtracking and recursion. 
+*   **Identifying Bottlenecks:** Without profiling data, it's hard to pinpoint exact bottlenecks. However, we can assume potential issues with function call overhead (due to recursion), redundant calculations, and inefficient memory access patterns.
+
+**2. Initial Cleanup and Simplification:**
+
+*   **`strip`**: This pass removes unnecessary symbols and debug information, reducing code size without affecting functionality.
+*   **`dce` and `adce`**: These passes eliminate dead code, simplifying the control flow and potentially revealing further optimization opportunities.
+*   **`instcombine` and `aggressive-instcombine`**: Combining instructions can lead to performance improvements and a smaller code footprint.
+*   **`simplifycfg`**: Simplifying the control flow graph can improve the effectiveness of subsequent optimizations.
+
+**3. Function Optimization:**
+
+*   **`inline`**: Carefully analyze the cost-benefit of inlining functions like `Try` and `Doit` to reduce function call overhead. Consider using profile-guided inlining for better decisions. 
+*   **`tailcallelim`**: This pass is crucial for optimizing tail calls in recursive functions, improving performance and reducing stack usage.
+*   **`argpromotion`**: Analyze function arguments and promote them to scalars if beneficial, especially for internal functions.
+*   **`mem2reg`**: Promote memory accesses to registers for faster access and potential for further optimizations.
+*   **`sroa`**: Decompose aggregates into scalars for better memory access patterns and opportunities for other optimizations.
+
+**4. Loop Optimizations:**
+
+*   **`licm`**: Moving loop-invariant code outside the loop reduces redundant computations.
+*   **`indvars`**: Canonicalizing induction variables paves the way for other loop optimizations.
+*   **`loop-unroll`**:  Explore loop unrolling, especially for small loops, to potentially increase performance at the cost of code size. Be cautious and consider profile-guided unrolling.
+*   **`loop-unroll-and-jam`**: This might improve data locality and parallelism if applicable to the loop structures.
+*   **`loop-deletion`**: Eliminate any loops that are identified as unnecessary.
+
+**5. Global Optimizations:**
+
+*   **`globaldce`**: Removing unused global variables and functions cleans up the global scope.
+*   **`constmerge`**: Merging identical global constants reduces memory usage.
+*   **`gvn`**: This powerful optimization eliminates redundant calculations and expressions, improving both space and time efficiency.
+*   **`ipsccp`**: Interprocedural constant propagation can further enhance code optimization.
+
+**6. Code Generation Preparation:**
+
+*   **`codegenprepare`**: This pass prepares the code for efficient code generation, addressing limitations of the backend.
+*   **`lower-switch`, `lower-invoke`**: These passes may be needed depending on the target architecture and its capabilities.
+
+**7. Final Touches:**
+
+*   **`reassociate`**: Reordering expressions can expose more optimization opportunities.
+*   **`block-placement`**: Arranging basic blocks based on execution frequency (if profile data is available) can further improve runtime performance.
+
+**Justification for Pass Choices:**
+
+The chosen passes target potential bottlenecks like function call overhead, redundant calculations, and memory access inefficiencies. The sequence is designed to start with general cleanup and simplification, followed by function-specific, loop-specific, and finally, global optimizations. The justification for each pass is based on its potential impact and its position within the optimization pipeline to maximize effectiveness.
+
+**Important Notes:**
+
+*   **Profiling:** The optimization process would greatly benefit from profiling data to identify actual bottlenecks and guide decision-making regarding inlining, loop unrolling, and block placement.
+*   **Target Architecture:**  Specific code generation and lowering passes may be required depending on the target architecture. 
+*   **Trade-offs:** Carefully consider the trade-offs between code size and execution speed when applying certain optimizations like loop unrolling.
+
+By following this approach and carefully analyzing the code's behavior, you can effectively optimize the LLVM IR code for better performance and efficiency. Remember that the specific order and choices of passes may need to be adapted based on the unique characteristics of the code and the target environment. 
+
+
+-----------------------------
+
+GPT-4 PROMPT 1:
+Based on the provided LLVM IR code and the detailed profile data for each function, specific optimization passes can be recommended to enhance the execution based on characteristics like loops, branching, and usage of variables and memory. The optimizations would aim to enhance the efficiency and runtime of the code, particularly focusing on identified hotspots and intricate loop structures.
+
+### Recommended Optimization Passes:
+
+1. **Loop-Invariant Code Motion (licm)**:
+   - **Function:** `Try`, `Doit`, `Queens`, `main`
+   - **Rationale:** This pass moves computations that are loop-invariant outside the loop to avoid redundant calculations within the loops, making the execution more efficient. The functions mentioned contain loops with constant conditional branches and invariant computations.
+
+2. **Global Value Numbering (gvn)**:
+   - **Function:** `Try`, `Doit`
+   - **Rationale:** To eliminate redundant computations within each function by assigning values for common subexpressions and using them to optimize computations.
+
+3. **Dead Code Elimination (dce)**:
+   - **Function:** (Global)
+   - **Rationale:** To remove instructions that compute values not actually used in the remaining code, ensuring only useful computations are carried out.
+
+4. **Loop-rotation (loop-rotate)**:
+   - **Function:** `Try`
+   - **Rationale:** Enhance the structure of loops to promote better optimization opportunities in subsequent passes, especially given the complex nature and depth of conditionals within the loop in function `Try`.
+
+5. **Loop Unrolling (loop-unroll)**:
+   - **Function:** `Doit`, `main`
+   - **Rationale:** To unroll loops with small loop bodies and a predictable number of iterations to decrease loop overhead and improve cache locality.
+
+6. **Tail Call Elimination (tailcallelim)**:
+   - **Function:** `Doit`, `Queens`
+   - **Rationale:** Converts tail-recursive function calls into simpler iterative loops, which can reduce function call overhead and stack usage.
+
+7. **Branch Probability Passes**:
+   - **Function:** `Try`, `Doit`, `Queens`, `main`
+   - **Rationale:** Utilizes the branching probabilities given in the profile data to influence other optimization passes such as code layout to place more likely taken branches in more CPU-cache-friendly locations.
+
+8. **Scalar Replacement of Aggregates (sroa)**:
+   - **Function:** (Global)
+   - **Rationale:** Breakdown aggregate types into individual scalar variables where possible, enabling better optimization opportunities and potentially reducing memory access times for individual elements.
+
+9. **Inline Functions (inline)**:
+   - **Function:** `Try`, `Doit`, `Queens`
+   - **Rationale:** Apply inlining selectively, especially for small utility functions called frequently, helping to reduce function call overhead and increasing the locality of reference.
+
+10. **Mem2Reg (Promote Memory to Register)**:
+   - **Function:** (Global)
+   - **Rationale:** Converts memory references (use of pointers) where eligible into SSA form, enabling further optimizations that require SSA form and reducing memory access overhead.
+
+These optimizations are focused on enhancing control flow, computational efficiency, reducing function call overhead, utilizing profile-guided optimizations, and improving the use of memory and registers. These decisions reflect the specifics of the loop structures, branching probabilities, and feature usage revealed in the provided profile data.
+
+GPT-4 PROMPT 2:
+### Optimizing Excessive Global Variables Initialization and Redundant Memory Operations
+
+**1. Optimizing Excessive Global Variables Initialization**
+
+#### Problem:
+This LLVM IR code snippet has numerous large array global variables that are initialized to zero (`zeroinitializer`). This consumes substantial application memory right from the start and may lead to longer load times and inefficient use of cache.
+
+#### Steps Using LLVM Passes:
+
+**a. Global Dead Code Elimination (`globaldce`):**
+   - The `globaldce` pass can be applied to remove any global variables that are not used by any function in the program. This pass will prune away unused global variables.
+   - **Command**: `opt -globaldce input.ll -S -o optimized.ll`
+
+**b. Global Variable Optimizations (`globalopt`):**
+   - The `globalopt` pass will try to utilize constant global variables more efficiently by folding them into the usage point. Also, it decreases the number of writes to global variables by folding away redundant stores.
+   - **Command**: `opt -globalopt optimized.ll -S -o even_more_optimized.ll`
+   
+**c. Constant Merging (`constmerge`):**
+   - This optimization merges duplicate read-only global constants, reducing memory usage.
+   - **Command**: `opt -constmerge even_more_optimized.ll -S -o final_optimized.ll`
+
+**Implementing this:**
+Run the sequence of LLVM transformation passes globally across your LLVM IR codebase to reduce and optimize memory allocation for global variables.
+
+**2. Optimizing Redundant Memory Operations in `@Try` Function**
+
+#### Problem:
+In the `@Try` function, numerous stack allocations (`alloca`) and repetitive loading/storing operations reduce efficiency, potentially increasing both the stack frame size and execution time due to frequent memory accesses.
+
+#### Steps Using LLVM Passes:
+
+**a. Memory to Register Promotion (`mem2reg`):**
+   - This pass converts memory references (uses of alloca-insts) to SSA form, promoting stack memory to register memory where possible. This reduces memory access latency by keeping live variables in registers.
+   - **Command**: `opt -mem2reg input.ll -S -o optimized.ll`
+
+**b. Instruction Combining (`instcombine`):**
+   - This powerful optimization combines instructions to use fewer instructions and simpler operations, potentially eliminating redundant load/store pairs.
+   - **Command**: `opt -instcombine optimized.ll -S -o even_more_optimized.ll`
+
+**c. Simplify the Control Flow Graph (`simplifycfg`):**
+   - The code complexity in terms of branching and looping can be optimized using the `simplifycfg` pass, which removes redundant basic blocks, simplifies terminators on basic blocks, and merges basic blocks if possible.
+   - **Command**: `opt -simplifycfg even_more_optimized.ll -S -o final_optimized.ll`
+
+**Implementing this:**
+You'll need to run these LLVM passes specifically targeting the `@Try` function or broadly to improve similar patterns across the application.
+
+### Conclusion:
+By applying these targeted optimization strategies, the code will utilize memory more efficiently, have fewer redundant computations, and potentially execute faster due to reduced memory traffic and leaner, more efficient code paths. Always benchmark your application before and after optimizations to confirm improvements and ensure no unwanted side effects or correctness issues.
+
+GPT-4 PROMPT 3:
+To optimize the provided LLVM IR code effectively, our goal is to enhance its execution speed, reduce memory usage, and possibly decrease binary size while maintaining correct functionality. Here’s a step-by-step optimization strategy using LLVM's transformation passes, with explanations for each choice.
+
+1. **Dead Code Elimination (DCE)**:
+   - **Pass Name:** `dce`
+   - **Goal:** Remove any code that does not affect the program outcomes. This is a fundamental optimization to clean up unused declarations and operations which could simplify future optimization steps.
+   - **Reasoning:** From the IR, we can identify several global variables and potentially unused code paths. Removing these can lead to a smaller and more efficient executable.
+
+2. **Global Variable Optimization**:
+   - **Pass Name:** `globalopt`
+   - **Goal:** Reduce redundant global variable storage and optimize the handling of global variables to improve the memory layout and access pattern.
+   - **Reasoning:** The code contains multiple global arrays that are zero-initialized (`zeroinitializer`). If these are not modified, marking them as constants can improve performance by placing them in read-only memory.
+
+3. **Inline Functions**:
+   - **Pass Name:** `inline`
+   - **Goal:** Inline functions where beneficial, particularly small, frequently called functions like `@Rand` which might be a good candidate.
+   - **Reasoning:** Inlining small functions can eliminate the overhead of function calls in the IR, which might lead to better cache usage and fewer instructions at runtime.
+
+4. **Loop Unrolling**:
+   - **Pass Name:** `loop-unroll`
+   - **Goal:** Expand the bodies of small loops to eliminate the overhead of looping control.
+   - **Reasoning:** Loops, such as the ones found in the function `@Doit`, can benefit from unrolling as they appear to have fixed small bounds which would make unrolling them computationally reasonable, potentially increasing the locality of reference.
+
+5. **Loop Invariant Code Motion (LICM)**:
+   - **Pass Name:** `licm`
+   - **Goal:** Hoist out computations from loops that are invariant, meaning their values do not change within the loop iterations.
+   - **Reasoning:** Particularly in loops within `@Try` and `@Queens`, computations not dependent on the loop's variable can be moved outside the loop, minimizing the work done per iteration.
+
+6. **Global Dead Code Elimination (GlobalDCE)**:
+   - **Pass Name:** `globaldce`
+   - **Goal:** As a more thorough pass after local optimizations, remove any globals that have become unused.
+   - **Reasoning:** After local optimizations, there might be global variables or functions that are no longer used and can thus be removed entirely.
+
+7. **Scalar Replacement of Aggregates (SROA)**:
+   - **Pass Name:** `sroa`
+   - **Goal:** Break down aggregate data structures into individual scalar variables when possible.
+   - **Reasoning:** There are several structures and arrays in use, such as `%struct.element` and `%struct.complex`. Deconstructing these might expose more elementary operations for further optimization.
+
+8. **Memory to Register Promotion (Mem2Reg)**:
+   - **Pass Name:** `mem2reg`
+   - **Goal:** Promote memory accesses to register accesses by converting stack-based memory access into SSA form register access.
+   - **Reasoning:** There are temporary variables allocated with `alloca` extensively used inside functions. Turning these into register accesses will likely reduce the overhead and increase the speed by minimizing slow memory access.
+
+9. **Code Simplification (SimplifyCFG)**:
+   - **Pass Name:** `simplifycfg`
+   - **Goal:** Clean up and simplify the control flow graph (CFG) after transformations, which can remove unnecessary control blocks and streamline conditional branches.
+   - **Reasoning:** After extensive modifications like inlining and loop optimization, the control flow might become more complex or introduce redundant jumps and labels that can be simplified.
+
+By strategically combining the transformation passes above, one can iteratively refine the LLVM IR to achieve a more performant, less resource-intensive, and potentially smaller compiled program. This approach adheres to the general optimization philosophy of fine-tuning through a sequence of broad to focused optimizations while observing the impacts iteratively.
