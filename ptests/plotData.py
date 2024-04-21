@@ -75,6 +75,20 @@ plt.title("Instruction Count Change After Optimization (with loop unrolling pass
 plt.savefig("multibar.png")
 
 
+improvements = averages[:-1] / averages[-1]
+
+paper = 1-0.046
+improvements = np.concatenate((improvements, [paper]))
+improvements = (1 - improvements) * 100
+
+plt.figure(figsize=(8, 6))
+plt.xticks(x, ["GEM:1", "GEM:2", "GEM:3", "GPT:1", "GPT:2", "GPT:3", "Previous Work [1]"], rotation=15)
+plt.bar(x, improvements, color=['cornflowerblue', 'royalblue', 'dodgerblue', 'indianred', 'maroon', 'firebrick', 'black'])
+plt.ylabel("% Instruction Count Reduction Against Oz")
+plt.hlines(improvements[-1], colors='black', linestyles='dashed', xmin=-0.5, xmax=6.5)
+plt.title("Instruction Count Improvement Against Oz")
+plt.savefig("improvements.png")
+
 
 
 # ablation
