@@ -72,7 +72,7 @@ plt.ylabel("Instruction Count / Unoptimized Instruction Count")
 plt.legend(tests, bbox_to_anchor=(1.1, 1), loc='upper right')
 plt.hlines(averages[6], colors='black', linestyles='dashed', xmin=-0.5, xmax=6.5)
 plt.title("Instruction Count Change After Optimization (with loop unrolling passes removed)")
-plt.savefig("multibar.png")
+plt.savefig("WithoutLoopUnroll.png")
 
 
 improvements = averages[:-1] / averages[-1]
@@ -80,6 +80,7 @@ improvements = averages[:-1] / averages[-1]
 paper = 1-0.046
 improvements = np.concatenate((improvements, [paper]))
 improvements = (1 - improvements) * 100
+print(improvements)
 
 plt.figure(figsize=(8, 6))
 plt.xticks(x, ["GEM:1", "GEM:2", "GEM:3", "GPT:1", "GPT:2", "GPT:3", "Previous Work [1]"], rotation=15)
